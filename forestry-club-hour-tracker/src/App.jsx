@@ -14,16 +14,13 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Navigation />}>
-            <Route index element={<App />} />
+            <Route index element={<p>Home</p>} />
             <Route path='/AdminReview' element={<AdminReview />} />
           </Route>
         </Routes>
       </BrowserRouter>
 
       <p>Success</p>
-
-      <AdminReview />
-
     </>
   )
 }

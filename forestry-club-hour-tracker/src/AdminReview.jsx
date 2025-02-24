@@ -1,3 +1,6 @@
+import AdminNav from "./AdminNav";
+import AdminTable from "./AdminTable";
+
 const test_data = {
     ['date']: Date.now(),
     ['name']: 'John Doe',
@@ -8,6 +11,8 @@ function AdminReview() {
     return (
         <>
             <p>AdminReview Success</p>
+            <AdminNav />
+            <AdminTable />
         </>
     );
 }
