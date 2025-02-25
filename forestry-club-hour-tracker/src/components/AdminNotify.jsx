@@ -3,18 +3,18 @@ import PropTypes from 'prop-types';
 
 function AdminNotify({ name, time_in, time_out }) {
 
-    return <>
+    return (
         <Toast>
             <Toast.Header>
                 <strong>{name}</strong>
             </Toast.Header>
             <Toast.Body>
-                <strong>Time In:</strong> {time_in}
+                <strong>Time In:</strong> {time_in}<br />
                 <strong>Time Out:</strong> {time_out}
-
             </Toast.Body>
         </Toast>
-    </>
+
+    )
 }
 
 AdminNotify.propTypes = {

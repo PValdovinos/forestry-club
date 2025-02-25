@@ -10,8 +10,8 @@ const test_data = [
     },
     {
         ['name']: 'John Doe',
-        ['time_in']: Date.now(),
-        ['time_out']: Date.now()
+        ['time_in']: Date.now() + 1,
+        ['time_out']: Date.now() + 1
     }
 ]
 
