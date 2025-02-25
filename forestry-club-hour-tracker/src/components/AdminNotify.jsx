@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Row, Col } from 'react-bootstrap';
 
 function AdminNotify({ name, time_in, time_out, date_volunteered, date_submitted }) {
+
     const time_in_readable = new Date(time_in).toLocaleTimeString();
     const time_out_readable = new Date(time_out).toLocaleTimeString();
     const date_volunteered_readable = new Date(date_volunteered).toLocaleDateString();
@@ -12,7 +13,7 @@ function AdminNotify({ name, time_in, time_out, date_volunteered, date_submitted
 
     return (
         <Toast>
-            <Toast.Header>
+            <Toast.Header closeButton={false}>
                 <strong>{name}</strong>
             </Toast.Header>
             <Toast.Body>
