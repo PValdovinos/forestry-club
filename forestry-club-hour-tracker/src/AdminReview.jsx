@@ -1,13 +1,31 @@
-const test_data = {
-    ['date']: Date.now(),
-    ['name']: 'John Doe',
-    ['hours']: 7.5
-}
+import AdminNotify from "./components/AdminNotify";
 
-function AdminReview() { 
+const test_data = [
+    {
+        ['name']: 'John Doe',
+        ['time_in']: Date.now(),
+        ['time_out']: Date.now()
+    },
+    {
+        ['name']: 'John Doe',
+        ['time_in']: Date.now(),
+        ['time_out']: Date.now()
+    }
+]
+
+function AdminReview() {
     return (
         <>
-            <p>AdminReview Success</p>
+            {
+                test_data.map((o) => {
+                    <AdminNotify
+                        key={o.name + o.time_in.toString()}
+                        name={o.name}
+                        time_in={o.time_in}
+                        time_out={o.time_out}
+                    />
+                })
+            }
         </>
     );
 }
