@@ -1,5 +1,7 @@
 import AdminNotify from "./components/AdminNotify";
 
+import ToastContainer from 'react-bootstrap/ToastContainer';
+
 const test_data = [
     {
         ['name']: 'John Doe',
@@ -16,16 +18,18 @@ const test_data = [
 function AdminReview() {
     return (
         <>
-            {
-                test_data.map((o) => {
-                    <AdminNotify
-                        key={o.name + o.time_in.toString()}
-                        name={o.name}
-                        time_in={o.time_in}
-                        time_out={o.time_out}
-                    />
-                })
-            }
+            <ToastContainer>
+                {
+                    test_data.map(o =>
+                        <AdminNotify
+                            key={o.name + o.time_in.toString()}
+                            name={o.name}
+                            time_in={o.time_in}
+                            time_out={o.time_out}
+                        />
+                    )
+                }
+            </ToastContainer>
         </>
     );
 }
