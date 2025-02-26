@@ -1,7 +1,7 @@
 function AdminNav() { 
     return <>
         <button>Hours Pending</button>
-        <button>Logout</button>
+        <a href="/"><button>Logout</button></a>
     </>
 }
 

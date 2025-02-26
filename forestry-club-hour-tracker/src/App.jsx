@@ -4,6 +4,7 @@ import Stub from './components/Stub'
 import { BrowserRouter, Route, Routes} from 'react-router';
 import ReactDOM from 'react-dom/client';
 import AdminReview from './AdminReview';
+import AdminMemberView from './AdminMemberView';
 import Navigation from './Navigation';
 
 
@@ -15,7 +16,8 @@ function App() {
         <Routes>
           <Route path='/' element={<Navigation />}>
             <Route index element={<p>Home</p>} />
-            <Route path='/AdminReview' element={<AdminReview />} />
+            <Route path='/adminReview' element={<AdminReview />} />
+            <Route path='/adminReview/:member' element={<AdminMemberView />} />
           </Route>
         </Routes>
       </BrowserRouter>
