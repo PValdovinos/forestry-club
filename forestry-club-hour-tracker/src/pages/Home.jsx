@@ -22,6 +22,7 @@ function Home() {
             <div><a href='/adminReview'>Admin View</a></div>
             <div><a href='/member'>Member View</a></div>
             <div><a href='/adminClub'>Admin Club View</a></div>
+            <div><a href='/addMember'>Add club member</a></div>
         </>
     );
 }

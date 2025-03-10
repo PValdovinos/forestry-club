@@ -5,6 +5,7 @@ import AdminMemberView from './pages/AdminMemberView';
 import AdminClubView from './pages/AdminClubView';
 import Navigation from './Navigation';
 import Home from './pages/Home';
+import AddMember from './components/AddMember';
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -25,6 +26,7 @@ function App() {
                   <Route path='/adminClub/:member' element={<AdminMemberView />} />
                   <Route path='/adminClub' element={<AdminClubView />} />
                   <Route path='/member' element={<MemberView />} />
+                  <Route path='/addMember' element={<AddMember />} />
                 </Route>
               </Routes>
             </BrowserRouter>
