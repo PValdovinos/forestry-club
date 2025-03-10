@@ -2,6 +2,37 @@ import * as React from 'react';
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 
+async function submit(event){
+    event.preventDefault();
+
+    const result = await sendData();
+
+    console.log(result);
+    //document.location.href="/";
+}
+
+async function sendData() {
+    const username = document.getElementById("username").value;
+    const fname = document.getElementById("fname").value;
+    const lname = document.getElementById("lname").value;
+    const newMember = {
+        username,
+        fname,
+        lname,
+        user_flags: 0
+    }
+
+    const results = await fetch("http://localhost:3002/api/users", {
+        method: "post",
+        mode: "cors",
+        headers: {
+            "content-type": "application/json"
+        },
+        body: JSON.stringify(newMember)
+    })
+    return results;
+}
+
 export default function AddMember() { 
     return (
         <>
@@ -14,7 +45,7 @@ export default function AddMember() {
                 autoComplete="off"
             >
                 <div>
-                    <TextField id="Username" label="Username" variant="outlined" />
+                    <TextField id="username" label="Username" variant="outlined" />
                 </div>
                 <div>
                     <TextField id="fname" label="fname" variant="outlined" />
@@ -23,7 +54,7 @@ export default function AddMember() {
                     <TextField id="lname" label="lname" variant="outlined" />
                 </div>
                 <div>
-                    <button type="submit">Submit</button>
+                    <button onClick={submit}>Submit</button>
                 </div>
             </Box>
         </>
