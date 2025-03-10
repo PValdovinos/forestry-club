@@ -1,5 +1,4 @@
 import * as db from '../db/usersDB.js'
-import connection from "../db/database.js";
 
 export const getAllUserRecords = async (req, res) => {
     const data = await db.getAllUserRecords()

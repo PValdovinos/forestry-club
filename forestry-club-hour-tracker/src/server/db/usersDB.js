@@ -22,7 +22,6 @@ export const getUserById = async (id) => {
 export const getWorkhoursForUser = async (id) => {
     const db = await connection()
     id = Number.parseInt(id)
-    console.log(id)
     const [results] = await db.query(
         `
 SELECT workhours.submission_id, users.username, workhours.time_in, workhours.time_out, workhours.create_date, 
