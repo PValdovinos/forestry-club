@@ -7,3 +7,5 @@ function userToFirstLast(record) {
     if (!record) return "ERROR";
     return `${record.fname} ${record.lname}`;
 }
+
+export {userToFirstLast}; 
