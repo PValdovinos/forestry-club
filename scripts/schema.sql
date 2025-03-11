@@ -15,6 +15,6 @@ CREATE TABLE `workhours` (
     `create_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `under_review` BOOLEAN,
     `accepted` BOOLEAN,
-    PRIMARY KEY (`submission_id`)
+    PRIMARY KEY (`submission_id`),
     FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
 );
