@@ -7,10 +7,10 @@ function translateData(data) {
     if(data){
         return data.map(element => ({
             "id": element.user_id,
+            "username": element.username,
             "name": element.fname + " " + element.lname,
-            "ytd": 0,
-            "qtd": 0,
-            "points": 0
+            "hours": element.hours ? element.hours : 0,
+            "points": element.hours * 100
         }));
     }
     else {
@@ -42,9 +42,8 @@ const AdminClubView = () => {
     const rowData = memberData;
 
     const columns= [
-        {field: 'name', headerName: 'Name', width: 500},
-        {field: 'ytd', headerName: 'Year to Date', width: 200},
-        {field: 'qtd', headerName: 'Quater to Date', width: 200},
+        {field: 'name', headerName: 'Name', width: 700},
+        {field: 'hours', headerName: 'Total Hours', width: 200},
         {field: 'points', headerName: 'Points', width: 150},
         {field: 'none', headerName: 'Edit', renderCell: ViewButton, 
             width: 150,  sortable: false, filterable: false, resizable: false, 

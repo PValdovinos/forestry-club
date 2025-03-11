@@ -7,8 +7,31 @@ async function submit(event){
 
     const result = await sendData();
 
-    console.log(result);
-    //document.location.href="/";
+    function createErrorMessage() {
+        const username = document.getElementById("username");
+        const errorMessage = document.createElement("span");
+        errorMessage.innerText = "Username taken.";
+        errorMessage.id = "errorMessage"
+        errorMessage.style.color = "red";
+        username.parentElement.parentElement.appendChild(errorMessage);
+    }
+
+    if(result.status == 201)
+        document.location.href="/";
+    else{
+        if(document.getElementById("errorMessage"))
+        {
+            document.getElementById("errorMessage").remove();
+            setTimeout(() => {
+                //fake refresh for UX
+                createErrorMessage();
+            }, 50);
+        }
+        else {
+            createErrorMessag();
+        }
+    }
+   
 }
 
 async function sendData() {
