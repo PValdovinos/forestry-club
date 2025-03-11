@@ -11,6 +11,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import MemberView from './pages/MemberView';
+import AppRouter from './router/AppRouter';
 
 function App() {
   return (
@@ -18,18 +19,7 @@ function App() {
       <Container>
         <Row>
           <Col>
-            <BrowserRouter>
-              <Routes>
-                <Route path='/' element={<Navigation />}>
-                  <Route index element={<Home />} />
-                  <Route path='/adminReview' element={<AdminReview />} />
-                  <Route path='/adminClub/:member' element={<AdminMemberView />} />
-                  <Route path='/adminClub' element={<AdminClubView />} />
-                  <Route path='/member' element={<MemberView />} />
-                  <Route path='/addMember' element={<AddMember />} />
-                </Route>
-              </Routes>
-            </BrowserRouter>
+            <AppRouter />
           </Col>
         </Row>
       </Container>
