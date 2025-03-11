@@ -1,4 +1,11 @@
 import { BrowserRouter, Routes, Route } from "react-router";
+import AdminReview from '../pages/AdminReview';
+import AdminMemberView from '../pages/AdminMemberView';
+import AdminClubView from '../pages/AdminClubView';
+import Navigation from '../Navigation';
+import Home from '../pages/Home';
+import AddMember from '../components/AddMember';
+import MemberView from '../pages/MemberView';
 
 const AppRouter = () => {
  return(
