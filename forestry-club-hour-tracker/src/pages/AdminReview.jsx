@@ -1,39 +1,49 @@
+import { useEffect, useState } from "react";
+import { userToFirstLast } from "../helpers/api_helper";
 import AdminNotify from "../components/AdminNotify";
 
 import ToastContainer from 'react-bootstrap/ToastContainer';
 
-const test_data = [
-    {
-        ['name']: 'John Doe',
-        ['time_in']: Date.now(),
-        ['time_out']: Date.now(),
-        ['date_volunteered']: Date.now(),
-        ['date_submitted']: Date.now()
-    },
-    {
-        ['name']: 'Bob Johnson',
-        ['time_in']: Date.now() + 1,
-        ['time_out']: Date.now() + 1,
-        ['date_volunteered']: Date.now(),
-        ['date_submitted']: Date.now() + 1
-    }
-]
-
 function AdminReview() {
+
+    const [users, setUsers] = useState(null);
+    const [reviewData, setReviewData] = useState(null);
+
+    // fetch user list
+    useEffect( () => {
+        // TODO: set me to a .env sometime!
+        fetch("http://localhost:3002/api/users/")
+        .then(res => res.json())
+        .then(json => setUsers(json.data));
+    },[] );
+
+    // fetch work hours
+    useEffect( () => {
+        // TODO: set me to a .env sometime!
+        fetch("http://localhost:3002/api/hours/")
+        .then(res => res.json())
+        .then(json => setReviewData(json.data));
+    }, []);
+
+    // console.log(reviewData);
+    // console.log(users.filter(user => user.user_id === 1))
+
     return (
         <>
             <ToastContainer>
                 {
-                    test_data.map(o =>
+                    users && reviewData && reviewData
+                    .filter(entry => entry.under_review === 1)
+                    .map( entry => {
                         <AdminNotify
-                            key={o.name + o.date_submitted.toString()}
-                            name={o.name}
-                            time_in={o.time_in}
-                            time_out={o.time_out}
-                            date_submitted={o.date_submitted}
-                            date_volunteered={o.date_volunteered}
+                            key={entry.submission_id}
+                            name={userToFirstLast(users.filter(user => user.user_id === entry.user_id)[0])}
+                            time_in={entry.time_in}
+                            time_out={entry.time_out}
+                            date_submitted={entry.create_date}
+                            date_volunteered={entry.time_in} 
                         />
-                    )
+                    })    
                 }
             </ToastContainer>
         </>
