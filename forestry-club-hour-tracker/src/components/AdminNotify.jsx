@@ -28,8 +28,8 @@ function AdminNotify({ id, name, time_in, time_out, date_volunteered, date_submi
                 </Row>
                 <Row>
                     <Col>
-                        <Button variant="secondary" onClick={onDeny(submission_id)}>Deny</Button>
-                        <Button variant="primary" onClick={onAccept(submission_id)}>Accept</Button>
+                        <Button variant="secondary" onClick={ () => { onDeny(submission_id) } }>Deny</Button>
+                        <Button variant="primary" onClick={ () => { onAccept(submission_id) } }>Accept</Button>
                     </Col>
                 </Row>
 
