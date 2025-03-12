@@ -23,10 +23,9 @@ function AdminReview() {
         // TODO: set me to a .env sometime!
         fetch("http://localhost:3002/api/hours/")
         .then(res => res.json())
-        .then(json => {
-            setReviewData(json.data);
-        });
-    }, [reviewData]);
+        .then(json => setReviewData(json.data))
+        .then(()=> reviewData && setCount(reviewData.filter(record => record.under_review === 1).length));
+    }, [reviewData, count]);
 
     
 
@@ -34,10 +33,11 @@ function AdminReview() {
     const doAccept = id => {
 
         // adjust record
-        setCount(count - 1);
-        let record = reviewData.filter(record => record.submission_id == id)[0]
-        record.under_review = 0
-        record.accepted = 1
+        let record = reviewData.filter(record => record.submission_id == id)[0];
+        let index = reviewData.indexOf(record);
+
+        reviewData[index].under_review = 0;
+        reviewData[index].accepted = 1;
 
         // send api put request to change that record to accepted
         if (record) {
@@ -51,10 +51,11 @@ function AdminReview() {
     const doDeny = id => {
 
         // adjust record
-        setCount(count - 1);
         let record = reviewData.filter(record => record.submission_id == id)[0];
-        record.under_review = 0;
-        record.accepted = 0;
+        let index = reviewData.indexOf(record);
+
+        reviewData[index].under_review = 0
+        reviewData[index].accepted = 1
 
         // deny record and record it
         if (record) {
@@ -63,12 +64,11 @@ function AdminReview() {
             //     body: JSON.stringify(record)
             // })
         }
-        
     }
 
 
     return (
-        <ToastContainer>
+        <>
             {
                 users && reviewData && reviewData
                 .filter(entry => entry.under_review === 1)
@@ -91,7 +91,8 @@ function AdminReview() {
                     </>
                 )
             }
-        </ToastContainer>
+        
+        </>
     );
 }
 
