@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { userToFirstLast } from "../helpers/api_helper";
 import AdminNotify from "../components/AdminNotify";
 
-import ToastContainer from 'react-bootstrap/ToastContainer';
-
 function AdminReview() {
 
     const [count, setCount] = useState(0);

@@ -67,3 +67,19 @@ export const deleteWorkhourRecord = async (req, res) => {
         })
     }
 }
+
+export const putWorkhourRecord = async (req, res) => {
+    const record = req.body;
+
+    const result = db.updateUserRecord(record);
+
+    if (result) {
+        res.status(204)
+    }
+    else {
+        res.status(404)
+    }
+
+
+
+}
