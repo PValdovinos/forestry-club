@@ -25,6 +25,32 @@ function AdminReview() {
         .then(json => setReviewData(json.data));
     }, []);
 
+    // http rest UPDATE the resource on button click
+    const doAccept = id => {
+        // adjust record
+        let record = reviewData.filter(record => record.submission_id == id)[0]
+        record.under_review = 0
+        record.accepted = 1
+
+        // send api put request to change that record to accepted
+        fetch(`http://localhost:3002/api/hours/${id}`), {
+            method: 'PUT',
+            body: JSON.stringify(record)
+        }
+    }
+
+    const doDeny = id => {
+        // adjust record
+        let record = reviewData.filter(record => record.submission_id == id)[0];
+        record.under_review = 0;
+        record.accepted = 0;
+
+        // deny record and record it
+        fetch("http://localhost:3002/api/hours/", {
+            method: 'PUT',
+            body: JSON.stringify(record)
+        })
+    }
     // console.log(reviewData);
     // console.log(users)
 
@@ -41,7 +67,9 @@ function AdminReview() {
                             time_in={entry.time_in}
                             time_out={entry.time_out}
                             date_submitted={entry.create_date}
-                            date_volunteered={entry.time_in} 
+                            date_volunteered={entry.time_in}
+                            onAccept={doAccept(entry.submission_id)}
+                            onDeny={doDeny(entry.submission_id)}
                         />
                     ))    
                 }
