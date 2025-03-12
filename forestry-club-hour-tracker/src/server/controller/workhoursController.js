@@ -28,6 +28,20 @@ export const getWorkhoursById = async (req, res) => {
     }
 }
 
+export const getWorkhoursByUsername = async (req, res) => {
+    const data = await db.getWorkhoursByUsername(req.params.username)
+    if (data) {
+        res.status(200).json({
+            data: data
+        })
+    } else {
+        res.status(404);
+        res.json({
+            message: `Workhour record: ${req.params.username} not found`
+        })
+    }
+}
+
 export const createWorkhourRecord = async (req, res) => {
     const insertedRecord = await db.createWorkhourRecord(req.body)
     if (insertedRecord) {

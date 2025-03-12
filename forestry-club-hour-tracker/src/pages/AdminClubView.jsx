@@ -1,4 +1,4 @@
-import {useState, useEffect } from "react"; 
+import { useState, useEffect } from "react"; 
 import AdminNav from "../components/AdminNav";
 import AdminTable from "../components/Table";
 import { Button } from '@mui/material';
@@ -8,7 +8,7 @@ function translateData(data) {
         return data.map(element => ({
             "id": element.user_id,
             "username": element.username,
-            "name": element.fname + " " + element.lname,
+            "name": element.fname + " " + element.lname + " (" + element.username + ")",
             "hours": element.hours ? element.hours : 0,
             "points": element.hours * 100
         }));
@@ -51,7 +51,7 @@ const AdminClubView = () => {
     ];
 
     function ViewButton(props) {
-        return (<a href={"/adminClub/"+props.row.name}><Button
+        return (<a href={"/adminClub/"+props.row.username}><Button
         variant="contained"
         size="small"
         style={{ marginLeft: 16 }}
