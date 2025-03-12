@@ -1,4 +1,3 @@
-//import '@wojtekmaj/react-timerange-picker/dist/TimeRangePicker.css';
 import './modify-hours.css'
 import Dropdown from "../Dropdown.jsx";
 import {useState, useEffect, Fragment} from "react";
