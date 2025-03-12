@@ -13,7 +13,7 @@ const workhoursRouter = express.Router()
 workhoursRouter.get('/', getAllWorkhourRecords)
 workhoursRouter.get('/:id', getWorkhoursById)
 workhoursRouter.get('/username/:username', getWorkhoursByUsername)
-workhoursRouter.put('/:id', putWorkhourRecord)
+workhoursRouter.put('/', putWorkhourRecord)
 workhoursRouter.post('/', createWorkhourRecord)
 workhoursRouter.delete('/:id', deleteWorkhourRecord)
 
