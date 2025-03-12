@@ -22,7 +22,6 @@ function AdminReview() {
         fetch("http://localhost:3002/api/hours/")
         .then(res => res.json())
         .then(json => setReviewData(json.data))
-        // .then(()=> reviewData && setCount(reviewData.filter(record => record.under_review === 1).length));
     }, []);
 
     
@@ -30,36 +29,49 @@ function AdminReview() {
     // http rest UPDATE the resource on button click
     const doAccept = id => {
 
-        // adjust record
         let record = reviewData.filter(record => record.submission_id == id)[0];
-
-        record.under_review = 0;
-        record.accepted = 1;
 
         // send api put request to change that record to accepted
         if (record) {
-            fetch(`http://localhost:3002/api/hours/${id}`), {
+            const header = new Headers();
+            header.append( "Content-Type", "application/json");
+
+            fetch(`http://localhost:3002/api/hours/`), {
+                mode: "cors",
                 method: 'PUT',
-                body: JSON.stringify(record)
+                headers: header,
+                body: JSON.stringify(
+                    {
+                        "submission_id": record.submission_id, 
+                        "accepted": 1
+                    }
+                )
             }
         }
     }
 
     const doDeny = id => {
-
-        // adjust record
         let record = reviewData.filter(record => record.submission_id == id)[0];
-
-        record.under_review = 0
-        record.accepted = 1
 
         // deny record and record it
         if (record) {
-            fetch(`http://localhost:3002/api/hours/${id}`, {
+            const header = new Headers();
+            header.append( "Content-Type", "application/json");
+
+            fetch(`http://localhost:3002/api/hours/`, {
+                mode: "cors",
                 method: 'PUT',
-                body: JSON.stringify(record)
+                headers: header,
+                body: JSON.stringify(
+                    {
+                        "submission_id": record.submission_id, 
+                        "accepted": 0
+                    }
+                )
             })
         }
+
+        console.log(JSON.stringify({"submission_id": record.submission_id, accepted: 0} ));
     }
 
     return (
