@@ -26,7 +26,7 @@ function AdminReview() {
     }, []);
 
     // console.log(reviewData);
-    // console.log(users.filter(user => user.user_id === 1))
+    // console.log(users)
 
     return (
         <>
@@ -34,7 +34,7 @@ function AdminReview() {
                 {
                     users && reviewData && reviewData
                     .filter(entry => entry.under_review === 1)
-                    .map( entry => {
+                    .map( entry => (
                         <AdminNotify
                             key={entry.submission_id}
                             name={userToFirstLast(users.filter(user => user.user_id === entry.user_id)[0])}
@@ -43,7 +43,7 @@ function AdminReview() {
                             date_submitted={entry.create_date}
                             date_volunteered={entry.time_in} 
                         />
-                    })    
+                    ))    
                 }
             </ToastContainer>
         </>
