@@ -62,7 +62,6 @@ const AdminClubView = () => {
 
     return (
         <>
-            <p>AdminReview Success</p>
             <AdminNav />
             <AdminTable rows={translateData(rowData)} columns={columns}/>
         </>
