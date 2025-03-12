@@ -32,46 +32,44 @@ function AdminReview() {
         let record = reviewData.filter(record => record.submission_id == id)[0];
 
         // send api put request to change that record to accepted
-        if (record) {
-            const header = new Headers();
-            header.append( "Content-Type", "application/json");
+        
+        const header = new Headers();
+        header.append( "Content-Type", "application/json");
+        header.append( 'Accept', 'application/json');
 
-            fetch("http://localhost:3002/api/hours/"), {
-                mode: "cors",
-                method: 'PUT',
-                headers: header,
-                body: JSON.stringify(
-                    {
-                        "submission_id": record.submission_id, 
-                        "accepted": 1
-                    }
-                )
-            }
-        }
+        fetch("http://localhost:3002/api/hours/"), {
+            mode: "cors",
+            method: 'PUT',
+            headers: header,
+            body: JSON.stringify(
+                {
+                    "submission_id": record.submission_id, 
+                    "accepted": 1
+                }
+            )
+        }.then(console.log)
     }
 
     const doDeny = id => {
         let record = reviewData.filter(record => record.submission_id == id)[0];
 
         // deny record and record it
-        if (record) {
-            const header = new Headers();
-            header.append( "Content-Type", "application/json");
+    
+        const header = new Headers();
+        header.append( "Content-Type", "application/json");
+        header.append( 'Accept', 'application/json');
 
-            fetch("http://localhost:3002/api/hours/", {
-                mode: "cors",
-                method: 'PUT',
-                headers: header,
-                body: JSON.stringify(
-                    {
-                        "submission_id": record.submission_id, 
-                        "accepted": 0
-                    }
-                )
-            })
-        }
-
-        console.log(JSON.stringify({"submission_id": record.submission_id, accepted: 0} ));
+        fetch("http://localhost:3002/api/hours/", {
+            mode: "cors",
+            method: 'PUT',
+            headers: header,
+            body: JSON.stringify(
+                {
+                    "submission_id": record.submission_id, 
+                    "accepted": 0
+                }
+            )
+        }).then(console.log)
     }
 
     return (
