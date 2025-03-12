@@ -34,10 +34,9 @@ function AdminReview() {
 
         // adjust record
         let record = reviewData.filter(record => record.submission_id == id)[0];
-        let index = reviewData.indexOf(record);
 
-        reviewData[index].under_review = 0;
-        reviewData[index].accepted = 1;
+        record.under_review = 0;
+        record.accepted = 1;
 
         // send api put request to change that record to accepted
         if (record) {
@@ -52,10 +51,9 @@ function AdminReview() {
 
         // adjust record
         let record = reviewData.filter(record => record.submission_id == id)[0];
-        let index = reviewData.indexOf(record);
 
-        reviewData[index].under_review = 0
-        reviewData[index].accepted = 1
+        record.under_review = 0
+        record.accepted = 1
 
         // deny record and record it
         if (record) {
