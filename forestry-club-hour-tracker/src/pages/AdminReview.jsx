@@ -32,14 +32,13 @@ function AdminReview() {
         record.under_review = 0
         record.accepted = 1
 
+        console.log(id)
         // send api put request to change that record to accepted
         if (record) {
             // fetch(`http://localhost:3002/api/hours/${id}`), {
             //     method: 'PUT',
             //     body: JSON.stringify(record)
             // }
-            console.log(`Accepted ${id}`)
-            console.log(record)
         }
     }
 
@@ -55,8 +54,6 @@ function AdminReview() {
             //     method: 'PUT',
             //     body: JSON.stringify(record)
             // })
-            console.log(`Denied ${id}`)
-            console.log(record)
         }
         
     }
