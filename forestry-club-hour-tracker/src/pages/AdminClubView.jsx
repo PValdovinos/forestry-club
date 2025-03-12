@@ -1,4 +1,4 @@
-import {useState, useEffect } from "react"; 
+import { useState, useEffect } from "react"; 
 import AdminNav from "../components/AdminNav";
 import AdminTable from "../components/Table";
 import { Button } from '@mui/material';
@@ -7,10 +7,10 @@ function translateData(data) {
     if(data){
         return data.map(element => ({
             "id": element.user_id,
-            "name": element.fname + " " + element.lname,
-            "ytd": 0,
-            "qtd": 0,
-            "points": 0
+            "username": element.username,
+            "name": element.fname + " " + element.lname + " (" + element.username + ")",
+            "hours": element.hours ? element.hours : 0,
+            "points": element.hours * 100
         }));
     }
     else {
@@ -42,9 +42,8 @@ const AdminClubView = () => {
     const rowData = memberData;
 
     const columns= [
-        {field: 'name', headerName: 'Name', width: 500},
-        {field: 'ytd', headerName: 'Year to Date', width: 200},
-        {field: 'qtd', headerName: 'Quater to Date', width: 200},
+        {field: 'name', headerName: 'Name', width: 700},
+        {field: 'hours', headerName: 'Total Hours', width: 200},
         {field: 'points', headerName: 'Points', width: 150},
         {field: 'none', headerName: 'Edit', renderCell: ViewButton, 
             width: 150,  sortable: false, filterable: false, resizable: false, 
@@ -52,7 +51,7 @@ const AdminClubView = () => {
     ];
 
     function ViewButton(props) {
-        return (<a href={"/adminClub/"+props.row.name}><Button
+        return (<a href={"/adminClub/"+props.row.username}><Button
         variant="contained"
         size="small"
         style={{ marginLeft: 16 }}
