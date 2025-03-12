@@ -33,9 +33,13 @@ function AdminReview() {
         record.accepted = 1
 
         // send api put request to change that record to accepted
-        fetch(`http://localhost:3002/api/hours/${id}`), {
-            method: 'PUT',
-            body: JSON.stringify(record)
+        if (record) {
+            // fetch(`http://localhost:3002/api/hours/${id}`), {
+            //     method: 'PUT',
+            //     body: JSON.stringify(record)
+            // }
+            console.log(`Accepted ${id}`)
+            console.log(record)
         }
     }
 
@@ -46,13 +50,17 @@ function AdminReview() {
         record.accepted = 0;
 
         // deny record and record it
-        fetch("http://localhost:3002/api/hours/", {
-            method: 'PUT',
-            body: JSON.stringify(record)
-        })
+        if (record) {
+            // fetch("http://localhost:3002/api/hours/", {
+            //     method: 'PUT',
+            //     body: JSON.stringify(record)
+            // })
+            console.log(`Denied ${id}`)
+            console.log(record)
+        }
+        
     }
-    // console.log(reviewData);
-    // console.log(users)
+
 
     return (
         <>
@@ -63,13 +71,14 @@ function AdminReview() {
                     .map( entry => (
                         <AdminNotify
                             key={entry.submission_id}
+                            id={entry.submission_id}
                             name={userToFirstLast(users.filter(user => user.user_id === entry.user_id)[0])}
                             time_in={entry.time_in}
                             time_out={entry.time_out}
                             date_submitted={entry.create_date}
                             date_volunteered={entry.time_in}
-                            onAccept={doAccept(entry.submission_id)}
-                            onDeny={doDeny(entry.submission_id)}
+                            onAccept={doAccept}
+                            onDeny={doDeny}
                         />
                     ))    
                 }

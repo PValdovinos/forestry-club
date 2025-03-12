@@ -3,8 +3,9 @@ import Button from 'react-bootstrap/Button';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'react-bootstrap';
 
-function AdminNotify({ name, time_in, time_out, date_volunteered, date_submitted }) {
+function AdminNotify({ id, name, time_in, time_out, date_volunteered, date_submitted, onAccept = ()=>{}, onDeny = ()=>{} }) {
 
+    const submission_id = id;
     const time_in_readable = new Date(time_in).toLocaleTimeString();
     const time_out_readable = new Date(time_out).toLocaleTimeString();
     const date_volunteered_readable = new Date(date_volunteered).toLocaleDateString();
@@ -27,8 +28,8 @@ function AdminNotify({ name, time_in, time_out, date_volunteered, date_submitted
                 </Row>
                 <Row>
                     <Col>
-                        <Button variant="secondary">Deny</Button>
-                        <Button variant="primary">Accept</Button>
+                        <Button variant="secondary" onClick={onDeny(submission_id)}>Deny</Button>
+                        <Button variant="primary" onClick={onAccept(submission_id)}>Accept</Button>
                     </Col>
                 </Row>
 
@@ -40,11 +41,14 @@ function AdminNotify({ name, time_in, time_out, date_volunteered, date_submitted
 }
 
 AdminNotify.propTypes = {
+    id: PropTypes.number,
     name: PropTypes.string,
     time_in: PropTypes.instanceOf(Date),
     time_out: PropTypes.instanceOf(Date),
     date_volunteered: PropTypes.instanceOf(Date),
-    date_submitted: PropTypes.instanceOf(Date)
+    date_submitted: PropTypes.instanceOf(Date),
+    onAccept: PropTypes.func,
+    onDeny: PropTypes.func
 }
 
 export default AdminNotify;
