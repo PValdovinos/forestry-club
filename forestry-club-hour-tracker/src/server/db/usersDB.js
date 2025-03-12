@@ -3,7 +3,13 @@ import connection from '../db/database.js'
 export const getAllUserRecords = async () => {
     const db = await connection()
     const [results] = await db.query(
-        'SELECT * FROM users'
+        `
+        SELECT users.user_id, users.user_flags, users.username, users.fname, users.lname,
+        SUM(TIMESTAMPDIFF(MINUTE, workhours.time_in, workhours.time_out) / 60) AS hours 
+        FROM users 
+        LEFT JOIN workhours 
+        ON users.user_id = workhours.user_id 
+        GROUP BY users.user_id, users.user_flags, users.username, users.fname, users.lname;`
     );
     db.end()
     return results

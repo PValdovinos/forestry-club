@@ -19,11 +19,27 @@ export const getWorkhoursById = async (id) => {
     return results
 }
 
+export const getWorkhoursByUsername = async (username) => {
+    const db = await connection()
+    const [results] = await db.query(
+        `SELECT users.user_id, users.user_flags, users.username, users.fname, users.lname, 
+        workhours.time_in, workhours.time_out, workhours.under_review, workhours.accepted,
+        DATE(workhours.time_out) AS date_worked, workhours.submission_id,
+        TIMESTAMPDIFF(MINUTE, workhours.time_in, workhours.time_out) / 60 AS hours
+        FROM users 
+        LEFT JOIN workhours
+        ON users.user_id = workhours.user_id
+        Where users.username = ?`, [username]
+    )
+    db.end()
+    return results
+}
+
 export const createWorkhourRecord = async (newRecord) => {
     const db = await connection()
     const [results] = await db.query(
         'INSERT INTO workhours (time_in, time_out, user_id, under_review, accepted) VALUES (?, ?, ?, ?, ?)' ,
-        [newRecord.time_in, newRecord.time_out, newRecord.user_id, newRecord.create_date, newRecord.under_review, newRecord.accepted]
+        [newRecord.time_in, newRecord.time_out, newRecord.user_id, newRecord.under_review, newRecord.accepted]
     );
     db.end()
     return results

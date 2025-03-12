@@ -1,6 +1,7 @@
-import '@wojtekmaj/react-timerange-picker/dist/TimeRangePicker.css';
+//import '@wojtekmaj/react-timerange-picker/dist/TimeRangePicker.css';
 import './modify-hours.css'
-import {useState, Fragment} from "react";
+import Dropdown from "../Dropdown.jsx";
+import {useState, useEffect, Fragment} from "react";
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -11,6 +12,34 @@ import dayjs from "dayjs";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {DatePicker, LocalizationProvider, TimePicker} from "@mui/x-date-pickers";
 import {HorizontalRule} from "@mui/icons-material";
+
+function pad(value) {
+    if(value > 9){
+        return value;
+    }
+    else {
+        return '0' + value;
+    }
+}
+
+function jsDateToSqlDate(date) {
+    const sqlDate ='' + date.getUTCFullYear() + '-' +
+            pad(date.getUTCMonth() + 1) + '-' +
+            pad(date.getUTCDate())      + ' ' +
+            pad(date.getUTCHours())     + ':' +
+            pad(date.getUTCMinutes())   + ':' +
+            pad(date.getUTCSeconds());
+    return sqlDate;
+}
+
+function translateData(data) {
+    if(data){
+        return data.map(element => element.fname + " " + element.lname + " (" + element.username + ")");
+    }
+    else {
+        return []
+    }
+}
 
 /**
  * Modal component for logging hours volunteered and date for event
@@ -34,10 +63,55 @@ export const ModifyHours = ({isAdmin}) => {
     const [startValue, setStartValue] = useState(today.set('hour', today.hour() - 1))
     const [endValue, setEndValue] = useState(today)
 
+
+    const [memberData, setMemberData] = useState([]);
+
+    useEffect(() => {fetch("http://localhost:3002/api/users", {
+        method: "get",
+        mode: "cors",
+        headers: {
+            "content-type": "application/json"
+        }
+    })
+    .then( response => response.json())
+    .then( content => content.data)
+    .then( result => setMemberData(result))}, []);
+
+    function translateData(data) {
+        if(data){
+            return data.map(element => element.fname + " " + element.lname + " (" + element.username + ")");
+        }
+        else {
+            return []
+        }
+    }
+    
+    async function sendData() {
+        const username = document.getElementById("name-select")?document.getElementById("name-select").innerText:"";
+        const newMemberHours = {
+            time_in: jsDateToSqlDate(startValue.$d),
+            time_out: jsDateToSqlDate(endValue.$d),
+            create_date: jsDateToSqlDate(dateValue.$d),
+            user_id: memberData.filter(member => member.username === username.substring(username.indexOf('(')+1, username.indexOf(')')))[0].user_id,
+            under_review: true,
+            accepted: false
+        }
+        console.log(newMemberHours);
+        const results = await fetch("http://localhost:3002/api/hours", {
+            method: "post",
+            mode: "cors",
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify(newMemberHours)
+        })
+        return results;
+    }
+
     return (
         <Fragment>
             <Button variant="outlined" onClick={handleClickOpen}>
-                Open form dialog
+                Submit Hours
             </Button>
             <Dialog
                 open={open}
@@ -56,6 +130,7 @@ export const ModifyHours = ({isAdmin}) => {
                     <DialogContentText>
                         Please enter the date and hours worked.
                     </DialogContentText>
+                    <Dropdown id="name-select" data={translateData(memberData.filter(member => member.username !== null))} />
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <div className={'date-wrapper'}>
                             <DatePicker
@@ -84,7 +159,7 @@ export const ModifyHours = ({isAdmin}) => {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button type="submit">Submit</Button>
+                    <Button onClick={sendData}>Submit</Button>
                 </DialogActions>
             </Dialog>
         </Fragment>
