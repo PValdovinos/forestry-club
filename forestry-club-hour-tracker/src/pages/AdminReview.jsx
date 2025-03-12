@@ -67,6 +67,7 @@ function AdminReview() {
     return (
         <>
             {
+                // on first pass, show all under_review.
                 users && reviewData &&
                 reviewData.filter(entry => entry.under_review === 1)
                 .map( entry => (
@@ -82,7 +83,9 @@ function AdminReview() {
                         onDeny={doDeny}
                     />
                 )) 
-                || (
+                || 
+                // if no records are found, show a link to admin member view
+                (
                     <>
                         <p>You&apos;re all done! <a href="AdminMemberView">Go to Admin Member view.</a></p>
                     </>
