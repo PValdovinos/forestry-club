@@ -36,7 +36,7 @@ function AdminReview() {
             const header = new Headers();
             header.append( "Content-Type", "application/json");
 
-            fetch(`http://localhost:3002/api/hours/`), {
+            fetch("http://localhost:3002/api/hours/"), {
                 mode: "cors",
                 method: 'PUT',
                 headers: header,
@@ -58,7 +58,7 @@ function AdminReview() {
             const header = new Headers();
             header.append( "Content-Type", "application/json");
 
-            fetch(`http://localhost:3002/api/hours/`, {
+            fetch("http://localhost:3002/api/hours/", {
                 mode: "cors",
                 method: 'PUT',
                 headers: header,
@@ -97,7 +97,7 @@ function AdminReview() {
                 // if no records are found, show a link to admin member view
                 (
                     <>
-                        <p>You&apos;re all done! <a href="AdminMemberView">Go to Admin Member view.</a></p>
+                        <p>You&apos;re all done! <a href="adminClub">Go to Admin Member view.</a></p>
                     </>
                 )
             }
