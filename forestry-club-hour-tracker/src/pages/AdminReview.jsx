@@ -64,12 +64,11 @@ function AdminReview() {
         }
     }
 
-
     return (
         <>
             {
-                users && reviewData && reviewData
-                .filter(entry => entry.under_review === 1)
+                users && reviewData &&
+                reviewData.filter(entry => entry.under_review === 1)
                 .map( entry => (
                     <AdminNotify
                         key={entry.submission_id}
@@ -83,7 +82,7 @@ function AdminReview() {
                         onDeny={doDeny}
                     />
                 )) 
-                || count === 0 && (
+                || (
                     <>
                         <p>You&apos;re all done! <a href="AdminMemberView">Go to Admin Member view.</a></p>
                     </>
