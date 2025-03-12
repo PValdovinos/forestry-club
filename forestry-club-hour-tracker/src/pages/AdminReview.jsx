@@ -6,6 +6,7 @@ import ToastContainer from 'react-bootstrap/ToastContainer';
 
 function AdminReview() {
 
+    const [count, setCount] = useState(0);
     const [users, setUsers] = useState(null);
     const [reviewData, setReviewData] = useState(null);
 
@@ -22,17 +23,22 @@ function AdminReview() {
         // TODO: set me to a .env sometime!
         fetch("http://localhost:3002/api/hours/")
         .then(res => res.json())
-        .then(json => setReviewData(json.data));
-    }, []);
+        .then(json => {
+            setReviewData(json.data);
+        });
+    }, [reviewData]);
+
+    
 
     // http rest UPDATE the resource on button click
     const doAccept = id => {
+
         // adjust record
+        setCount(count - 1);
         let record = reviewData.filter(record => record.submission_id == id)[0]
         record.under_review = 0
         record.accepted = 1
 
-        console.log(id)
         // send api put request to change that record to accepted
         if (record) {
             // fetch(`http://localhost:3002/api/hours/${id}`), {
@@ -43,7 +49,9 @@ function AdminReview() {
     }
 
     const doDeny = id => {
+
         // adjust record
+        setCount(count - 1);
         let record = reviewData.filter(record => record.submission_id == id)[0];
         record.under_review = 0;
         record.accepted = 0;
@@ -60,27 +68,30 @@ function AdminReview() {
 
 
     return (
-        <>
-            <ToastContainer>
-                {
-                    users && reviewData && reviewData
-                    .filter(entry => entry.under_review === 1)
-                    .map( entry => (
-                        <AdminNotify
-                            key={entry.submission_id}
-                            id={entry.submission_id}
-                            name={userToFirstLast(users.filter(user => user.user_id === entry.user_id)[0])}
-                            time_in={entry.time_in}
-                            time_out={entry.time_out}
-                            date_submitted={entry.create_date}
-                            date_volunteered={entry.time_in}
-                            onAccept={doAccept}
-                            onDeny={doDeny}
-                        />
-                    ))    
-                }
-            </ToastContainer>
-        </>
+        <ToastContainer>
+            {
+                users && reviewData && reviewData
+                .filter(entry => entry.under_review === 1)
+                .map( entry => (
+                    <AdminNotify
+                        key={entry.submission_id}
+                        id={entry.submission_id}
+                        name={userToFirstLast(users.filter(user => user.user_id === entry.user_id)[0])}
+                        time_in={entry.time_in}
+                        time_out={entry.time_out}
+                        date_submitted={entry.create_date}
+                        date_volunteered={entry.time_in}
+                        onAccept={doAccept}
+                        onDeny={doDeny}
+                    />
+                )) 
+                || count === 0 && (
+                    <>
+                        <p>You&apos;re all done! <a href="AdminMemberView">Go to Admin Member view.</a></p>
+                    </>
+                )
+            }
+        </ToastContainer>
     );
 }
 
