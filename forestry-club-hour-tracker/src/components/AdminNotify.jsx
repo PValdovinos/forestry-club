@@ -2,8 +2,13 @@ import Toast from 'react-bootstrap/Toast';
 import Button from 'react-bootstrap/Button';
 import PropTypes from 'prop-types';
 import { Row, Col } from 'react-bootstrap';
+import { useState } from 'react';
 
 function AdminNotify({ id, name, time_in, time_out, date_volunteered, date_submitted, onAccept = ()=>{}, onDeny = ()=>{} }) {
+
+    const [show, setShow] = useState(true);
+
+    const handleHide = () => setShow(false);
 
     const submission_id = id;
     const time_in_readable = new Date(time_in).toLocaleTimeString();
@@ -11,9 +16,18 @@ function AdminNotify({ id, name, time_in, time_out, date_volunteered, date_submi
     const date_volunteered_readable = new Date(date_volunteered).toLocaleDateString();
     const date_submitted_readable = new Date(date_submitted).toLocaleDateString();
 
+    const accept = (id) => {
+        handleHide();
+        onAccept(id);
+    }
+
+    const deny = (id) => {
+        handleHide();
+        onDeny(id);
+    }
 
     return (
-        <Toast>
+        <Toast show={show}>
             <Toast.Header closeButton={false}>
                 <strong>{name}</strong>
             </Toast.Header>
@@ -28,8 +42,8 @@ function AdminNotify({ id, name, time_in, time_out, date_volunteered, date_submi
                 </Row>
                 <Row>
                     <Col>
-                        <Button variant="secondary" onClick={ () => { onDeny(submission_id) } }>Deny</Button>
-                        <Button variant="primary" onClick={ () => { onAccept(submission_id) } }>Accept</Button>
+                        <Button variant="secondary" onClick={ () => { deny(submission_id) } }>Deny</Button>
+                        <Button variant="primary" onClick={ () => { accept(submission_id) } }>Accept</Button>
                     </Col>
                 </Row>
 
