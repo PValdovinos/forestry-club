@@ -41,10 +41,10 @@ function AdminReview() {
 
         // send api put request to change that record to accepted
         if (record) {
-            // fetch(`http://localhost:3002/api/hours/${id}`), {
-            //     method: 'PUT',
-            //     body: JSON.stringify(record)
-            // }
+            fetch(`http://localhost:3002/api/hours/${id}`), {
+                method: 'PUT',
+                body: JSON.stringify(record)
+            }
         }
     }
 
@@ -59,10 +59,10 @@ function AdminReview() {
 
         // deny record and record it
         if (record) {
-            // fetch("http://localhost:3002/api/hours/", {
-            //     method: 'PUT',
-            //     body: JSON.stringify(record)
-            // })
+            fetch(`http://localhost:3002/api/hours/${id}`, {
+                method: 'PUT',
+                body: JSON.stringify(record)
+            })
         }
     }
 
