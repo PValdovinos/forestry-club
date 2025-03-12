@@ -29,16 +29,16 @@ npm
 >> `npm run dev`
 > SQL Database Setup
 >> Navigate to [localhost:8080](localhost:8080)
->> (img/Nav_To_PHPMyAdmin.png)
+>> ![Navigate to phpMyAdmin](img/Nav_To_PHPMyAdmin.png)
 >> Login as root
->> (img/Log_In_As_Root.png)
+>> ![Log in as Root](img/Log_In_As_Root.png)
 >> Give permissions to forestry_user
->> (img/Navigate_To_User_Settings.png)
->> (img/Navigate_To_Forestry_User.png)
->> (img/Set_Privileges.png)
+>> ![Navigate to sser settings](img/Navigate_To_User_Settings.png)
+>> ![Navigate to forestry_user](img/Navigate_To_Forestry_User.png)
+>> ![Set privileges](img/Set_Privileges.png)
 >> Add table schema
->> (img/Navigate_To_Forestry_DB.png)
->> (img/Navigate_To_Import.png)
->> (img/Choose_File.png)
->> (img/Find_File.png)
->> (img/Import_Schema.png)
+>> ![Navigate to forestry database](img/Navigate_To_Forestry_DB.png)
+>> ![Navigate to import](img/Navigate_To_Import.png)
+>> ![Choose file](img/Choose_File.png)
+>> ![Find file](img/Find_File.png)
+>> ![Import](img/Import_Schema.png)
