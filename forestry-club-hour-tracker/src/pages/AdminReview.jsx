@@ -4,7 +4,7 @@ import AdminNotify from "../components/AdminNotify";
 
 function AdminReview() {
 
-    const [count, setCount] = useState(0);
+    // const [count, setCount] = useState(0);
     const [users, setUsers] = useState(null);
     const [reviewData, setReviewData] = useState(null);
 
@@ -22,8 +22,8 @@ function AdminReview() {
         fetch("http://localhost:3002/api/hours/")
         .then(res => res.json())
         .then(json => setReviewData(json.data))
-        .then(()=> reviewData && setCount(reviewData.filter(record => record.under_review === 1).length));
-    }, [reviewData, count]);
+        // .then(()=> reviewData && setCount(reviewData.filter(record => record.under_review === 1).length));
+    }, []);
 
     
 
