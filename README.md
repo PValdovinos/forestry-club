@@ -10,7 +10,7 @@ Change the database password in `docker-compose.yml`
 
 ## Prerequisites
 Docker
-- Linux - [docs.docekr.com/desktop/setup/install/linux/](docs.docker.com/desktop/setup/install/linux/)
+- Linux - [docs.docker.com/desktop/setup/install/linux/](docs.docker.com/desktop/setup/install/linux/)
 - Mac - [docs.docker.com/desktop/setup/install/mac-install/](docs.docker.com/desktop/setup/install/mac-install/)
 - Window - [docs.docker.com/desktop/setup/install/windows-install/](docs.docker.com/desktop/setup/install/window-install/)
 
