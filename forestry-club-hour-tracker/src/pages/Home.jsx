@@ -1,12 +1,10 @@
-import { useEffect, useState } from "react";
-
-import { ModifyHours } from "../components/modify-hours/ModifyHours.jsx";
+import { AddHours } from "../components/AddHours";
 
 function Home() { 
     return (
         <>
             <p>Home</p>
-            <ModifyHours />
+            <AddHours />
             <div><a href='/adminClub'>Admin Club View</a></div>
             <div><a href='/addMember'>Add Club Member</a></div>
         </>

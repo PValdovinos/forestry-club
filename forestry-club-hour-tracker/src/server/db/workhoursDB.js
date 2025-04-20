@@ -78,3 +78,26 @@ export const updateUserRecord = async (record) => {
 
     return results;
 }
+
+export const updateWorkRecord = async (record) => {
+    if (!record) {
+        console.err("Error: no record")
+        return false;
+    }
+    const db = await connection()
+
+    console.log(`update request for record: ${record.update_id} to value: ${record}`);
+
+    const [results] = await db.query(
+        `
+        UPDATE workhours
+        SET time_in = ?, time_out = ? 
+        WHERE submission_id = ?
+        `,
+        [record.time_in, record.time_out, record.update_id]
+    );
+
+    db.end();
+
+    return results;
+}
