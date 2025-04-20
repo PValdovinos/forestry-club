@@ -7,6 +7,7 @@ import Navigation from '../Navigation';
 import Home from '../pages/Home';
 import AddMember from '../components/AddMember';
 import MemberView from '../pages/MemberView';
+import MemberHoursView from '../pages/MemberHoursView';
 
 const AppRouter = () => {
  return(
@@ -19,6 +20,7 @@ const AppRouter = () => {
                 <Route path='/adminClub' element={<AdminClubView />} />
                 <Route path='/member' element={<MemberView />} />
                 <Route path='/addMember' element={<AddMember />} />
+                <Route path='/member/:member' element={<MemberHoursView />}/>
             </Route>
         </Routes>
     </BrowserRouter>
