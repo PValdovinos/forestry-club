@@ -20,9 +20,22 @@ import PropTypes from 'prop-types';
 export const EditHours = ({ memberName, entryId }) => {
     // dialog handlers
     const [open, setOpen] = useState(false);
-    const handleClickOpen = () => {
+    const handleClickOpen = async () => {
         setOpen(true);
-    };
+        await fetch("http://localhost:3002/api/hours/"+entryId, {
+            method: "get",
+            mode: "cors",
+            headers: {
+                "content-type": "application/json"
+            }
+        })
+        .then( response => response.json())
+        .then( content => content.data[0])
+        .then( result => {
+            setStartValue(dayjs(result["time_in"]))
+            setEndValue(dayjs(result["time_out"]))
+            setDateValue(dayjs(result["time_in"]))
+        })};
     const handleClose = () => {
         setOpen(false);
     };
@@ -32,20 +45,6 @@ export const EditHours = ({ memberName, entryId }) => {
     const [dateValue, setDateValue] = useState(today)//
     const [startValue, setStartValue] = useState(today.set('hour', today.hour() - 1))//
     const [endValue, setEndValue] = useState(today)//
-
-    //Update values to selected time entry
-    useEffect(() => {fetch("http://localhost:3002/api/hours/"+entryId, {
-            method: "get",
-            mode: "cors",
-            headers: {
-                "content-type": "application/json"
-            }
-        })
-        .then( response => response.json())
-        .then( content => content.data)
-        .then( result => {
-            console.log(result)
-        })}, []);
     
     async function sendData() {
         const editMemberHours = {
@@ -93,7 +92,8 @@ export const EditHours = ({ memberName, entryId }) => {
                         defaultEndTimeValue={endValue}
                         setDateValue={setDateValue}
                         setStartValue={setStartValue}
-                        setEndValue={setEndValue} />
+                        setEndValue={setEndValue}
+                         />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>

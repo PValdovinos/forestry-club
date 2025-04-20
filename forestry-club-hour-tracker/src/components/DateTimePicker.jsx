@@ -1,14 +1,16 @@
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {DatePicker, LocalizationProvider, TimePicker} from "@mui/x-date-pickers";
 import {HorizontalRule} from "@mui/icons-material";
+import PropTypes from 'prop-types';
 
-export const DateTimePicker = ({ dateValue, startValue, endValue, setDateValue, setStartValue, setEndValue }) => {
+export const DateTimePicker = ({ defaultDateValue, defaultStartTimeValue, defaultEndTimeValue, setDateValue, setStartValue, setEndValue }) => {
+    console.log(defaultStartTimeValue, defaultEndTimeValue)
     return(
     <LocalizationProvider dateAdapter={AdapterDayjs}>
         <div className={'date-wrapper'}>
             <DatePicker
                 label="Date"
-                value={dateValue}
+                value={defaultDateValue}
                 onChange={(newValue) => setDateValue(newValue)}
             />
         </div>
@@ -16,14 +18,22 @@ export const DateTimePicker = ({ dateValue, startValue, endValue, setDateValue, 
             <TimePicker
                 label={"Start Time"}
                 disableFuture
-                value={startValue}
+                value={defaultStartTimeValue}
                 onChange={(newValue) => setStartValue(newValue)}/>
             <HorizontalRule/>
             <TimePicker
                 label={"End Time"}
                 disableFuture
-                value={endValue}
+                value={defaultEndTimeValue}
                 onChange={(newValue) => setEndValue(newValue)}/>
         </div>
     </LocalizationProvider>)
+}
+DateTimePicker.propTypes = {
+    defaultDateValue : PropTypes.object.isRequired,
+    defaultStartTimeValue : PropTypes.object.isRequired,
+    defaultEndTimeValue : PropTypes.object.isRequired,
+    setDateValue : PropTypes.func.isRequired,
+    setStartValue : PropTypes.func.isRequired,
+    setEndValue : PropTypes.func.isRequired
 }

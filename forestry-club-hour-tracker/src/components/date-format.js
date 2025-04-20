@@ -1,3 +1,5 @@
+
+//Helper function to 
 function pad(value) {
     if(value > 9){
         return value;

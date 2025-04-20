@@ -100,9 +100,9 @@ export const AddHours = () => {
                     </DialogContentText>
                     <Dropdown id="name-select" data={translateData(memberData.filter(member => member.username !== null))} />
                     <DateTimePicker 
-                        defaultDateValue={useState(today)} 
-                        defaultStartTimeValue={useState(today.set('hour', today.hour() - 1))} 
-                        defaultEndTimeValue={useState(today)}
+                        defaultDateValue={dateValue} 
+                        defaultStartTimeValue={startValue} 
+                        defaultEndTimeValue={endValue}
                         setDateValue={setDateValue}
                         setStartValue={setStartValue}
                         setEndValue={setEndValue} />
