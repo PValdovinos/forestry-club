@@ -1,18 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 const MemberHoursView = () => {
+  const POINT_FACTOR = 2.5;
   const [memberHours, setMemberHours] = useState([]);
   const [loading, setLoading] = useState(true);
   const [userName, setUserName] = useState('');
   const [error, setError] = useState(null);
+  const { member } = useParams();
 
   useEffect(() => {
     const fetchMemberData = async () => {
       try {
-        const res = await axios.get('/api/member/hours');
-        setMemberHours(res.data.hours || []);
-        setUserName(res.data.name || 'Member');
+        const res = await axios.get(`http://localhost:3002/api/hours/username/${member}`);
+        const records = res.data.data;
+        setMemberHours(records || []);
+        setUserName(records.length > 0 ? records[0].fname : 'Member');
       } catch (err) {
         console.error(err);
         setError('Unable to load your volunteer hours at this time.');
@@ -22,10 +26,10 @@ const MemberHoursView = () => {
     };
 
     fetchMemberData();
-  }, []);
+  }, [member]);
 
-  const totalHours = memberHours.reduce((sum, h) => sum + h.hours, 0);
-  const totalPoints = memberHours.reduce((sum, h) => sum + (h.points || 0), 0);
+  const totalHours = memberHours.reduce((sum, h) => sum + parseFloat(h.hours), 0);
+  const totalPoints = totalHours * POINT_FACTOR;
 
   return (
     <div className="container mt-5">
@@ -55,10 +59,10 @@ const MemberHoursView = () => {
                   <tbody>
                     {memberHours.map((entry, idx) => (
                       <tr key={idx}>
-                        <td>{new Date(entry.date).toLocaleDateString()}</td>
-                        <td>{entry.activity}</td>
+                        <td>{new Date(entry.date_worked).toLocaleDateString()}</td>
+                        <td></td>
                         <td>{entry.hours}</td>
-                        <td>{entry.points}</td>
+                        <td>{entry.hours * POINT_FACTOR}</td>
                       </tr>
                     ))}
                   </tbody>
