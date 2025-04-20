@@ -4,6 +4,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import PropTypes from 'prop-types';
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -39,4 +40,8 @@ export default function BasicSelect({ id, data }) {
             </FormControl>
         </Box>
     );
+}
+BasicSelect.propTypes = {
+    id : PropTypes.number.isRequired,
+    data : PropTypes.isRequired
 }
