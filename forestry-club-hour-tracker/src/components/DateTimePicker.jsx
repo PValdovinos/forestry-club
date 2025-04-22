@@ -18,13 +18,13 @@ export const DateTimePicker = ({ defaultDateValue, defaultStartTimeValue, defaul
             <TimePicker
                 label={"Start Time"}
                 disableFuture
-                value={defaultStartTimeValue}
+                value={defaultStartTimeValue.subtract(7, "hour")}
                 onChange={(newValue) => setStartValue(newValue)}/>
             <HorizontalRule/>
             <TimePicker
                 label={"End Time"}
                 disableFuture
-                value={defaultEndTimeValue}
+                value={defaultEndTimeValue.subtract(7, "hour")}
                 onChange={(newValue) => setEndValue(newValue)}/>
         </div>
     </LocalizationProvider>)
