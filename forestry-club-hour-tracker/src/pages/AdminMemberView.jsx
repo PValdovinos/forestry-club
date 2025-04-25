@@ -3,6 +3,7 @@ import AdminNav from "../components/AdminNav";
 import { useParams } from "react-router";
 import MemberTimesTable from "../components/Table";
 import { Button } from '@mui/material';
+import { EditHours } from "../components/EditHours"
 
 function translateData(data) {
     if(data){
@@ -31,25 +32,18 @@ function translateData(data) {
 function AdminMemberView() { 
     const params = useParams();
     const [memberData, setMemberData] = useState([]);
+    const memberName = params.member;
 
-        useEffect(() => {fetch(`http://localhost:3002/api/hours/username/${params.member}`, {
-            method: "get",
-            mode: "cors",
-            headers: {
-                "content-type": "application/json"
-            }
-        })
-        .then( response => response.json())
-        .then( content => content.data)
-        .then( result => setMemberData(result))}, [{"id":0,}]);
-    
-    const exampleData = [
-        { "id": 0, "date": "2025-02-20", "hours": 3, "status": "Accepted" },
-        { "id": 1, "date": "2025-02-21", "hours": 2.5, "status": "Accepted" },
-        { "id": 2, "date": "2025-02-22", "hours": 4, "status": "Pending" },
-        { "id": 3, "date": "2025-02-23", "hours": 1.5, "status": "Accepted" },
-        { "id": 4, "date": "2025-02-24", "hours": 3.75, "status": "Accepted" }
-    ];
+    useEffect(() => {fetch(`http://localhost:3002/api/hours/username/${memberName}`, {
+        method: "get",
+        mode: "cors",
+        headers: {
+            "content-type": "application/json"
+        }
+    })
+    .then( response => response.json())
+    .then( content => content.data)
+    .then( result => setMemberData(result))}, [{"id":0,}]);
 
     const rowData = memberData;
 
@@ -63,13 +57,10 @@ function AdminMemberView() {
     ];
 
     function EditButton(props) {
-        return (<a href={window.location.href+'/'+props.row.id}><Button
-        variant="contained"
-        size="small"
-        style={{ marginLeft: 16 }}
-        >
-            review
-        </Button></a>)
+        return(
+            <EditHours entryId={props.row.id} memberName = {memberName} />
+        )
+            
     }
     return (
         <>

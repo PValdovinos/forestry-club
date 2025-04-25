@@ -1,5 +1,6 @@
-import './modify-hours.css'
-import Dropdown from "../Dropdown.jsx";
+import './hours-box.css';
+import {jsDateToSqlDate} from './date-format';
+import Dropdown from "./Dropdown.jsx";
 import {useState, useEffect, Fragment} from "react";
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -8,37 +9,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import dayjs from "dayjs";
-import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
-import {DatePicker, LocalizationProvider, TimePicker} from "@mui/x-date-pickers";
-import {HorizontalRule} from "@mui/icons-material";
-
-function pad(value) {
-    if(value > 9){
-        return value;
-    }
-    else {
-        return '0' + value;
-    }
-}
-
-function jsDateToSqlDate(date) {
-    const sqlDate ='' + date.getUTCFullYear() + '-' +
-            pad(date.getUTCMonth() + 1) + '-' +
-            pad(date.getUTCDate())      + ' ' +
-            pad(date.getUTCHours())     + ':' +
-            pad(date.getUTCMinutes())   + ':' +
-            pad(date.getUTCSeconds());
-    return sqlDate;
-}
-
-function translateData(data) {
-    if(data){
-        return data.map(element => element.fname + " " + element.lname + " (" + element.username + ")");
-    }
-    else {
-        return []
-    }
-}
+import { DateTimePicker } from './DateTimePicker.jsx';
 
 /**
  * Modal component for logging hours volunteered and date for event
@@ -46,7 +17,7 @@ function translateData(data) {
  *      is user triggering this component an admin account who needs to view the hour request, or is it a student
  *      creating a new one
  */
-export const ModifyHours = ({isAdmin}) => {
+export const AddHours = () => {
     // dialog handlers
     const [open, setOpen] = useState(false);
     const handleClickOpen = () => {
@@ -57,12 +28,11 @@ export const ModifyHours = ({isAdmin}) => {
     };
 
     //date state and default values
-    const today = dayjs()
-    const [dateValue, setDateValue] = useState(today)
-    const [startValue, setStartValue] = useState(today.set('hour', today.hour() - 1))
-    const [endValue, setEndValue] = useState(today)
-
-
+    const today = dayjs();
+    
+    const [dateValue, setDateValue] = useState(today);
+    const [startValue, setStartValue] = useState(today.set('hour', today.hour() - 1));
+    const [endValue, setEndValue] = useState(today);
     const [memberData, setMemberData] = useState([]);
 
     useEffect(() => {fetch("http://localhost:3002/api/users", {
@@ -95,7 +65,6 @@ export const ModifyHours = ({isAdmin}) => {
             under_review: true,
             accepted: false
         }
-        console.log(newMemberHours);
         const results = await fetch("http://localhost:3002/api/hours", {
             method: "post",
             mode: "cors",
@@ -118,7 +87,7 @@ export const ModifyHours = ({isAdmin}) => {
                 slotProps={{
                     paper: {
                         component: 'form',
-                        onSubmit: (event) => {
+                        onSubmit: () => {
                             handleClose();
                         },
                     },
@@ -130,31 +99,13 @@ export const ModifyHours = ({isAdmin}) => {
                         Please enter the date and hours worked.
                     </DialogContentText>
                     <Dropdown id="name-select" data={translateData(memberData.filter(member => member.username !== null))} />
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <div className={'date-wrapper'}>
-                            <DatePicker
-                                disabled={isAdmin}
-                                label="Date"
-                                value={dateValue}
-                                onChange={(newValue) => setDateValue(newValue)}
-                            />
-                        </div>
-                        <div className={'time-wrapper'}>
-                                <TimePicker
-                                    disabled={isAdmin}
-                                    label={"Start Time"}
-                                    disableFuture
-                                    value={startValue}
-                                    onChange={(newValue) => setStartValue(newValue)}/>
-                            <HorizontalRule/>
-                                <TimePicker
-                                    disabled={isAdmin}
-                                    label={"End Time"}
-                                    disableFuture
-                                    value={endValue}
-                                    onChange={(newValue) => setEndValue(newValue)}/>
-                        </div>
-                    </LocalizationProvider>
+                    <DateTimePicker 
+                        defaultDateValue={dateValue} 
+                        defaultStartTimeValue={startValue} 
+                        defaultEndTimeValue={endValue}
+                        setDateValue={setDateValue}
+                        setStartValue={setStartValue}
+                        setEndValue={setEndValue} />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>

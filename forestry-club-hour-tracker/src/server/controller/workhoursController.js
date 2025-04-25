@@ -84,3 +84,20 @@ export const putWorkhourRecord = async (req, res) => {
         console.log("error: record not found")
     }
 }
+
+export const updateWorkRecord = async (req, res) => {
+    const record = req.body;
+
+    console.log(req.body);
+
+    const result = db.updateWorkRecord(record);
+
+    if (result) {
+        res.status(204).send("updated record");
+        console.log("updated record")
+    }
+    else {
+        res.status(404).send("Not found");
+        console.log("error: record not found")
+    }
+}
