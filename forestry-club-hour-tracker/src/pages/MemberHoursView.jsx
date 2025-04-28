@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import AdminNav from "../components/AdminNav";
 import AdminTable from "../components/Table"; // same table component used in AdminClubView
 
@@ -16,11 +17,13 @@ function translateData(data) {
 }
 
 const MemberHoursView = () => {
+    const { username } = useParams();
+    const [memberData, setMemberData] = useState(null);
     const [memberHours, setMemberHours] = useState(null);
     const [userName, setUserName] = useState('');
 
     useEffect(() => {
-        fetch("http://localhost:3002/api/member/hours", {
+        fetch("http://localhost:3002/api/users", {
             method: "GET",
             headers: {
                 "content-type": "application/json"
@@ -28,8 +31,19 @@ const MemberHoursView = () => {
         })
         .then(res => res.json())
         .then(data => {
-            setUserName(data.name || '');
-            setMemberHours(data.hours || []);
+            console.log('Fetched users:', data.data);
+        console.log('Username from URL:', username);
+
+        const currentUser = data.data.find(user => user.username === username);
+
+        if (currentUser) {
+            setUserName(`${currentUser.fname} ${currentUser.lname}`);
+            setMemberData(currentUser);
+        } else {
+            console.error('User not found for username:', username);
+            setUserName('Member');
+            setMemberData(null);
+            }
         })
         .catch(err => console.error("Failed to load member hours:", err));
     }, []);
