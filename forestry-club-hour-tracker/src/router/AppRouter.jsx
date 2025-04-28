@@ -20,6 +20,7 @@ const AppRouter = () => {
                 <Route path='/adminClub' element={<AdminClubView />} />
                 <Route path='/member' element={<MemberView />} />
                 <Route path='/addMember' element={<AddMember />} />
+                <Route path='/member/:username' element={<MemberHoursView />}/>
                 <Route path='/member/:member' element={<MemberHoursView />}/>
             </Route>
         </Routes>
