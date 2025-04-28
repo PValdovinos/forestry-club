@@ -28,7 +28,7 @@ export const AddHours = () => {
     };
 
     //date state and default values
-    const today = dayjs();
+    const today = dayjs().add(7, "hours");
     
     const [dateValue, setDateValue] = useState(today);
     const [startValue, setStartValue] = useState(today.set('hour', today.hour() - 1));
