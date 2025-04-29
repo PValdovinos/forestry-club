@@ -15,7 +15,6 @@ function translateData(data) {
             if(element.under_review){
                 userStatus = "Pending";
             }
-            document.getElementById("member-name").innerText = element.fname + " " + element.lname + " (" + element.username + ")";
             return{
                 "id": element.submission_id,
                 "date": element.date_worked.substring(0,10),
@@ -33,27 +32,41 @@ function AdminMemberView() {
     const params = useParams();
     const [memberData, setMemberData] = useState([]);
     const memberName = params.member;
+    const [displayName, setDisplayName] = useState("");
+    const [username, setUsername] = useState("");
 
-    useEffect(() => {fetch(`http://localhost:3002/api/hours/username/${memberName}`, {
-        method: "get",
-        mode: "cors",
-        headers: {
-            "content-type": "application/json"
-        }
-    })
-    .then( response => response.json())
-    .then( content => content.data)
-    .then( result => setMemberData(result))}, [{"id":0,}]);
+
+    useEffect(() => {
+        fetch(`http://localhost:3002/api/hours/username/${memberName}`, {
+            method: "get",
+            mode: "cors",
+            headers: {
+                "content-type": "application/json"
+            }
+        })
+        .then(response => response.json())
+        .then(content => {
+            const result = content.data;
+            setMemberData(result);
+            if (result.length > 0) {
+                const first = result[0];
+                setDisplayName(`${first.fname} ${first.lname}`);
+                setUsername(`${first.username}`)
+            }
+        });
+    }, [memberName]);
+    
 
     const rowData = memberData;
+    const HEADER_CLASS_NAME = 'admin-table-header';
 
     const columns = [
-        { field: 'date', headerName: 'Date', width: 500 },
-        { field: 'hours', headerName: 'Hours', width: 200 },
-        { field: 'status', headerName: 'Status', width: 200 },
+        { field: 'date', headerName: 'Date', width: 500, headerClassName: HEADER_CLASS_NAME },
+        { field: 'hours', headerName: 'Hours', width: 200, headerClassName: HEADER_CLASS_NAME },
+        { field: 'status', headerName: 'Status', width: 200, headerClassName: HEADER_CLASS_NAME },
         { field: 'edit', headerName: '', renderCell: EditButton,
             width: 150,  sortable: false, filterable: false, resizable: false,
-            hideable: false, disableExport: true, disableColumnMenu: true }
+            hideable: false, disableExport: true, disableColumnMenu: true, headerClassName: HEADER_CLASS_NAME }
     ];
 
     function EditButton(props) {
@@ -64,9 +77,11 @@ function AdminMemberView() {
     }
     return (
         <>
-            <a href="/adminClub"><button>Back</button></a>
-            <AdminNav />
-            <p id="member-name" style={{textAlign: "left"}}></p>
+            <h1 className="page-title">{displayName} <h2 className="username">({username})</h2></h1>
+            <div className='admin-nav'>
+                <a href="/adminClub"><button className="admin-nav-btn">Back</button></a>
+                <AdminNav />
+            </div>
             <MemberTimesTable rows={translateData(rowData)} columns={columns}/>
         </>
     );

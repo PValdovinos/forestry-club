@@ -1,28 +1,43 @@
 :root {
+  --color-text: rgba(255, 255, 255, 0.87);
+  --color-bg: #242424;
+  --color-link: #646cff;
+  --color-link-hover: #535bf2;
+  --color-button-bg: #1a1a1a;
+  --color-button-hover-bg: #aeaa99;
+  --color-button-hover-border: #392d17;
+  --color-table-header-bg: #588157;
+  --color-table-header-text: white;
+  --color-table-btn-bg: #d7dfc9;
+  --color-table-btn-text: black;
+  --color-username: rgb(112, 112, 112);
+
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
+  color: var(--color-text);
+  background-color: var(--color-bg);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+@media (prefers-color-scheme: light) {
+  :root {
+    --color-text: #213547;
+    --color-bg: #f4f4f4;
+    --color-button-bg: #DAD7CD;
+    --color-button-hover-bg: #aeaa99;
+    --color-button-hover-border: #7a5413;
+    --color-link: green;
+    --color-link-hover: rgb(0, 58, 0);
+  }
 }
 
 body {
+  background-color: var(--color-bg) !important;
   margin: 0;
   display: flex;
   place-items: center;
@@ -40,34 +55,100 @@ button {
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
   font-size: 1em;
-  font-weight: 500;
+  font-weight: 600;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: var(--color-button-bg);
   cursor: pointer;
   transition: border-color 0.25s;
 }
+
 button:hover {
-  border-color: #646cff;
+  background-color: var(--color-button-hover-bg);
+  border-color: var(--color-button-hover-border);
 }
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+.member-select-nav {
+  margin: 0.5rem 0;
+  display: flex;
+}
+
+.page-title {
+  text-align: left;
+}
+
+.username {
+  color: var(--color-username);
+  margin-left: 5px;
+}
+
+.admin-nav {
+  display: flex;
+  justify-content: end;
+
+  .admin-nav-btn {
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+    margin: 0 4px !important;
   }
-  a:hover {
-    color: #747bff;
+  
+}
+
+/* Admin table styles */
+.admin-table-container {
+  min-width: 900px;
+
+  .admin-table {
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    font-size: medium;
+    background-color: #ffff !important;
   }
-  button {
-    background-color: #f9f9f9;
+
+  .admin-table-header {
+    background-color: var(--color-table-header-bg);
+    color: var(--color-table-header-text);
   }
 }
 
-.member-select-nav {
-  margin: 0.5rem 0 0.5rem 0;
-  display: flex;
+.btn-outlined {
+  border-color: var(--color-link) !important;
+  color: var(--color-link) !important;
+}
+
+.btn-outlined:hover {
+  background-color: unset !important;
+  border-color: var(--color-link-hover) !important;
+  color: var(--color-link-hover) !important;
+}
+
+.MuiDataGrid-row.Mui-selected {
+  background-color: #edf2e8 !important;
+}
+
+.MuiDataGrid-columnHeaderTitle {
+  font-size: medium;
+  font-weight: bold !important;
+  overflow: visible !important;
+}
+
+@media screen and (max-width: 500px) {
+  button {
+    font-size: small;
+  }
+
+  .admin-table-container {
+    min-width: 400px;
+
+    .admin-table {
+      font-size: small;
+    }
+  }
+
+  .MuiDataGrid-columnHeaderTitle {
+    font-size: small;
+  }
 }
