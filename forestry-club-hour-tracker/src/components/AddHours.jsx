@@ -35,7 +35,7 @@ export const AddHours = () => {
     const [endValue, setEndValue] = useState(today);
     const [memberData, setMemberData] = useState([]);
 
-    useEffect(() => {fetch("http://localhost:3002/api/users", {
+    useEffect(() => {fetch("https://wh1437951.ispot.cc/api/users.php", {
         method: "get",
         mode: "cors",
         headers: {
@@ -43,7 +43,6 @@ export const AddHours = () => {
         }
     })
     .then( response => response.json())
-    .then( content => content.data)
     .then( result => setMemberData(result))}, []);
 
     function translateData(data) {
@@ -65,7 +64,7 @@ export const AddHours = () => {
             under_review: true,
             accepted: false
         }
-        const results = await fetch("http://localhost:3002/api/hours", {
+        const results = await fetch("https://wh1437951.ispot.cc/api/hours.php", {
             method: "post",
             mode: "cors",
             headers: {

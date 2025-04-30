@@ -1,4 +1,5 @@
 import MemberTimesTable from "../components/Table";
+import { NavLink } from "react-router-dom";
 
 
 function MemberView() { 
@@ -21,7 +22,7 @@ function MemberView() {
 
     return (
         <>
-            <a href="/"><button>logout</button></a>
+            <NavLink to="/"><button>logout</button></NavLink>
             <div style={{textAlign: "left"}}>John Manford</div>
             <div>Point Total: 148</div>
             <MemberTimesTable rows={rowData} columns={columns}/>

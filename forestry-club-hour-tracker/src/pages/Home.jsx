@@ -1,5 +1,6 @@
 import { AddHours } from "../components/AddHours";
 import MemberSelect from "../components/MemberSelect.jsx";
+import { NavLink } from "react-router-dom";
 
 function Home() { 
     return (
@@ -16,8 +17,8 @@ function Home() {
             {/* Admin Section */}
             <div className="admin-section">
                 <h4>Admin Access</h4>
-                <div><a href='/adminClub' className="admin-link">Admin Club View</a></div>
-                <div><a href='/addMember' className="admin-link">Add Club Member</a></div>
+                <div><NavLink to='adminClub' className="admin-link">Admin Club View</NavLink></div>
+                <div><NavLink to='addMember' className="admin-link">Add Club Member</NavLink></div>
             </div>
         </div>
     );

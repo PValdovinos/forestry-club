@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { userToFirstLast } from "../helpers/api_helper";
 import AdminNotify from "../components/AdminNotify";
+import { NavLink } from "react-router-dom";
 
 function AdminReview() {
 
@@ -11,7 +12,7 @@ function AdminReview() {
     // fetch user list
     useEffect( () => {
         // TODO: set me to a .env sometime!
-        fetch("http://localhost:3002/api/users/")
+        fetch("https://wh1437951.ispot.cc/api/users.php")
         .then(res => res.json())
         .then(json => setUsers(json.data));
     },[] );
@@ -19,7 +20,7 @@ function AdminReview() {
     // fetch work hours
     useEffect( () => {
         // TODO: set me to a .env sometime!
-        fetch("http://localhost:3002/api/hours/")
+        fetch("https://wh1437951.ispot.cc/api/hours.php")
         .then(res => res.json())
         .then(json => setReviewData(json.data))
     }, []);
@@ -37,7 +38,7 @@ function AdminReview() {
         header.append( "Content-Type", "application/json");
         header.append( 'Accept', 'application/json');
 
-        fetch("http://localhost:3002/api/hours/"), {
+        fetch("https://wh1437951.ispot.cc/api/hours.php"), {
             mode: "cors",
             method: 'PUT',
             headers: header,
@@ -59,7 +60,7 @@ function AdminReview() {
         header.append( "Content-Type", "application/json");
         header.append( 'Accept', 'application/json');
 
-        fetch("http://localhost:3002/api/hours/", {
+        fetch("https://wh1437951.ispot.cc/api/hours.php", {
             mode: "cors",
             method: 'PUT',
             headers: header,
@@ -95,7 +96,7 @@ function AdminReview() {
                 // if no records are found, show a link to admin member view
                 (
                     <>
-                        <p>You&apos;re all done! <a href="adminClub">Go to Admin Member view.</a></p>
+                        <p>You&apos;re all done! <NavLink to="adminClub">Go to Admin Member view.</NavLink></p>
                     </>
                 )
             }
