@@ -22,7 +22,7 @@ export const EditHours = ({ memberName, entryId }) => {
     const [open, setOpen] = useState(false);
     const handleClickOpen = async () => {
         setOpen(true);
-        await fetch("http://localhost:3002/api/hours/"+entryId, {
+        await fetch("https://wh1437951.ispot.cc/api/hours.php?id="+entryId, {
             method: "get",
             mode: "cors",
             headers: {
@@ -52,7 +52,7 @@ export const EditHours = ({ memberName, entryId }) => {
             time_in: jsDateToSqlDate(startValue.$d),
             time_out: jsDateToSqlDate(endValue.$d),
         }
-        const url = "http://localhost:3002/api/hours/" + entryId;
+        const url = "https://wh1437951.ispot.cc/api/hours.php?id=" + entryId;
         const results = await fetch(url, {
             method: "put",
             mode: "cors",

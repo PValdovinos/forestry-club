@@ -44,7 +44,7 @@ async function sendData() {
         user_flags: 0
     }
 
-    const results = await fetch("http://localhost:3002/api/users", {
+    const results = await fetch("https://wh1437951.ispot.cc/api/users.php", {
         method: "post",
         mode: "cors",
         headers: {

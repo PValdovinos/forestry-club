@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import AdminNav from "../components/AdminNav";
 import AdminTable from "../components/Table";
 import { Button } from '@mui/material';
+import { NavLink } from "react-router-dom";
 
 function translateData(data) {
     if(data){
@@ -21,7 +22,7 @@ function translateData(data) {
 const AdminClubView = () => {
     const [memberData, setMemberData] = useState(null);
 
-    useEffect(() => {fetch("http://localhost:3002/api/users", {
+    useEffect(() => {fetch("https://wh1437951.ispot.cc/api/users.php", {
         method: "get",
         mode: "cors",
         headers: {
@@ -29,7 +30,6 @@ const AdminClubView = () => {
         }
     })
     .then( response => response.json())
-    .then( content => content.data)
     .then( result => setMemberData(result))}, []);
 
     const rowData = memberData;
@@ -59,7 +59,7 @@ const AdminClubView = () => {
     function ViewButton(props) {
         return (
             <div className='btn-container'>
-                <a href={"/adminClub/"+props.row.username}><Button className="btn-outlined" variant="outlined">View</Button></a>
+                <NavLink to={"/adminClub/"+props.row.username}><Button className="btn-outlined" variant="outlined">View</Button></NavLink>
             </div>
         )
     }

@@ -9,7 +9,7 @@ export default function MemberSelect() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch("http://localhost:3002/api/users", {
+        fetch("https://wh1437951.ispot.cc/api/users.php", {
         method: "get",
         mode: "cors",
         headers: {
@@ -17,7 +17,6 @@ export default function MemberSelect() {
         }
     })
     .then( response => response.json())
-    .then( content => content.data)
     .then( result => setMemberData(result))}, []);
 
     function translateData(data) {
@@ -39,7 +38,7 @@ export default function MemberSelect() {
 
     return (
         <div className='member-select-nav'>
-            <Dropdown id='name-select-nav' data={translateData(memberData.filter(member => member.username !== null))} />
+            <Dropdown id='name-select-nav' data={translateData((memberData)?memberData.filter(member => member.username !== null):[])} />
             <Button variant='outlined' onClick={handleButtonClick}>View Member</Button>
         </div>
     )

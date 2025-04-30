@@ -6,10 +6,10 @@ import AdminTable from "../components/Table"; // same table component used in Ad
 function translateData(data) {
     if (data) {
         return data.map(entry => ({
-            id: entry.entry_id || entry.date,  // ensure unique key
-            date: new Date(entry.date).toLocaleDateString(),
+            id: entry.submission_id,
+            date: new Date(entry.date_worked).toLocaleDateString(),
             hours: entry.hours,
-            points: entry.points
+            points: entry.hours * 100
         }));
     } else {
         return [];
@@ -23,7 +23,7 @@ const MemberHoursView = () => {
     const [userName, setUserName] = useState('');
 
     useEffect(() => {
-        fetch("http://localhost:3002/api/users", {
+        fetch("https://wh1437951.ispot.cc/api/users.php", {
             method: "GET",
             headers: {
                 "content-type": "application/json"
@@ -31,10 +31,10 @@ const MemberHoursView = () => {
         })
         .then(res => res.json())
         .then(data => {
-            console.log('Fetched users:', data.data);
+        console.log('Fetched users:', data);
         console.log('Username from URL:', username);
 
-        const currentUser = data.data.find(user => user.username === username);
+        const currentUser = data.find(user => user.username === username);
 
         if (currentUser) {
             setUserName(`${currentUser.fname} ${currentUser.lname}`);
@@ -48,8 +48,23 @@ const MemberHoursView = () => {
         .catch(err => console.error("Failed to load member hours:", err));
     }, []);
 
+    useEffect(() => {
+        fetch(`https://wh1437951.ispot.cc/api/hours.php?username=${username}`, {
+            method: "get",
+            mode: "cors",
+            headers: {
+                "content-type": "application/json"
+            }
+        })
+        .then(response => response.json())
+        .then(result => 
+            {
+                console.log(result)
+                return setMemberHours(result)})
+    }, []);
+
     const columns = [
-        { field: 'date', headerName: 'Date', width: 300 },
+        { field: 'date', headerName: 'Date', width: 450 },
         { field: 'hours', headerName: 'Hours', width: 150 },
         { field: 'points', headerName: 'Points', width: 150 }
     ];

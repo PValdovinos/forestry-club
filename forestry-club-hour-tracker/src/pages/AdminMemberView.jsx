@@ -3,7 +3,8 @@ import AdminNav from "../components/AdminNav";
 import { useParams } from "react-router";
 import MemberTimesTable from "../components/Table";
 import { Button } from '@mui/material';
-import { EditHours } from "../components/EditHours"
+import { EditHours } from "../components/EditHours";
+import { NavLink } from "react-router-dom";
 
 function translateData(data) {
     if(data){
@@ -17,7 +18,7 @@ function translateData(data) {
             }
             return{
                 "id": element.submission_id,
-                "date": element.date_worked.substring(0,10),
+                "date": element.date_worked,
                 "hours": element.hours ? element.hours : 0,
                 "status": userStatus
             }
@@ -37,19 +38,21 @@ function AdminMemberView() {
 
 
     useEffect(() => {
-        fetch(`http://localhost:3002/api/hours/username/${memberName}`, {
+        fetch(`https://wh1437951.ispot.cc/api/hours.php?username=${memberName}`, {
             method: "get",
             mode: "cors",
             headers: {
                 "content-type": "application/json"
             }
         })
-        .then(response => response.json())
+        .then(response => {
+            return response.json()
+        }
+        )
         .then(content => {
-            const result = content.data;
-            setMemberData(result);
-            if (result.length > 0) {
-                const first = result[0];
+            setMemberData(content);
+            if (content.length > 0) {
+                const first = content[0];
                 setDisplayName(`${first.fname} ${first.lname}`);
                 setUsername(`${first.username}`)
             }
@@ -79,7 +82,7 @@ function AdminMemberView() {
         <>
             <h1 className="page-title">{displayName} <h2 className="username">({username})</h2></h1>
             <div className='admin-nav'>
-                <a href="/adminClub"><button className="admin-nav-btn">Back</button></a>
+                <NavLink to="/adminClub"><button className="admin-nav-btn">Back</button></NavLink>
                 <AdminNav />
             </div>
             <MemberTimesTable rows={translateData(rowData)} columns={columns}/>
