@@ -70,4 +70,6 @@ button:focus-visible {
 .member-select-nav {
   margin: 0.5rem 0 0.5rem 0;
   display: flex;
+  justify-content: center;
+  gap: 12px;
 }
