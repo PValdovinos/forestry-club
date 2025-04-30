@@ -1,9 +1,13 @@
-import { DataGrid } from '@mui/x-data-grid'
+import { DataGrid } from "@mui/x-data-grid"
 
 function AdminTable({ rows, columns }) { 
     return (
-        <div>
-            <DataGrid rows={rows} columns={columns} />
+        <div className="admin-table-container">
+            <DataGrid
+                className="admin-table"
+                rows={rows}
+                columns={columns}
+            />
         </div>
     )
 }

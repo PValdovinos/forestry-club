@@ -66,7 +66,7 @@ export const EditHours = ({ memberName, entryId }) => {
 
     return (
         <Fragment>
-            <Button variant="outlined" onClick={handleClickOpen}>
+            <Button className="btn-outlined" variant="outlined" onClick={handleClickOpen}>
                 Review
             </Button>
             <Dialog
