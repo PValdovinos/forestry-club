@@ -8,7 +8,7 @@ function translateData(data) {
         return data.map(element => ({
             "id": element.user_id,
             "username": element.username,
-            "name": element.fname + " " + element.lname + " (" + element.username + ")",
+            "name": element.fname + " " + element.lname,
             "hours": element.hours ? element.hours : 0,
             "points": element.hours * 100
         }));
@@ -32,36 +32,41 @@ const AdminClubView = () => {
     .then( content => content.data)
     .then( result => setMemberData(result))}, []);
 
-    const exampleData = [
-        { "id": 0, "name": "Alice Johnson", "ytd": 120, "qtd": 30, "points": 1200 },
-        { "id": 1, "name": "Michael Smith", "ytd": 95, "qtd": 25, "points": 950 },
-        { "id": 2, "name": "Sophia Martinez", "ytd": 150, "qtd": 40, "points": 1500 },
-        { "id": 3, "name": "James Brown", "ytd": 80, "qtd": 20, "points": 800 },
-        { "id": 4, "name": "Emily Davis", "ytd": 110, "qtd": 35, "points": 1100 }
-    ];
     const rowData = memberData;
-
+    const HEADER_CLASS_NAME = 'admin-table-header';
+    
     const columns= [
-        {field: 'name', headerName: 'Name', width: 700},
-        {field: 'hours', headerName: 'Total Hours', width: 200},
-        {field: 'points', headerName: 'Points', width: 150},
+        {field: 'name', headerName: 'Name', headerClassName: HEADER_CLASS_NAME, flex: 0.43, renderCell: spanUsername},
+        {field: 'hours', headerName: 'Total Hours', headerClassName: HEADER_CLASS_NAME, flex: 0.17},
+        {field: 'points', headerName: 'Points', headerClassName: HEADER_CLASS_NAME, flex: 0.2},
         {field: 'none', headerName: 'Edit', renderCell: ViewButton, 
-            width: 150,  sortable: false, filterable: false, resizable: false, 
-            hideable: false, disableExport: true, disableColumnMenu: true}
+            sortable: false, filterable: false, resizable: false, 
+            hideable: false, disableExport: true, disableColumnMenu: true, 
+            headerClassName: HEADER_CLASS_NAME, flex: 0.15}
     ];
+
+    function spanUsername(props) {
+        return (
+            <p>
+                {props.row.name}  
+                <span className="username">
+                    ({props.row.username})
+                </span>
+            </p>
+        )
+    }
 
     function ViewButton(props) {
-        return (<a href={"/adminClub/"+props.row.username}><Button
-        variant="contained"
-        size="small"
-        style={{ marginLeft: 16 }}
-    >
-        View
-    </Button></a>)
+        return (
+            <div className='btn-container'>
+                <a href={"/adminClub/"+props.row.username}><Button className="btn-outlined" variant="outlined">View</Button></a>
+            </div>
+        )
     }
 
     return (
         <>
+            <h1 className="page-title">Club Members</h1>
             <AdminNav />
             <AdminTable rows={translateData(rowData)} columns={columns}/>
         </>
