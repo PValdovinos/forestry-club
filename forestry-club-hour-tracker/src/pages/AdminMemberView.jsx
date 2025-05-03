@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react"; 
-import AdminNav from "../components/AdminNav";
 import { useParams } from "react-router";
 import MemberTimesTable from "../components/Table";
-import { Button } from '@mui/material';
 import { EditHours } from "../components/EditHours";
-import { NavLink } from "react-router-dom";
+import TableNav from "../components/TableNav";
 
 function translateData(data) {
     if(data){
@@ -64,27 +62,40 @@ function AdminMemberView() {
     const HEADER_CLASS_NAME = 'admin-table-header';
 
     const columns = [
-        { field: 'date', headerName: 'Date', width: 500, headerClassName: HEADER_CLASS_NAME },
-        { field: 'hours', headerName: 'Hours', width: 200, headerClassName: HEADER_CLASS_NAME },
-        { field: 'status', headerName: 'Status', width: 200, headerClassName: HEADER_CLASS_NAME },
-        { field: 'edit', headerName: '', renderCell: EditButton,
-            width: 150,  sortable: false, filterable: false, resizable: false,
-            hideable: false, disableExport: true, disableColumnMenu: true, headerClassName: HEADER_CLASS_NAME }
+        { field: 'date', headerName: 'Date', flex: 0.3, headerClassName: HEADER_CLASS_NAME },
+        { field: 'hours', headerName: 'Hours', flex: 0.25, headerClassName: HEADER_CLASS_NAME },
+        { field: 'status', headerName: 'Status', flex: 0.25, headerClassName: HEADER_CLASS_NAME },
+        { 
+            field: 'none',
+            headerName: 'Review',
+            renderCell: EditButton,
+            sortable: false,
+            filterable: false,
+            resizable: false,
+            hideable: false,
+            disableExport: true,
+            disableColumnMenu: true,
+            headerClassName: HEADER_CLASS_NAME,
+            flex: 0.2
+        }  
     ];
 
-    function EditButton(props) {
+    function EditButton(params) {
         return(
-            <EditHours entryId={props.row.id} memberName = {memberName} />
-        )
-            
+            <EditHours entryId={params.row.id} memberName = {memberName} />
+        )  
     }
+
     return (
         <>
             <h1 className="page-title">{displayName} <h2 className="username">({username})</h2></h1>
-            <div className='admin-nav'>
-                <NavLink to="/adminClub"><button className="admin-nav-btn">Back</button></NavLink>
-                <AdminNav />
-            </div>
+            <TableNav 
+                items={[
+                    { label: "Back", to: "/adminClub" },
+                    { label: "Hours Pending", to: "/" },
+                    { label: "Logout", to: "/" }
+                ]}
+            />
             <MemberTimesTable rows={translateData(rowData)} columns={columns}/>
         </>
     );
