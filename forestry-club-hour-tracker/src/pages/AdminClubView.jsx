@@ -33,7 +33,7 @@ const AdminClubView = () => {
     .then( result => setMemberData(result))}, []);
 
     const rowData = memberData;
-    const HEADER_CLASS_NAME = 'admin-table-header';
+    const HEADER_CLASS_NAME = 'table-header';
     
     const columns= [
         {field: 'name', headerName: 'Name', headerClassName: HEADER_CLASS_NAME, flex: 0.4, renderCell: spanUsername},

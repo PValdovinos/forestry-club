@@ -63,7 +63,7 @@ const MemberHoursView = () => {
         })
     }, [username]);
 
-    const HEADER_CLASS_NAME = 'admin-table-header';
+    const HEADER_CLASS_NAME = 'table-header';
 
     const columns = [
         { field: 'date', headerName: 'Date', flex: 0.5, headerClassName: HEADER_CLASS_NAME },

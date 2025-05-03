@@ -59,7 +59,7 @@ function AdminMemberView() {
     
 
     const rowData = memberData;
-    const HEADER_CLASS_NAME = 'admin-table-header';
+    const HEADER_CLASS_NAME = 'table-header';
 
     const columns = [
         { field: 'date', headerName: 'Date', flex: 0.3, headerClassName: HEADER_CLASS_NAME },
