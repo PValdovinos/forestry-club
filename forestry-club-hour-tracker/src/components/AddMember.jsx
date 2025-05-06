@@ -1,6 +1,9 @@
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
+import { Button } from '@mui/material';
+import TableNav from './TableNav';
 
+// TODO Re-implement error messages
 async function submit(event){
     event.preventDefault();
 
@@ -58,11 +61,22 @@ async function sendData() {
 export default function AddMember() { 
     return (
         <>
-            <h2>Add new member</h2>
+            <h2>Add Member</h2>
             <br />
+            <TableNav 
+                items={[
+                    { label: "Back", to: "/" }
+                ]}
+            />
             <Box
                 component="form"
-                sx={{ '& > :not(style)': { m: 1, width: '25ch' } }}
+                sx={{ 
+                    boxShadow: 1,
+                    p: 7,
+                    '& > :not(style)': { 
+                        m: 2, width: '25ch' 
+                    } 
+                }}
                 noValidate
                 autoComplete="off"
             >
@@ -70,13 +84,15 @@ export default function AddMember() {
                     <TextField id="username" label="Username" variant="outlined" />
                 </div>
                 <div>
-                    <TextField id="fname" label="fname" variant="outlined" />
+                    <TextField id="fname" label="First Name" variant="outlined" />
                 </div>
                 <div>
-                    <TextField id="lname" label="lname" variant="outlined" />
+                    <TextField id="lname" label="Last Name" variant="outlined" />
                 </div>
                 <div>
-                    <button onClick={submit}>Submit</button>
+                    <Button variant='outlined' onClick={submit} className='btn-outlined'>
+                        Submit
+                    </Button>
                 </div>
             </Box>
         </>

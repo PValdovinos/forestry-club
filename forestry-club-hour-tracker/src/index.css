@@ -98,20 +98,9 @@ button:focus-visible {
   
 }
 
-/* Admin table styles */
-.admin-table-container {
-  min-width: 900px;
-
-  .admin-table {
-    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-    font-size: medium;
-    background-color: #ffff !important;
-  }
-
-  .admin-table-header {
-    background-color: var(--color-table-header-bg);
-    color: var(--color-table-header-text);
-  }
+.table-header {
+  background-color: var(--color-table-header-bg);
+  color: var(--color-table-header-text);
 }
 
 .btn-outlined {
