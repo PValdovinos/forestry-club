@@ -10,25 +10,41 @@ switch ($method) {
     case 'GET':
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
-            $result = $conn->query("SELECT * FROM workhours WHERE submission_id =$id");
-            $data = $result->fetch_assoc();
-            echo json_encode($data);
+            $stmt = $conn->prepare("SELECT * FROM workhours WHERE submission_id =?");
+            $stmt->bind_param("i", $id);
+            $data = [];
+            if (!$stmt->execute()) {
+                $message = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+                echo json_encode(["message" => $message]);
+            } else {
+                $result = $stmt->get_result();
+                while ($row = $result->fetch_assoc()) {
+                    $data[] = $row;
+                }
+                echo json_encode($data);
+            } 
         } else if (isset($_GET['username'])) {
-            $username = "'" . $_GET['username'] . "'";
-            $result = $conn->query(
-                "SELECT users.user_id, users.user_flags, users.username, users.fname, users.lname, 
+            $username = $_GET['username'];
+            $stmt = $conn->prepare("SELECT users.user_id, users.user_flags, users.username, users.fname, users.lname, 
                 workhours.time_in, workhours.time_out, workhours.under_review, workhours.accepted,
                 DATE(workhours.time_out) AS date_worked, workhours.submission_id,
                 TIMESTAMPDIFF(MINUTE, workhours.time_in, workhours.time_out) / 60 AS hours
                 FROM users 
                 LEFT JOIN workhours
                 ON users.user_id = workhours.user_id
-                Where users.username=$username");
+                Where users.username=?");
+            $stmt->bind_param("s", $username);
             $data = [];
-            while ($row = $result->fetch_assoc()) {
-                $data[] = $row;
-            }
-            echo json_encode($data);
+            if (!$stmt->execute()) {
+                $message = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+                echo json_encode(["message" => $message]);
+            } else {
+                $result = $stmt->get_result();
+                while ($row = $result->fetch_assoc()) {
+                    $data[] = $row;
+                }
+                echo json_encode($data);
+            } 
         } else {
             $result = $conn->query("SELECT * FROM workhours");
             $users = [];
@@ -42,24 +58,40 @@ switch ($method) {
     case 'POST':
         $time_in = $input['time_in'];
         $time_out = $input['time_out'];
-        $user_id = $input['user_id'];
-        $under_review = $input['under_review'];
-        $accepted = $input['accepted'];
-        $conn->query("INSERT INTO workhours (time_in, time_out, user_id, under_review, accepted) VALUES ($time_in, time_out, user_id, under_review, accepted)");
-        echo json_encode(["message" => "Workhours added successfully"]);
+        $date = $input['date'];
+        $user_id = intval($input['user_id']);
+        $under_review = intval($input['under_review']);
+        $accepted = intval($input['accepted']);
+        $stmt = $conn->prepare("INSERT INTO workhours (time_in, time_out, date, user_id, under_review, accepted) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssiii", $time_in, $time_out, $date, $user_id, $under_review, $accepted);
+        $message = "$time_in, $time_out, $date, $user_id, $under_review, $accepted";
+        if (!$stmt->execute()) {
+           $message = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+        } else {
+           $message = "Workhours added successfully";
+        }
+        echo json_encode(["message" => $message]);
         break;
 
     case 'PUT':
         $id = $_GET['id'];
         $time_in = $input['time_in'];
         $time_out = $input['time_out'];
-        $update_id = $input['update_id'];
-        $under_review = $input['under_review'];
-        $accepted = $input['accepted'];
-        $conn->query("UPDATE workhours
-            SET time_in = $time_in, time_out = $time_out 
-            WHERE submission_id = $update_id");
-        echo json_encode(["message" => "Workhours updated successfully"]);
+        $date = $input['date'];
+        $under_review = intval($input['under_review']);
+        $accepted = intval($input['accepted']);
+
+        $stmt = $conn->prepare("UPDATE workhours
+            SET time_in = ?, time_out = ?, date = ?
+            WHERE submission_id = ?");
+        $stmt->bind_param("sssi", $time_in, $time_out, $date, $id);
+        $message = "$time_in, $time_out, $date, $id, $under_review, $accepted";
+        if (!$stmt->execute()) {
+           $message = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+        } else {
+           $message .= "Workhours added successfully";
+        }
+        echo json_encode(["message" => $message]);
         break;
 
     // case 'DELETE':

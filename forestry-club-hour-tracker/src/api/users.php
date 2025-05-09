@@ -10,14 +10,23 @@ switch ($method) {
     case 'GET':
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
-            $result = $conn->query(
-                "SELECT workhours.submission_id, users.username, workhours.time_in, 
+            $stmt = $conn->prepare("SELECT workhours.submission_id, users.username, workhours.time_in, 
                 workhours.time_out, workhours.create_date, workhours.under_review, workhours.accepted 
                 FROM workhours
                 INNER JOIN users ON workhours.user_id = users.user_id
-                WHERE users.user_id = $id");
-            $data = $result->fetch_assoc();
-            echo json_encode($data);
+                WHERE users.user_id = ?");
+            $stmt->bind_param("i", $id);
+            $data = [];
+            if (!$stmt->execute()) {
+                $message = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+                echo json_encode(["message" => $message]);
+            } else {
+                $result = $stmt->get_result();
+                while ($row = $result->fetch_assoc()) {
+                    $data[] = $row;
+                }
+                echo json_encode($data);
+            }
         } else {
             $result = $conn->query("SELECT users.user_id, users.user_flags, users.username, users.fname, users.lname,
                 SUM(TIMESTAMPDIFF(MINUTE, workhours.time_in, workhours.time_out) / 60) AS hours 

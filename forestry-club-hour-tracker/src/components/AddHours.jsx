@@ -1,5 +1,4 @@
 import './hours-box.css';
-import {jsDateToSqlDate} from './date-format';
 import Dropdown from "./Dropdown.jsx";
 import {useState, useEffect, Fragment} from "react";
 import Button from '@mui/material/Button';
@@ -28,7 +27,7 @@ export const AddHours = () => {
     };
 
     //date state and default values
-    const today = dayjs().add(7, "hours");
+    const today = dayjs();
     
     const [dateValue, setDateValue] = useState(today);
     const [startValue, setStartValue] = useState(today.set('hour', today.hour() - 1));
@@ -57,9 +56,9 @@ export const AddHours = () => {
     async function sendData() {
         const username = document.getElementById("name-select")?document.getElementById("name-select").innerText:"";
         const newMemberHours = {
-            time_in: jsDateToSqlDate(startValue.$d),
-            time_out: jsDateToSqlDate(endValue.$d),
-            create_date: jsDateToSqlDate(dateValue.$d),
+            time_in: dayjs(startValue.$d).format("HH:mm"),
+            time_out: dayjs(endValue.$d).format("HH:mm"),
+            date: dayjs(dateValue.$d).format("YYYY-MM-DD"),
             user_id: memberData.filter(member => member.username === username.substring(username.indexOf('(')+1, username.indexOf(')')))[0].user_id,
             under_review: true,
             accepted: false

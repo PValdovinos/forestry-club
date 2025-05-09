@@ -1,7 +1,6 @@
 import './hours-box.css';
 import { DateTimePicker } from './DateTimePicker.jsx';
-import {jsDateToSqlDate} from './date-format';
-import {useState, useEffect, Fragment} from "react";
+import {useState, Fragment} from "react";
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -30,11 +29,10 @@ export const EditHours = ({ memberName, entryId }) => {
             }
         })
         .then( response => response.json())
-        .then( content => content.data[0])
         .then( result => {
-            setStartValue(dayjs(result["time_in"]))
-            setEndValue(dayjs(result["time_out"]))
-            setDateValue(dayjs(result["time_in"]))
+            setStartValue(dayjs("0000-00-00 " + result["time_in"]))
+            setEndValue(dayjs("0000-00-00 "+ result["time_out"]))
+            setDateValue(dayjs(result["date"]))
         })};
     const handleClose = () => {
         setOpen(false);
@@ -49,8 +47,9 @@ export const EditHours = ({ memberName, entryId }) => {
     async function sendData() {
         const editMemberHours = {
             update_id: entryId,
-            time_in: jsDateToSqlDate(startValue.$d),
-            time_out: jsDateToSqlDate(endValue.$d),
+            time_in: dayjs(startValue.$d).format("HH:mm"),
+            time_out: dayjs(endValue.$d).format("HH:mm"),
+            date: dayjs(dateValue.$d).format("YYYY-MM-DD"),
         }
         const url = "https://wh1437951.ispot.cc/api/hours.php?id=" + entryId;
         const results = await fetch(url, {
