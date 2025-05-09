@@ -4,7 +4,7 @@ import {HorizontalRule} from "@mui/icons-material";
 import PropTypes from 'prop-types';
 
 export const DateTimePicker = ({ defaultDateValue, defaultStartTimeValue, defaultEndTimeValue, setDateValue, setStartValue, setEndValue }) => {
-    console.log(defaultStartTimeValue, defaultEndTimeValue)
+    console.log(defaultStartTimeValue, defaultEndTimeValue, defaultDateValue)
     return(
     <LocalizationProvider dateAdapter={AdapterDayjs}>
         <div className={'date-wrapper'}>
@@ -18,13 +18,13 @@ export const DateTimePicker = ({ defaultDateValue, defaultStartTimeValue, defaul
             <TimePicker
                 label={"Start Time"}
                 disableFuture
-                value={defaultStartTimeValue.subtract(7, "hour")}
+                value={defaultStartTimeValue}
                 onChange={(newValue) => setStartValue(newValue)}/>
             <HorizontalRule/>
             <TimePicker
                 label={"End Time"}
                 disableFuture
-                value={defaultEndTimeValue.subtract(7, "hour")}
+                value={defaultEndTimeValue}
                 onChange={(newValue) => setEndValue(newValue)}/>
         </div>
     </LocalizationProvider>)
