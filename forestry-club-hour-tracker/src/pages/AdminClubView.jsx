@@ -78,7 +78,7 @@ const AdminClubView = () => {
             <h1 className="page-title">Members</h1>
             <TableNav 
                 items={[
-                    { label: "Hours Pending", to: "/" },
+                    { label: "Hours Pending", to: "/adminReview" },
                     { label: "Logout", to: "/" }
                 ]}
             />

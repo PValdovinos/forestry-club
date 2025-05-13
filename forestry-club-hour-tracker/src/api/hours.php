@@ -74,24 +74,60 @@ switch ($method) {
         break;
 
     case 'PUT':
-        $id = $_GET['id'];
-        $time_in = $input['time_in'];
-        $time_out = $input['time_out'];
-        $date = $input['date'];
-        $under_review = intval($input['under_review']);
-        $accepted = intval($input['accepted']);
+        if($_GET['accept'] AND $_GET['accept'] == true){
+            $id = $_GET['id'];
+            $under_review = intval($input['under_review']);
+            $accepted = intval($input['accepted']);
 
-        $stmt = $conn->prepare("UPDATE workhours
-            SET time_in = ?, time_out = ?, date = ?
-            WHERE submission_id = ?");
-        $stmt->bind_param("sssi", $time_in, $time_out, $date, $id);
-        $message = "$time_in, $time_out, $date, $id, $under_review, $accepted";
-        if (!$stmt->execute()) {
-           $message = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
-        } else {
-           $message .= "Workhours added successfully";
+            $stmt = $conn->prepare("UPDATE workhours
+                SET under_review = 0, accepted = 1
+                WHERE submission_id = ?");
+            $stmt->bind_param("i",$id);
+            $message = "$id";
+            if (!$stmt->execute()) {
+                $message = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+            } else {
+                $message .= ": Workhours updated successfully";
+            }
+            echo json_encode(["message" => $message]);
         }
-        echo json_encode(["message" => $message]);
+        else if($_GET['accept'] AND $_GET['accept'] == false){
+            $id = $_GET['id'];
+            $under_review = intval($input['under_review']);
+            $accepted = intval($input['accepted']);
+
+            $stmt = $conn->prepare("UPDATE workhours
+                SET under_review = 0, accepted = 0
+                WHERE submission_id = ?");
+            $stmt->bind_param("i",$id);
+            $message = "$id";
+            if (!$stmt->execute()) {
+                $message = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+            } else {
+                $message .= ": Workhours updated successfully";
+            }
+            echo json_encode(["message" => $message]);
+        }
+        else {
+            $id = $_GET['id'];
+            $time_in = $input['time_in'];
+            $time_out = $input['time_out'];
+            $date = $input['date'];
+            $under_review = intval($input['under_review']);
+            $accepted = intval($input['accepted']);
+
+            $stmt = $conn->prepare("UPDATE workhours
+                SET time_in = ?, time_out = ?, date = ?
+                WHERE submission_id = ?");
+            $stmt->bind_param("sssi", $time_in, $time_out, $date, $id);
+            $message = "$time_in, $time_out, $date, $id, $under_review, $accepted";
+            if (!$stmt->execute()) {
+            $message = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+            } else {
+            $message .= "Workhours added successfully";
+            }
+            echo json_encode(["message" => $message]);
+        }
         break;
 
     // case 'DELETE':
