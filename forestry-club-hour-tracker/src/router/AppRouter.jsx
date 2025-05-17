@@ -5,6 +5,7 @@ import AdminMemberView from '../pages/AdminMemberView';
 import AdminClubView from '../pages/AdminClubView';
 import Navigation from '../Navigation';
 import Home from '../pages/Home';
+import Login from '../pages/Login';
 import AddMember from '../components/AddMember';
 import MemberView from '../pages/MemberView';
 import MemberHoursView from '../pages/MemberHoursView';
@@ -14,6 +15,7 @@ const AppRouter = () => {
     <BrowserRouter>
         <Routes>
             <Route path='/' element={<Navigation />}>
+                {/* <Route index element={<Login />} /> */}
                 <Route index element={<Home />} />
                 <Route path='/adminReview' element={<AdminReview />} />
                 <Route path='/adminClub/:member' element={<AdminMemberView />} />
