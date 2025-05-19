@@ -1,0 +1,1 @@
+export const BASE_URL = "https://wh1437951.ispot.cc";

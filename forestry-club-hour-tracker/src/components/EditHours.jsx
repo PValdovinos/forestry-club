@@ -9,6 +9,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import dayjs from "dayjs";
 import PropTypes from 'prop-types';
+import { BASE_URL } from '../base_url.js';
 
 /**
  * Modal component for logging hours volunteered and date for event
@@ -21,7 +22,7 @@ export const EditHours = ({ memberName, entryId }) => {
     const [open, setOpen] = useState(false);
     const handleClickOpen = async () => {
         setOpen(true);
-        await fetch("https://wh1437951.ispot.cc/api/hours.php?id="+entryId, {
+        await fetch(`${BASE_URL}/api/hours.php?id=${entryId}`, {
             method: "get",
             mode: "cors",
             headers: {
@@ -51,7 +52,7 @@ export const EditHours = ({ memberName, entryId }) => {
             time_out: dayjs(endValue.$d).format("HH:mm"),
             date: dayjs(dateValue.$d).format("YYYY-MM-DD"),
         }
-        const url = "https://wh1437951.ispot.cc/api/hours.php?id=" + entryId;
+        const url = `${BASE_URL}/api/hours.php?id=${entryId}`;
         const results = await fetch(url, {
             method: "put",
             mode: "cors",

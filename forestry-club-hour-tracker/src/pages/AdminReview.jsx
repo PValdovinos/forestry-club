@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { userToFirstLast } from "../helpers/api_helper";
 import AdminNotify from "../components/AdminNotify";
 import { NavLink } from "react-router-dom";
+import { BASE_URL } from "../base_url.js";
 
 function AdminReview() {
 
@@ -12,7 +13,7 @@ function AdminReview() {
     // fetch user list
     useEffect( () => {
         // TODO: set me to a .env sometime!
-        fetch("https://wh1437951.ispot.cc/api/users.php")
+        fetch(`${BASE_URL}/api/users.php`)
         .then(res => res.json())
         .then(json => setUsers(json));
     },[] );
@@ -20,7 +21,7 @@ function AdminReview() {
     // fetch work hours
     useEffect( () => {
         // TODO: set me to a .env sometime!
-        fetch("https://wh1437951.ispot.cc/api/hours.php")
+        fetch(`${BASE_URL}/api/hours.php`)
         .then(res => res.json())
         .then(json => setReviewData(json.filter(entry => entry.under_review == "1")))
     }, []);
@@ -37,7 +38,7 @@ function AdminReview() {
         header.append( "Content-Type", "application/json");
         header.append( 'Accept', 'application/json');
 
-        fetch("https://wh1437951.ispot.cc/api/hours.php?accepted=true&id="+ record.submission_id, {
+        fetch(`${BASE_URL}/api/hours.php?accepted=true&id=${record.submission_id}`, {
             mode: "cors",
             method: 'PUT',
             headers: header
@@ -53,7 +54,7 @@ function AdminReview() {
         header.append( "Content-Type", "application/json");
         header.append( 'Accept', 'application/json');
 
-        fetch("https://wh1437951.ispot.cc/api/hours.php?accepted=false&id=" + record.submission_id, {
+        fetch(`${URL}/api/hours.php?accepted=false&id=${record.submission_id}`, {
             mode: "cors",
             method: 'PUT',
             headers: header

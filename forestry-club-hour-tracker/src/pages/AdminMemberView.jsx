@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import MemberTimesTable from "../components/Table";
 import { EditHours } from "../components/EditHours";
 import TableNav from "../components/TableNav";
+import { BASE_URL } from "../base_url.js";
 
 function translateData(data) {
     if(data){
@@ -36,7 +37,7 @@ function AdminMemberView() {
 
 
     useEffect(() => {
-        fetch(`https://wh1437951.ispot.cc/api/hours.php?username=${memberName}`, {
+        fetch(`${BASE_URL}/api/hours.php?username=${memberName}`, {
             method: "get",
             mode: "cors",
             headers: {

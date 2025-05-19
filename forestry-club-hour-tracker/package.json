@@ -4,9 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "start": "concurrently \"node src/server/server.js\" \"vite\"",
     "dev": "vite",
-    "server": "node src/server/server.js",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -23,6 +21,7 @@
     "cors": "^2.8.5",
     "dayjs": "^1.11.13",
     "express": "^4.21.2",
+    "firebase": "^11.7.3",
     "mysql2": "^3.13.0",
     "prop-types": "^15.8.1",
     "react": "^19.0.0",
