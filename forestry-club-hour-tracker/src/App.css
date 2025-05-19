@@ -94,3 +94,39 @@
   margin-bottom: 20px;
 }
 
+.user-status-controls {
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+
+.user-status-controls p {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+}
+
+.status-active {
+  color: green;
+  font-weight: bold;
+  margin-left: 8px;
+}
+
+.status-inactive {
+  color: red;
+  font-weight: bold;
+  margin-left: 8px;
+}
+
+.user-status-controls button {
+  padding: 8px 14px;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: none;
+  background-color: #1976d2;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.user-status-controls button:hover {
+  background-color: #0d47a1;
+}
