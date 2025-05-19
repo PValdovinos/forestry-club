@@ -95,7 +95,7 @@ function AdminReview() {
         // if no records are found, show a link to admin member view
         return (
             <>
-                <p>You&apos;re all done! <NavLink to="/adminClub">Go to Admin Member view.</NavLink></p>
+                <p>You&apos;re all done! <NavLink to="./../adminClub">Go to Admin Member view.</NavLink></p>
             </>
         );
            

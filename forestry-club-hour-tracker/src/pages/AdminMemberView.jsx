@@ -132,7 +132,7 @@ function AdminMemberView() {
             <TableNav 
                 items={[
                     { label: "Back", to: "/adminClub" },
-                    { label: "Hours Pending", to: "/" },
+                    { label: "Hours Pending", to: "/adminReview" },
                     { label: "Logout", to: "/" }
                 ]}
             />
