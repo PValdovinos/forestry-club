@@ -3,21 +3,30 @@ import { Box } from "@mui/material"
 
 function AdminTable({ rows, columns }) { 
     return (
-        <Box
+        <Box 
             sx={{
-                minWidth: 900,
+                width: '100%',
                 '& .MuiDataGrid-root': {
                     boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px',
                     fontSize: 'medium',
-                    backgroundColor: '#ffffff',
-                },
-                '& .MuiDataGrid-columnHeaders': {
-                    backgroundColor: 'var(--color-table-header-bg)',
-                    color: 'var(--color-table-header-text)',
+                    bgColor: '#ffffff',
                 },
             }}
         >
-            <DataGrid rows={rows} columns={columns} />
+            <DataGrid 
+                rows={rows} 
+                columns={columns}             
+                sx={{
+                    '& .MuiDataGrid-sortIcon': {
+                        opacity: 1,
+                        color: 'white',
+                    },
+                    '& .MuiDataGrid-menuIconButton': {
+                        opacity: 1,
+                        color: 'white'
+                    },
+                }}
+            />
         </Box>
     )
 }

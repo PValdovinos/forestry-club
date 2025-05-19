@@ -3,6 +3,8 @@ import TextField from "@mui/material/TextField";
 import { Button } from '@mui/material';
 import TableNav from './TableNav';
 import { BASE_URL } from "../base_url.js";
+import Button from '@mui/material/Button';
+import ContainerNav from './ContainerNav';
 
 // TODO Re-implement error messages
 async function submit(event){
@@ -64,7 +66,7 @@ export default function AddMember() {
         <>
             <h2>Add Member</h2>
             <br />
-            <TableNav 
+            <ContainerNav 
                 items={[
                     { label: "Back", to: "/" }
                 ]}

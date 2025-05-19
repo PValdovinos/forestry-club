@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import TableNav from "../components/TableNav";
-import HoursTable from "../components/Table";
+import ContainerNav from "../components/ContainerNav";
+import HoursTable from "../components/Table"; 
 import { BASE_URL } from "../base_url.js"; 
 
 function translateData(data) {
@@ -67,16 +67,16 @@ const MemberHoursView = () => {
     const HEADER_CLASS_NAME = 'table-header';
 
     const columns = [
-        { field: 'date', headerName: 'Date', flex: 0.5, headerClassName: HEADER_CLASS_NAME },
-        { field: 'hours', headerName: 'Hours', flex: 0.25, headerClassName: HEADER_CLASS_NAME },
-        { field: 'points', headerName: 'Points', flex: 0.25, headerClassName: HEADER_CLASS_NAME }
+        { field: 'date', headerName: 'Date', flex: 1, headerClassName: HEADER_CLASS_NAME },
+        { field: 'hours', headerName: 'Hours', flex: 1, headerClassName: HEADER_CLASS_NAME },
+        { field: 'points', headerName: 'Points', flex: 1, headerClassName: HEADER_CLASS_NAME }
     ];
 
     return (
         <div className="container mt-4">
-            <h2 className="text-center mb-3">Welcome, {userName}</h2>
-            <h5 className="text-muted text-center mb-4">Your Volunteer Hours and Points</h5>
-            <TableNav 
+            <h2 className="mb-3">Welcome, {userName}</h2>
+            <h5 className="text-muted mb-4">Your Volunteer Hours and Points</h5>
+            <ContainerNav 
                 items={[
                     { label: "Logout", to: "/" }
                 ]}

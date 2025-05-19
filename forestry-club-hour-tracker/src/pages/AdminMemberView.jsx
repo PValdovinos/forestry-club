@@ -4,6 +4,7 @@ import MemberTimesTable from "../components/Table";
 import { EditHours } from "../components/EditHours";
 import TableNav from "../components/TableNav";
 import { BASE_URL } from "../base_url.js";
+import ContainerNav from "../components/ContainerNav";
 
 function translateData(data) {
     if (data) {
@@ -86,12 +87,12 @@ function AdminMemberView() {
     const HEADER_CLASS_NAME = 'table-header';
 
     const columns = [
-        { field: 'date', headerName: 'Date', flex: 0.3, headerClassName: HEADER_CLASS_NAME },
-        { field: 'hours', headerName: 'Hours', flex: 0.25, headerClassName: HEADER_CLASS_NAME },
-        { field: 'status', headerName: 'Status', flex: 0.25, headerClassName: HEADER_CLASS_NAME },
-        {
+        { field: 'date', headerName: 'Date', flex: 1, headerClassName: HEADER_CLASS_NAME },
+        { field: 'hours', headerName: 'Hours', flex: 1, headerClassName: HEADER_CLASS_NAME },
+        { field: 'status', headerName: 'Status', flex: 1, headerClassName: HEADER_CLASS_NAME },
+        { 
             field: 'none',
-            headerName: 'Review',
+            headerName: 'Edit',
             renderCell: EditButton,
             sortable: false,
             filterable: false,
@@ -100,8 +101,8 @@ function AdminMemberView() {
             disableExport: true,
             disableColumnMenu: true,
             headerClassName: HEADER_CLASS_NAME,
-            flex: 0.2
-        }
+            flex: 0.5
+        }  
     ];
 
     function EditButton(params) {
