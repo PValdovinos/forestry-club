@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import MemberTimesTable from "../components/Table";
 import { EditHours } from "../components/EditHours";
-import TableNav from "../components/TableNav";
 import { BASE_URL } from "../base_url.js";
 import ContainerNav from "../components/ContainerNav";
 
@@ -130,7 +129,7 @@ function AdminMemberView() {
                 </div>
             </div>
 
-            <TableNav 
+            <ContainerNav 
                 items={[
                     { label: "Back", to: "/adminClub" },
                     { label: "Hours Pending", to: "/adminReview" },

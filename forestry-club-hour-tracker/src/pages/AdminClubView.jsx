@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react"; 
 import { NavLink } from "react-router-dom";
-import TableNav from "../components/TableNav";
-import AdminTable from "../components/Table";
 import { BASE_URL } from "../base_url.js";
 import ContainerNav from "./../components/ContainerNav";
 import AdminTable from "./../components/Table";
