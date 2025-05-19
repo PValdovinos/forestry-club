@@ -2,6 +2,7 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { Button } from '@mui/material';
 import TableNav from './TableNav';
+import { BASE_URL } from "../base_url.js";
 
 // TODO Re-implement error messages
 async function submit(event){
@@ -47,7 +48,7 @@ async function sendData() {
         user_flags: 0
     }
 
-    const results = await fetch("https://wh1437951.ispot.cc/api/users.php", {
+    const results = await fetch(`${BASE_URL}/api/users.php`, {
         method: "post",
         mode: "cors",
         headers: {

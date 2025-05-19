@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import TableNav from "../components/TableNav";
-import HoursTable from "../components/Table"; 
+import HoursTable from "../components/Table";
+import { BASE_URL } from "../base_url.js"; 
 
 function translateData(data) {
     if (data) {
@@ -23,7 +24,7 @@ const MemberHoursView = () => {
     const [userName, setUserName] = useState('');
 
     useEffect(() => {
-        fetch("https://wh1437951.ispot.cc/api/users.php", {
+        fetch(`${BASE_URL}/api/users.php`, {
             method: "GET",
             headers: {
                 "content-type": "application/json"
@@ -49,7 +50,7 @@ const MemberHoursView = () => {
     }, [username]);
 
     useEffect(() => {
-        fetch(`https://wh1437951.ispot.cc/api/hours.php?username=${username}`, {
+        fetch(`${BASE_URL}/api/hours.php?username=${username}`, {
             method: "get",
             mode: "cors",
             headers: {

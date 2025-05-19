@@ -2,6 +2,7 @@ import {useState, useEffect} from "react";
 import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import Dropdown from './Dropdown';
+import { BASE_URL } from "../base_url.js";
 
 
 export default function MemberSelect() {
@@ -9,7 +10,7 @@ export default function MemberSelect() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch("https://wh1437951.ispot.cc/api/users.php", {
+        fetch(`${BASE_URL}/api/users.php`, {
         method: "get",
         mode: "cors",
         headers: {

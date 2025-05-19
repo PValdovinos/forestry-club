@@ -3,6 +3,7 @@ import { Button } from '@mui/material';
 import { NavLink } from "react-router-dom";
 import TableNav from "../components/TableNav";
 import AdminTable from "../components/Table";
+import { BASE_URL } from "../base_url.js";
 
 function translateData(data) {
     if(data){
@@ -22,7 +23,7 @@ function translateData(data) {
 const AdminClubView = () => {
     const [memberData, setMemberData] = useState(null);
 
-    useEffect(() => {fetch("https://wh1437951.ispot.cc/api/users.php", {
+    useEffect(() => {fetch(`${BASE_URL}/api/users.php`, {
         method: "get",
         mode: "cors",
         headers: {

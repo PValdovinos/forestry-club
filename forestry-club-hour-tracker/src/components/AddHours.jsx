@@ -7,6 +7,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { BASE_URL } from '../base_url.js';
 import dayjs from "dayjs";
 import { DateTimePicker } from './DateTimePicker.jsx';
 
@@ -34,7 +35,7 @@ export const AddHours = () => {
     const [endValue, setEndValue] = useState(today);
     const [memberData, setMemberData] = useState([]);
 
-    useEffect(() => {fetch("https://wh1437951.ispot.cc/api/users.php", {
+    useEffect(() => {fetch(`${BASE_URL}/api/users.php`, {
         method: "get",
         mode: "cors",
         headers: {
@@ -63,7 +64,7 @@ export const AddHours = () => {
             under_review: true,
             accepted: false
         }
-        const results = await fetch("https://wh1437951.ispot.cc/api/hours.php", {
+        const results = await fetch(`${BASE_URL}/api/hours.php`, {
             method: "post",
             mode: "cors",
             headers: {
