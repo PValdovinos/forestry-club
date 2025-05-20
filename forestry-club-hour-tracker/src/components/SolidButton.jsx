@@ -1,13 +1,15 @@
 import { Button } from '@mui/material'
 import { styled } from '@mui/system'
 
-export const SolidButton = styled(Button)(() => ({
-    backgroundColor: '#cad6b4',
-    color: 'black',
+const SolidButton = styled(Button)(() => ({
+    backgroundColor: 'var(--color-solid-btn-bg)',
+    color: 'white',
     textTransform: 'capitalize',
     borderRadius: 5,
 
     '&:hover': {
-        backgroundColor: '#cad6b4',
+        backgroundColor: 'var(--color-solid-btn-hover-bg)',
     },
 }));
+
+export default SolidButton;

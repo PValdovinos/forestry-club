@@ -6,6 +6,7 @@ import AdminTable from "./../components/Table";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import { Tooltip } from "@mui/material";
+import Box from "@mui/material/Box";
 
 function translateData(data) {
     if(data) {
@@ -39,9 +40,9 @@ const AdminClubView = () => {
     const HEADER_CLASS_NAME = 'table-header';
     
     const columns= [
-        {field: 'name', headerName: 'Name', headerClassName: HEADER_CLASS_NAME, renderCell: spanUsername, flex: 1},
-        {field: 'hours', headerName: 'Total Hours', headerClassName: HEADER_CLASS_NAME, flex: 1},
-        {field: 'points', headerName: 'Points', headerClassName: HEADER_CLASS_NAME, flex: 1},
+        {field: 'name', headerName: 'Name', headerClassName: HEADER_CLASS_NAME, renderCell: spanUsername, minWidth: 250, flex: 2},
+        {field: 'hours', headerName: 'Total Hours', headerClassName: HEADER_CLASS_NAME, minWidth: 175,  flex: 1},
+        {field: 'points', headerName: 'Points', headerClassName: HEADER_CLASS_NAME, minWidth: 175,  flex: 1},
         {
             field: 'none', 
             headerName: 'Actions', 
@@ -53,17 +54,15 @@ const AdminClubView = () => {
             disableExport: true, 
             disableColumnMenu: true, 
             headerClassName: HEADER_CLASS_NAME,
-            flex: 0.5, 
+            minWidth: 125,
+            flex: 1
         }
     ];
 
     function spanUsername(params) {
         return (
             <p>
-                {params.row.name}  
-                <span className="text-secondary">
-                    ({params.row.username})
-                </span>
+                {params.row.name}  <span className="text-secondary">({params.row.username})</span>
             </p>
         )
     }
@@ -97,16 +96,27 @@ const AdminClubView = () => {
     }
 
     return (
-        <>
-            <h1 className="page-title">Members</h1>
-            <ContainerNav 
-                items={[
-                    { label: "Hours Pending", to: "/adminReview" },
-                    { label: "Logout", to: "/" }
-                ]}
-            />
-            <AdminTable rows={translateData(rowData)} columns={columns}/>
-        </>
+        <Box 
+            sx={{
+                display: 'flex',
+                justifyContent: 'center',
+            }}
+        >
+            <Box
+                sx={{
+                    width: '100%'
+                }}
+            >
+                <h1 className="page-title">Members</h1>
+                <ContainerNav 
+                    items={[
+                        { label: "Hours Pending", to: "/adminReview" },
+                        { label: "Logout", to: "/" }
+                    ]}
+                />
+                <AdminTable rows={translateData(rowData)} columns={columns}/>
+            </Box>
+        </Box>
     );
 }
 

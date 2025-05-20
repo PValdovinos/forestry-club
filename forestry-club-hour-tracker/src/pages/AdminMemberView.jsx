@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react"; 
 import { useParams } from "react-router";
-import MemberTimesTable from "../components/Table";
+import AdminTable from "../components/Table";
 import { EditHours } from "../components/EditHours";
 import { BASE_URL } from "../base_url.js";
 import ContainerNav from "../components/ContainerNav";
+import Box from "@mui/material/Box";
 
 function translateData(data) {
     if (data) {
@@ -86,9 +87,9 @@ function AdminMemberView() {
     const HEADER_CLASS_NAME = 'table-header';
 
     const columns = [
-        { field: 'date', headerName: 'Date', flex: 1, headerClassName: HEADER_CLASS_NAME },
-        { field: 'hours', headerName: 'Hours', flex: 1, headerClassName: HEADER_CLASS_NAME },
-        { field: 'status', headerName: 'Status', flex: 1, headerClassName: HEADER_CLASS_NAME },
+        { field: 'date', headerName: 'Date', minWidth: 250, headerClassName: HEADER_CLASS_NAME, flex: 1 },
+        { field: 'hours', headerName: 'Hours', minWidth: 250, headerClassName: HEADER_CLASS_NAME, flex: 1 },
+        { field: 'status', headerName: 'Status', minWidth: 250, headerClassName: HEADER_CLASS_NAME, flex: 1 },
         { 
             field: 'none',
             headerName: 'Edit',
@@ -100,6 +101,7 @@ function AdminMemberView() {
             disableExport: true,
             disableColumnMenu: true,
             headerClassName: HEADER_CLASS_NAME,
+            minWidth: 100,
             flex: 0.5
         }  
     ];
@@ -111,33 +113,40 @@ function AdminMemberView() {
     }
 
     return (
-        <>
-            <div className="admin-header">
-                <h1 className="page-title">
-                    {displayName} <span className="username">({username})</span>
-                </h1>
-
-                <div className="user-status-controls">
-                    <p>Status: 
-                        <span className={isActive ? 'status-active' : 'status-inactive'}>
-                            {isActive ? 'Active' : 'Inactive'}
-                        </span>
-                    </p>
-                    <button onClick={handleToggleStatus}>
-                        Set as {isActive ? 'Inactive' : 'Active'}
-                    </button>
-                </div>
-            </div>
-
-            <ContainerNav 
-                items={[
-                    { label: "Back", to: "/adminClub" },
-                    { label: "Hours Pending", to: "/adminReview" },
-                    { label: "Logout", to: "/" }
-                ]}
-            />
-            <MemberTimesTable rows={translateData(rowData)} columns={columns} />
-        </>
+        <Box 
+            sx={{
+                display: 'flex',
+                justifyContent: 'center',
+            }}
+        >
+            <Box
+                sx={{
+                    width: '100%'
+                }}
+            >
+                <div className="admin-header">
+                    <h1 className="page-title">{displayName} <span className="text-secondary">({username})</span></h1>
+                    <div className="user-status-controls">
+                        <p>Status: 
+                            <span className={isActive ? 'status-active' : 'status-inactive'}>
+                                {isActive ? 'Active' : 'Inactive'}
+                            </span>
+                        </p>
+                        <button onClick={handleToggleStatus}>
+                            Set as {isActive ? 'Inactive' : 'Active'}
+                        </button>
+                    </div>
+                </div>   
+                <ContainerNav 
+                    items={[
+                        { label: "Back", to: "/adminClub" },
+                        { label: "Hours Pending", to: "/adminReview" },
+                        { label: "Logout", to: "/" }
+                    ]}
+                />
+                <AdminTable rows={translateData(rowData)} columns={columns}/>
+            </Box>
+        </Box>
     );
 }
 

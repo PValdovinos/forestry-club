@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 function Home() { 
     return (
         <div className="home-container">
-            <h2 className="home-title">Welcome to the Forestry Club Hours Tracker</h2>
+            <h1 className="home-title">Forestry Club Hour Tracker</h1>
 
             {/* Member Section */}
             <div className="member-section">

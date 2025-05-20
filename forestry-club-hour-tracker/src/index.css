@@ -11,6 +11,8 @@
   --color-table-btn-bg: #d7dfc9;
   --color-table-btn-text: black;
   --color-username: rgb(112, 112, 112);
+  --color-solid-btn-bg: #398136;
+  --color-solid-btn-hover-bg: #375c36;
 
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -50,8 +52,13 @@ h1 {
 }
 
 .member-select-nav {
-  margin: 0.5rem 0;
+  margin: 0.5rem;
   display: flex;
+  justify-content: center;
+}
+
+#name-select-nav {
+  margin-right: 0.5rem;
 }
 
 .page-title {
@@ -67,6 +74,12 @@ h1 {
     border-top-left-radius: 3px;
     margin: 0 4px !important;
   }
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 1rem;
 }
 
 .table-header {
@@ -99,11 +112,4 @@ h1 {
   button {
     font-size: small;
   }
-}
-
-.member-select-nav {
-  margin: 0.5rem 0 0.5rem 0;
-  display: flex;
-  justify-content: center;
-  gap: 12px;
 }

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import Box from "@mui/material/Box";
 import ContainerNav from "../components/ContainerNav";
 import HoursTable from "../components/Table"; 
 import { BASE_URL } from "../base_url.js"; 
@@ -67,22 +68,35 @@ const MemberHoursView = () => {
     const HEADER_CLASS_NAME = 'table-header';
 
     const columns = [
-        { field: 'date', headerName: 'Date', flex: 1, headerClassName: HEADER_CLASS_NAME },
-        { field: 'hours', headerName: 'Hours', flex: 1, headerClassName: HEADER_CLASS_NAME },
-        { field: 'points', headerName: 'Points', flex: 1, headerClassName: HEADER_CLASS_NAME }
+        { field: 'date', headerName: 'Date', flex: 1, headerClassName: HEADER_CLASS_NAME, minWidth: 200 },
+        { field: 'hours', headerName: 'Hours', flex: 1, headerClassName: HEADER_CLASS_NAME, minWidth: 200 },
+        { field: 'points', headerName: 'Points', flex: 1, headerClassName: HEADER_CLASS_NAME, minWidth: 200 }
     ];
 
     return (
-        <div className="container mt-4">
-            <h2 className="mb-3">Welcome, {userName}</h2>
-            <h5 className="text-muted mb-4">Your Volunteer Hours and Points</h5>
-            <ContainerNav 
-                items={[
-                    { label: "Logout", to: "/" }
-                ]}
-            />
-            <HoursTable rows={translateData(memberHours)} columns={columns} />
-        </div>
+        <Box 
+            sx={{
+                display: 'flex',
+                justifyContent: 'center',
+            }}
+        >
+            <Box
+                sx={{
+                    width: '100%'
+                }}
+            >
+                <div className="container mt-4">
+                    <h1 className="mb-3">Welcome, {userName}</h1>
+                    <h5 className="text-secondary mb-4">Your Volunteer Hours and Points</h5>
+                </div>
+                <ContainerNav 
+                    items={[
+                        { label: "Logout", to: "/" }
+                    ]}
+                />
+                <HoursTable rows={translateData(memberHours)} columns={columns} />
+            </Box>
+        </Box>
     );
 };
 
