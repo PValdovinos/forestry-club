@@ -1,24 +1,23 @@
 import { DataGrid } from "@mui/x-data-grid"
-import { Box } from "@mui/material"
 
 function AdminTable({ rows, columns }) { 
     return (
-        <Box
+        <DataGrid 
+            rows={rows} 
+            columns={columns}             
             sx={{
-                minWidth: 900,
-                '& .MuiDataGrid-root': {
-                    boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px',
-                    fontSize: 'medium',
-                    backgroundColor: '#ffffff',
+                width: '100%',
+                '& .MuiDataGrid-sortIcon': {
+                    opacity: 1,
+                    color: 'white',
                 },
-                '& .MuiDataGrid-columnHeaders': {
-                    backgroundColor: 'var(--color-table-header-bg)',
-                    color: 'var(--color-table-header-text)',
+                '& .MuiDataGrid-menuIconButton': {
+                    opacity: 1,
+                    color: 'white'
                 },
+                boxShadow: 3,
             }}
-        >
-            <DataGrid rows={rows} columns={columns} />
-        </Box>
+        />
     )
 }
 

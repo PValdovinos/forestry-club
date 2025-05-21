@@ -1,44 +1,13 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  width: 80%;
+  margin: 0;
   text-align: center;
-}
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
 }
 
 .card {
   padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
 }
 
 /* Home page container */
@@ -94,39 +63,8 @@
   margin-bottom: 20px;
 }
 
-.user-status-controls {
-  margin-top: 10px;
-  margin-bottom: 30px;
-}
-
-.user-status-controls p {
-  font-size: 1.1rem;
-  margin-bottom: 10px;
-}
-
-.status-active {
-  color: green;
-  font-weight: bold;
-  margin-left: 8px;
-}
-
-.status-inactive {
-  color: red;
-  font-weight: bold;
-  margin-left: 8px;
-}
-
-.user-status-controls button {
-  padding: 8px 14px;
-  font-size: 1rem;
-  border-radius: 6px;
-  border: none;
-  background-color: #1976d2;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
-}
-
-.user-status-controls button:hover {
-  background-color: #0d47a1;
+@media screen and (max-width: 500px) {
+  #root {
+    width: 95%;
+  }
 }

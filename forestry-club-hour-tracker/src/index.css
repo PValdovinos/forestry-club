@@ -11,6 +11,8 @@
   --color-table-btn-bg: #d7dfc9;
   --color-table-btn-text: black;
   --color-username: rgb(112, 112, 112);
+  --color-solid-btn-bg: #398136;
+  --color-solid-btn-hover-bg: #375c36;
 
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -38,10 +40,9 @@
 
 body {
   background-color: var(--color-bg) !important;
-  margin: 0;
-  display: flex;
+  width: 100%;
+  margin: 0 auto !important;
   place-items: center;
-  min-width: 320px;
   min-height: 100vh;
 }
 
@@ -50,40 +51,18 @@ h1 {
   line-height: 1.1;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 600;
-  font-family: inherit;
-  background-color: var(--color-button-bg);
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-
-button:hover {
-  background-color: var(--color-button-hover-bg);
-  border-color: var(--color-button-hover-border);
-}
-
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
 .member-select-nav {
-  margin: 0.5rem 0;
+  margin: 0.5rem;
   display: flex;
+  justify-content: center;
+}
+
+#name-select-nav {
+  margin-right: 0.5rem;
 }
 
 .page-title {
   text-align: left;
-}
-
-.username {
-  color: var(--color-username);
-  margin-left: 5px;
 }
 
 .admin-nav {
@@ -95,7 +74,12 @@ button:focus-visible {
     border-top-left-radius: 3px;
     margin: 0 4px !important;
   }
-  
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 1rem;
 }
 
 .table-header {
@@ -128,23 +112,4 @@ button:focus-visible {
   button {
     font-size: small;
   }
-
-  .admin-table-container {
-    min-width: 400px;
-
-    .admin-table {
-      font-size: small;
-    }
-  }
-
-  .MuiDataGrid-columnHeaderTitle {
-    font-size: small;
-  }
-}
-
-.member-select-nav {
-  margin: 0.5rem 0 0.5rem 0;
-  display: flex;
-  justify-content: center;
-  gap: 12px;
 }

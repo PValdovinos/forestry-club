@@ -10,6 +10,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 import dayjs from "dayjs";
 import PropTypes from 'prop-types';
 import { BASE_URL } from '../base_url.js';
+import CreateIcon from '@mui/icons-material/Create';
+import { Tooltip } from '@mui/material';
 
 /**
  * Modal component for logging hours volunteered and date for event
@@ -66,9 +68,15 @@ export const EditHours = ({ memberName, entryId }) => {
 
     return (
         <Fragment>
-            <Button className="btn-outlined" variant="outlined" onClick={handleClickOpen}>
-                Review
-            </Button>
+            <Tooltip title="Edit Entry">
+                <CreateIcon 
+                    onClick={handleClickOpen}
+                    sx={{
+                        color: 'black'
+                    }}
+                >
+                </CreateIcon>
+            </Tooltip>
             <Dialog
                 open={open}
                 onClose={handleClose}

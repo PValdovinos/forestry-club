@@ -1,8 +1,8 @@
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import { Button } from '@mui/material';
-import TableNav from './TableNav';
 import { BASE_URL } from "../base_url.js";
+import ContainerNav from './ContainerNav';
+import SolidButton from "./SolidButton";
 
 // TODO Re-implement error messages
 async function submit(event){
@@ -62,39 +62,48 @@ async function sendData() {
 export default function AddMember() { 
     return (
         <>
-            <h2>Add Member</h2>
-            <br />
-            <TableNav 
-                items={[
-                    { label: "Back", to: "/" }
-                ]}
-            />
-            <Box
-                component="form"
-                sx={{ 
-                    boxShadow: 1,
-                    p: 7,
-                    '& > :not(style)': { 
-                        m: 2, width: '25ch' 
-                    } 
+            <Box 
+                sx={{
+                    display: 'flex',
+                    justifyContent:'center'
                 }}
-                noValidate
-                autoComplete="off"
             >
-                <div>
-                    <TextField id="username" label="Username" variant="outlined" />
-                </div>
-                <div>
-                    <TextField id="fname" label="First Name" variant="outlined" />
-                </div>
-                <div>
-                    <TextField id="lname" label="Last Name" variant="outlined" />
-                </div>
-                <div>
-                    <Button variant='outlined' onClick={submit} className='btn-outlined'>
-                        Submit
-                    </Button>
-                </div>
+                <br />
+                <Box
+                    sx={{ 
+                        minWidth: 390,
+                        margin: 2,
+                    }}
+                >
+                    <h1 className="page-title">Add Member</h1>
+                    <ContainerNav 
+                        items={[
+                            { label: "Back", to: "/" }
+                        ]}
+                    />
+                    <Box
+                        component="form"
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: 2,
+                            padding: 4,
+                            border: '1px solid #ccc',
+                            borderRadius: 2,
+                            boxShadow: 3,
+                        }}
+                        noValidate
+                        autoComplete="off"
+                    >
+                        <TextField id="username" label="Username" variant="outlined" required />
+                        <TextField id="fname" label="First Name" variant="outlined" required />
+                        <TextField id="lname" label="Last Name" variant="outlined" required />
+                        
+                        <SolidButton onClick={submit}>
+                            Submit
+                        </SolidButton>
+                    </Box>
+                </Box>
             </Box>
         </>
     );
