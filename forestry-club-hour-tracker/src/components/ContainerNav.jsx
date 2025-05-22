@@ -1,9 +1,15 @@
 import { Link } from 'react-router-dom';
+import { styled } from '@mui/material/styles';
 import { ContainerNavButton } from './ContainerNavButton';
+
+const StyledNav = styled('div')(() => ({
+    display: 'flex',
+    justifyContent: 'end',
+}));
 
 function ContainerNav({ items = [] }) {
     return (
-        <div className="admin-nav">
+        <StyledNav>
             {items.map((item, index) => (
                 <ContainerNavButton
                     key={index}
@@ -14,7 +20,7 @@ function ContainerNav({ items = [] }) {
                     {item.label}
                 </ContainerNavButton>
             ))}
-        </div>
+        </StyledNav>
     );
 }
 

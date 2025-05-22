@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import { DataGrid } from "@mui/x-data-grid";
 import ContainerNav from "../components/ContainerNav";
-import HoursTable from "../components/Table"; 
 import { BASE_URL } from "../base_url.js"; 
 
 function translateData(data) {
@@ -65,37 +66,30 @@ const MemberHoursView = () => {
         })
     }, [username]);
 
-    const HEADER_CLASS_NAME = 'table-header';
-
     const columns = [
-        { field: 'date', headerName: 'Date', flex: 1, headerClassName: HEADER_CLASS_NAME, minWidth: 200 },
-        { field: 'hours', headerName: 'Hours', flex: 1, headerClassName: HEADER_CLASS_NAME, minWidth: 200 },
-        { field: 'points', headerName: 'Points', flex: 1, headerClassName: HEADER_CLASS_NAME, minWidth: 200 }
+        { field: 'date', headerName: 'Date', flex: 1, minWidth: 200 },
+        { field: 'hours', headerName: 'Hours', flex: 1, minWidth: 200 },
+        { field: 'points', headerName: 'Points', flex: 1, minWidth: 200 }
     ];
 
     return (
-        <Box 
-            sx={{
-                display: 'flex',
-                justifyContent: 'center',
-            }}
-        >
+        <Box>
             <Box
                 sx={{
-                    width: '100%'
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 2,
                 }}
             >
-                <div className="container mt-4">
-                    <h1 className="mb-3">Welcome, {userName}</h1>
-                    <h5 className="text-secondary mb-4">Your Volunteer Hours and Points</h5>
-                </div>
-                <ContainerNav 
-                    items={[
-                        { label: "Logout", to: "/" }
-                    ]}
-                />
-                <HoursTable rows={translateData(memberHours)} columns={columns} />
+                <Typography variant="h4" component="h1">Welcome, {userName}</Typography>
+                <Typography variant="h6" component="h4" className="text-secondary">Your Volunteer Hours and Points</Typography>
             </Box>
+            <ContainerNav 
+                items={[
+                    { label: "Logout", to: "/" }
+                ]}
+            />
+            <DataGrid rows={translateData(memberHours)} columns={columns} />
         </Box>
     );
 };

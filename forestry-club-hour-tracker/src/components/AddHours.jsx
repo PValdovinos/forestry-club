@@ -10,6 +10,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { BASE_URL } from '../base_url.js';
 import dayjs from "dayjs";
 import { DateTimePicker } from './DateTimePicker.jsx';
+import FlatSolidButton from "./FlatSolidButton";
 
 /**
  * Modal component for logging hours volunteered and date for event
@@ -77,9 +78,9 @@ export const AddHours = () => {
 
     return (
         <Fragment>
-            <Button variant="outlined" onClick={handleClickOpen}>
+            <FlatSolidButton onClick={handleClickOpen}>
                 Submit Hours
-            </Button>
+            </FlatSolidButton>
             <Dialog
                 open={open}
                 onClose={handleClose}

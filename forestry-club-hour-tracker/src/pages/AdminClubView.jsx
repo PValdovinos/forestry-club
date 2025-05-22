@@ -1,12 +1,13 @@
-import { useState, useEffect } from "react"; 
-import { NavLink } from "react-router-dom";
-import { BASE_URL } from "../base_url.js";
-import ContainerNav from "./../components/ContainerNav";
-import AdminTable from "./../components/Table";
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
-import { Tooltip } from "@mui/material";
-import Box from "@mui/material/Box";
+import { useState, useEffect } from "react" 
+import { NavLink } from "react-router-dom"
+import { BASE_URL } from "../base_url.js"
+import ContainerNav from "./../components/ContainerNav"
+import VisibilityIcon from '@mui/icons-material/Visibility'
+import PersonRemoveIcon from '@mui/icons-material/PersonRemove'
+import Tooltip from "@mui/material/Tooltip"
+import Box from "@mui/material/Box"
+import { DataGrid } from "@mui/x-data-grid"
+import Typography from "@mui/material/Typography"
 
 function translateData(data) {
     if(data) {
@@ -16,7 +17,7 @@ function translateData(data) {
             "name": element.fname + " " + element.lname,
             "hours": element.hours ? element.hours : 0,
             "points": element.hours * 100
-        }));
+        }))
     }
     else {
         return []
@@ -24,7 +25,7 @@ function translateData(data) {
 }
 
 const AdminClubView = () => {
-    const [memberData, setMemberData] = useState(null);
+    const [memberData, setMemberData] = useState(null)
 
     useEffect(() => {fetch(`${BASE_URL}/api/users.php`, {
         method: "get",
@@ -34,15 +35,13 @@ const AdminClubView = () => {
         }
     })
     .then( response => response.json())
-    .then( result => setMemberData(result))}, []);
+    .then( result => setMemberData(result))}, [])
 
-    const rowData = memberData;
-    const HEADER_CLASS_NAME = 'table-header';
-    
+    const rowData = memberData
     const columns= [
-        {field: 'name', headerName: 'Name', headerClassName: HEADER_CLASS_NAME, renderCell: spanUsername, minWidth: 250, flex: 2},
-        {field: 'hours', headerName: 'Total Hours', headerClassName: HEADER_CLASS_NAME, minWidth: 175,  flex: 1},
-        {field: 'points', headerName: 'Points', headerClassName: HEADER_CLASS_NAME, minWidth: 175,  flex: 1},
+        {field: 'name', headerName: 'Name', renderCell: spanUsername, minWidth: 250, flex: 2},
+        {field: 'hours', headerName: 'Total Hours', minWidth: 175,  flex: 1},
+        {field: 'points', headerName: 'Points', minWidth: 175,  flex: 1},
         {
             field: 'none', 
             headerName: 'Actions', 
@@ -53,11 +52,10 @@ const AdminClubView = () => {
             hideable: false, 
             disableExport: true, 
             disableColumnMenu: true, 
-            headerClassName: HEADER_CLASS_NAME,
             minWidth: 125,
             flex: 1
         }
-    ];
+    ]
 
     function spanUsername(params) {
         return (
@@ -82,42 +80,29 @@ const AdminClubView = () => {
                     </NavLink>
                 </Tooltip>
                 <Tooltip title="Delete Member">
-                    <NavLink>
-                        <PersonRemoveIcon 
-                            sx={{
-                                color: 'red'
-                            }}
-                        >
-                        </PersonRemoveIcon>
-                    </NavLink>
+                    <PersonRemoveIcon 
+                        sx={{
+                            color: 'red'
+                        }}
+                    >
+                    </PersonRemoveIcon>
                 </Tooltip>
             </div>
         )
     }
 
     return (
-        <Box 
-            sx={{
-                display: 'flex',
-                justifyContent: 'center',
-            }}
-        >
-            <Box
-                sx={{
-                    width: '100%'
-                }}
-            >
-                <h1 className="page-title">Members</h1>
-                <ContainerNav 
-                    items={[
-                        { label: "Hours Pending", to: "/adminReview" },
-                        { label: "Logout", to: "/" }
-                    ]}
-                />
-                <AdminTable rows={translateData(rowData)} columns={columns}/>
-            </Box>
+        <Box>
+            <Typography variant="h4" component="h1">Members</Typography>
+            <ContainerNav 
+                items={[
+                    { label: "Hours Pending", to: "/adminReview" },
+                    { label: "Logout", to: "/" }
+                ]}
+            />
+            <DataGrid rows={translateData(rowData)} columns={columns}/>
         </Box>
-    );
+    )
 }
 
-export default AdminClubView;
+export default AdminClubView
