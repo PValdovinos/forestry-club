@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react"; 
 import { useParams } from "react-router";
-import AdminTable from "../components/Table";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import { DataGrid } from "@mui/x-data-grid";
 import { EditHours } from "../components/EditHours";
 import { BASE_URL } from "../base_url.js";
 import ContainerNav from "../components/ContainerNav";
-import Box from "@mui/material/Box";
+import MemberStatusControls from './../components/MemberStatusControls';
 
 function translateData(data) {
     if (data) {
@@ -84,12 +86,11 @@ function AdminMemberView() {
     }
 
     const rowData = memberData;
-    const HEADER_CLASS_NAME = 'table-header';
 
     const columns = [
-        { field: 'date', headerName: 'Date', minWidth: 250, headerClassName: HEADER_CLASS_NAME, flex: 1 },
-        { field: 'hours', headerName: 'Hours', minWidth: 250, headerClassName: HEADER_CLASS_NAME, flex: 1 },
-        { field: 'status', headerName: 'Status', minWidth: 250, headerClassName: HEADER_CLASS_NAME, flex: 1 },
+        { field: 'date', headerName: 'Date', minWidth: 250, flex: 1 },
+        { field: 'hours', headerName: 'Hours', minWidth: 250, flex: 1 },
+        { field: 'status', headerName: 'Status', minWidth: 250, flex: 1 },
         { 
             field: 'none',
             headerName: 'Edit',
@@ -100,7 +101,6 @@ function AdminMemberView() {
             hideable: false,
             disableExport: true,
             disableColumnMenu: true,
-            headerClassName: HEADER_CLASS_NAME,
             minWidth: 100,
             flex: 0.5
         }  
@@ -113,39 +113,24 @@ function AdminMemberView() {
     }
 
     return (
-        <Box 
-            sx={{
-                display: 'flex',
-                justifyContent: 'center',
-            }}
-        >
-            <Box
+        <Box>
+            <Box 
                 sx={{
-                    width: '100%'
+                    display: 'flex',
+                    justifyContent: 'space-between',
                 }}
             >
-                <div className="admin-header">
-                    <h1 className="page-title">{displayName} <span className="text-secondary">({username})</span></h1>
-                    <div className="user-status-controls">
-                        <p>Status: 
-                            <span className={isActive ? 'status-active' : 'status-inactive'}>
-                                {isActive ? 'Active' : 'Inactive'}
-                            </span>
-                        </p>
-                        <button onClick={handleToggleStatus}>
-                            Set as {isActive ? 'Inactive' : 'Active'}
-                        </button>
-                    </div>
-                </div>   
-                <ContainerNav 
-                    items={[
-                        { label: "Back", to: "/adminClub" },
-                        { label: "Hours Pending", to: "/adminReview" },
-                        { label: "Logout", to: "/" }
-                    ]}
-                />
-                <AdminTable rows={translateData(rowData)} columns={columns}/>
-            </Box>
+                <Typography variant="h4" component="h1">{displayName} <span className="text-secondary">({username})</span></Typography>
+                <MemberStatusControls isActive={isActive} onToggle={handleToggleStatus} />
+            </Box>   
+            <ContainerNav 
+                items={[
+                    { label: "Back", to: "/adminClub" },
+                    { label: "Hours Pending", to: "/adminReview" },
+                    { label: "Logout", to: "/" }
+                ]}
+            />
+            <DataGrid rows={translateData(rowData)} columns={columns}/>
         </Box>
     );
 }

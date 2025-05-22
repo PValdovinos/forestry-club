@@ -17,7 +17,7 @@ const MenuProps = {
     },
 };
 
-export default function BasicSelect({ id, data }) {
+export default function BasicSelect({ id, data, sx = {} }) {
     const [memberName, setMemberName] = React.useState('');
 
     const handleChange = (event) => {
@@ -25,23 +25,28 @@ export default function BasicSelect({ id, data }) {
     };
 
     return (
-        <Box sx={{ minWidth: 190 }}>
+        <Box sx={sx}>
             <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Name</InputLabel>
                 <Select
                     labelId="demo-simple-select-label"
                     id={id}
                     value={memberName}
-                    label="Age"
+                    label="Name"
                     onChange={handleChange}
                     MenuProps={MenuProps}
                 >
-                    {data.map(name => <MenuItem key={name} value={name}>{name}</MenuItem>)}
+                    {data.map(name => (
+                        <MenuItem key={name} value={name}>
+                            {name}
+                        </MenuItem>
+                    ))}
                 </Select>
             </FormControl>
         </Box>
     );
 }
+
 BasicSelect.propTypes = {
     id : PropTypes.number.isRequired,
     data : PropTypes.isRequired

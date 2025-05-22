@@ -1,8 +1,10 @@
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
-import { BASE_URL } from "../base_url.js";
-import ContainerNav from './ContainerNav';
-import SolidButton from "./SolidButton";
+import Box from "@mui/material/Box"
+import Button from '@mui/material/Button'
+import TextField from "@mui/material/TextField"
+import Typography from '@mui/material/Typography'
+import { BASE_URL } from "../base_url.js"
+import ContainerNav from './ContainerNav'
+import Container from "./../components/Container"
 
 // TODO Re-implement error messages
 async function submit(event){
@@ -33,8 +35,7 @@ async function submit(event){
         else {
             //createErrorMessag();
         }
-    }
-   
+    }  
 }
 
 async function sendData() {
@@ -61,50 +62,38 @@ async function sendData() {
 
 export default function AddMember() { 
     return (
-        <>
-            <Box 
+        <Box
+            sx={{
+                width: {
+                    xs: '90%',
+                    sm: '70%',
+                    md: '50%',
+                },
+                margin: 'auto',
+            }}
+        >
+            <Typography variant="h4" component="h1">Add Member</Typography>
+            <ContainerNav 
+                items={[
+                    { label: "Back", to: "/" }
+                ]}
+            />
+            <Container
+                component="form"
                 sx={{
-                    display: 'flex',
-                    justifyContent:'center'
+                    mt: 0
                 }}
+                noValidate
+                autoComplete="off"
             >
-                <br />
-                <Box
-                    sx={{ 
-                        minWidth: 390,
-                        margin: 2,
-                    }}
-                >
-                    <h1 className="page-title">Add Member</h1>
-                    <ContainerNav 
-                        items={[
-                            { label: "Back", to: "/" }
-                        ]}
-                    />
-                    <Box
-                        component="form"
-                        sx={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            gap: 2,
-                            padding: 4,
-                            border: '1px solid #ccc',
-                            borderRadius: 2,
-                            boxShadow: 3,
-                        }}
-                        noValidate
-                        autoComplete="off"
-                    >
-                        <TextField id="username" label="Username" variant="outlined" required />
-                        <TextField id="fname" label="First Name" variant="outlined" required />
-                        <TextField id="lname" label="Last Name" variant="outlined" required />
-                        
-                        <SolidButton onClick={submit}>
-                            Submit
-                        </SolidButton>
-                    </Box>
-                </Box>
-            </Box>
-        </>
+                <TextField id="username" label="Username" variant="filled" required />
+                <TextField id="fname" label="First Name" variant="filled" required />
+                <TextField id="lname" label="Last Name" variant="filled" required />
+                
+                <Button variant='contained' onClick={submit}>
+                    Submit
+                </Button>
+            </Container>
+        </Box>
     );
 }
