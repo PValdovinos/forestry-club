@@ -5,6 +5,7 @@ import { AddHours } from "../components/AddHours"
 import MemberSelect from "../components/MemberSelect"
 import Container from "./../components/Container"
 import Button from '@mui/material/Button'
+import AddMember from "../components/AddMember"
 
 function Home() { 
     return (
@@ -48,14 +49,7 @@ function Home() {
                     >
                         View Members
                     </Button>
-                    <Button
-                        variant="contained"
-                        component={NavLink}
-                        to='addMember'
-                        sx={{ flex: 1 }}
-                    >
-                        Add Member
-                    </Button>
+                    <AddMember />
                 </Box>
             </Container>
         </Box>
