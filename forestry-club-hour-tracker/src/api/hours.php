@@ -117,14 +117,14 @@ switch ($method) {
             $accepted = intval($input['accepted']);
 
             $stmt = $conn->prepare("UPDATE workhours
-                SET time_in = ?, time_out = ?, date = ?
+                SET time_in = ?, time_out = ?, date = ?, under_review = ?, accepted = ?
                 WHERE submission_id = ?");
-            $stmt->bind_param("sssi", $time_in, $time_out, $date, $id);
+            $stmt->bind_param("sssiii", $time_in, $time_out, $date, $under_review, $accepted, $id);
             $message = "$time_in, $time_out, $date, $id, $under_review, $accepted";
             if (!$stmt->execute()) {
-            $message = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+            $message .= "\nExecute failed: (" . $stmt->errno . ") " . $stmt->error;
             } else {
-            $message .= "Workhours added successfully";
+            $message .= "\nWorkhours updated successfully";
             }
             echo json_encode(["message" => $message]);
         }
