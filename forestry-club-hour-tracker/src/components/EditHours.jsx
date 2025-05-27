@@ -11,7 +11,7 @@ import dayjs from "dayjs";
 import PropTypes from 'prop-types';
 import { BASE_URL } from '../base_url.js';
 import CreateIcon from '@mui/icons-material/Create';
-import { Tooltip } from '@mui/material';
+import { NativeSelect, Tooltip } from '@mui/material';
 
 /**
  * Modal component for logging hours volunteered and date for event
@@ -19,7 +19,7 @@ import { Tooltip } from '@mui/material';
  *      is user triggering this component an admin account who needs to view the hour request, or is it a student
  *      creating a new one
  */
-export const EditHours = ({ memberName, entryId }) => {
+export const EditHours = ({ memberName, entryId, memberData, setMemberData }) => {
     // dialog handlers
     const [open, setOpen] = useState(false);
     const handleClickOpen = async () => {
@@ -32,10 +32,22 @@ export const EditHours = ({ memberName, entryId }) => {
             }
         })
         .then( response => response.json())
+        .then( data => data[0])
         .then( result => {
             setStartValue(dayjs("0000-00-00 " + result["time_in"]))
             setEndValue(dayjs("0000-00-00 "+ result["time_out"]))
             setDateValue(dayjs(result["date"]))
+            if(result["under_review"] == 1) {
+                setStatus(0);
+            }
+            else {
+                if(result["accepted"] == 1) {
+                    setStatus(1);
+                }
+                else {
+                    setStatus(2);
+                }
+            }
         })};
     const handleClose = () => {
         setOpen(false);
@@ -46,13 +58,36 @@ export const EditHours = ({ memberName, entryId }) => {
     const [dateValue, setDateValue] = useState(today)//
     const [startValue, setStartValue] = useState(today.set('hour', today.hour() - 1))//
     const [endValue, setEndValue] = useState(today)//
+    const [status, setStatus] = useState(0);
+
+    const handleStatusChange = (event) => {
+        setStatus(event.target.value);
+    };
     
     async function sendData() {
+        let under_review = 0
+        let accepted = 0
+        switch(status) {
+                case '2':
+                    under_review = 0
+                    accepted = 0
+                    break
+                case '1':
+                    under_review = 0
+                    accepted = 1
+                    break
+                default:
+                    under_review = 1
+                    accepted = 0
+                    break
+            }
         const editMemberHours = {
             update_id: entryId,
             time_in: dayjs(startValue.$d).format("HH:mm"),
             time_out: dayjs(endValue.$d).format("HH:mm"),
             date: dayjs(dateValue.$d).format("YYYY-MM-DD"),
+            accepted: accepted,
+            under_review: under_review
         }
         const url = `${BASE_URL}/api/hours.php?id=${entryId}`;
         const results = await fetch(url, {
@@ -63,7 +98,9 @@ export const EditHours = ({ memberName, entryId }) => {
             },
             body: JSON.stringify(editMemberHours)
         })
-        return results;
+        setMemberData(memberData.map(entry => entry.submission_id === entryId ? { ...entry, accepted: accepted, under_review:under_review} : entry))
+        handleClose()
+        return results
     }
 
     return (
@@ -95,14 +132,28 @@ export const EditHours = ({ memberName, entryId }) => {
                         Please enter the date and hours {memberName} worked.
                     </DialogContentText>
                     <DateTimePicker 
-                        defaultDateValue={dateValue} 
-                        defaultStartTimeValue={startValue} 
+                        defaultDateValue={dateValue}
+                        defaultStartTimeValue={startValue}
                         defaultEndTimeValue={endValue}
                         setDateValue={setDateValue}
                         setStartValue={setStartValue}
                         setEndValue={setEndValue}
                          />
                 </DialogContent>
+                <NativeSelect
+                    defaultValue={0}
+                    value={status}
+                    onChange={handleStatusChange}
+                    sx={{ maxWidth: 500, mx: 'auto', display: 'block', padding: 1, border: 1, borderColor: 'darkgray', borderRadius: 1 }}
+                    inputProps={{
+                        name: 'status',
+                        id: 'hour-status'
+                    }}
+                >
+                    <option value={0}>Pending</option>
+                    <option value={1}>Accepted</option>
+                    <option value={2}>Rejected</option>
+                </NativeSelect>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
                     <Button onClick={sendData}>Submit</Button>
@@ -113,5 +164,7 @@ export const EditHours = ({ memberName, entryId }) => {
 }
 EditHours.propTypes = {
     memberName : PropTypes.string.isRequired,
-    entryId : PropTypes.number.isRequired
+    entryId : PropTypes.number.isRequired,
+    memberData : PropTypes.array.isRequired,
+    setMemberData : PropTypes.func.isRequired
 }

@@ -53,7 +53,7 @@ function AdminMemberView() {
                 const first = content[0];
                 setDisplayName(`${first.fname} ${first.lname}`);
                 setUsername(first.username);
-                setIsActive(first.active === 1); 
+                setIsActive(first.active === 1);
             }
         });
     }, [memberName]);
@@ -108,7 +108,7 @@ function AdminMemberView() {
 
     function EditButton(params) {
         return (
-            <EditHours entryId={params.row.id} memberName={memberName} />
+            <EditHours entryId={params.row.id} memberName={memberName} memberData={memberData} setMemberData={setMemberData}/>
         );
     }
 
