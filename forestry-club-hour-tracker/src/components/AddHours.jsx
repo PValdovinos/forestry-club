@@ -29,11 +29,14 @@ export const AddHours = () => {
     };
 
     //date state and default values
-    const today = dayjs();
+    let now = dayjs().subtract(7, 'hour');
+    const minutes = now.minute();
+    const roundedMinutes = Math.round(minutes /5) * 5;
+    now = now.minute(roundedMinutes).second(0);
     
-    const [dateValue, setDateValue] = useState(today);
-    const [startValue, setStartValue] = useState(today.set('hour', today.hour() - 1));
-    const [endValue, setEndValue] = useState(today);
+    const [dateValue, setDateValue] = useState(now);
+    const [startValue, setStartValue] = useState(now.subtract(1,'hour'));
+    const [endValue, setEndValue] = useState(now);
     const [memberData, setMemberData] = useState([]);
 
     useEffect(() => {fetch(`${BASE_URL}/api/users.php`, {
@@ -73,6 +76,7 @@ export const AddHours = () => {
             },
             body: JSON.stringify(newMemberHours)
         })
+        .then(handleClose())
         return results;
     }
 

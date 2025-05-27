@@ -23,7 +23,6 @@ export const EditHours = ({ memberName, entryId, memberData, setMemberData }) =>
     // dialog handlers
     const [open, setOpen] = useState(false);
     const handleClickOpen = async () => {
-        setOpen(true);
         await fetch(`${BASE_URL}/api/hours.php?id=${entryId}`, {
             method: "get",
             mode: "cors",
@@ -48,6 +47,7 @@ export const EditHours = ({ memberName, entryId, memberData, setMemberData }) =>
                     setStatus(2);
                 }
             }
+            setOpen(true);
         })};
     const handleClose = () => {
         setOpen(false);
