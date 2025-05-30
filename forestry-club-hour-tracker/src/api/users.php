@@ -10,7 +10,7 @@ switch ($method) {
     case 'GET':
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
-            $stmt = $conn->prepare("SELECT workhours.submission_id, users.username, workhours.time_in, 
+            $stmt = $conn->prepare("SELECT workhours.submission_id, users.email, workhours.time_in, 
                 workhours.time_out, workhours.create_date, workhours.under_review, workhours.accepted 
                 FROM workhours
                 INNER JOIN users ON workhours.user_id = users.user_id
@@ -28,12 +28,12 @@ switch ($method) {
                 echo json_encode($data);
             }
         } else {
-            $result = $conn->query("SELECT users.user_id, users.user_flags, users.username, users.fname, users.lname,
+            $result = $conn->query("SELECT users.user_id, users.user_flags, users.email, users.fname, users.lname,
                 SUM(TIMESTAMPDIFF(MINUTE, workhours.time_in, workhours.time_out) / 60) AS hours 
                 FROM users 
                 LEFT JOIN workhours 
                 ON users.user_id = workhours.user_id 
-                GROUP BY users.user_id, users.user_flags, users.username, users.fname, users.lname;");
+                GROUP BY users.user_id, users.user_flags, users.email, users.fname, users.lname;");
             $users = [];
             while ($row = $result->fetch_assoc()) {
                 $users[] = $row;
@@ -43,19 +43,19 @@ switch ($method) {
         break;
 
     case 'POST':
-        $username = $input['username'];
+        $email = $input['email'];
         $user_flags = $input['user_flags'];
         $fname = $input['fname'];
         $lname = $input['lname'];
-        $stmt = $conn->prepare("INSERT INTO users (username, user_flags, fname, lname) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("siss", $username, $user_flags, $fname, $lname);
+        $stmt = $conn->prepare("INSERT INTO users (email, user_flags, fname, lname) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("siss", $email, $user_flags, $fname, $lname);
         $message = "";
         if (!$stmt->execute()) {
             $message = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
         } else {
             $message = "Insert successful!";
         }
-        echo json_encode(["message" => "$message, $username, $user_flags, $fname, $lname"]);
+        echo json_encode(["message" => "$message, $email, $user_flags, $fname, $lname"]);
         break;
 
     // case 'PUT':

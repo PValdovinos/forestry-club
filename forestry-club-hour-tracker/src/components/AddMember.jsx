@@ -7,8 +7,6 @@ import Typography from '@mui/material/Typography'
 import { BASE_URL } from "../base_url.js"
 import Container from "./../components/Container"
 
-
-
 export default function AddMember() { 
     // dialog handlers
     const [open, setOpen] = useState(false);
@@ -20,11 +18,11 @@ export default function AddMember() {
     };
 
     async function sendData() {
-        const username = document.getElementById("username").value;
+        const email = document.getElementById("email").value;
         const fname = document.getElementById("fname").value;
         const lname = document.getElementById("lname").value;
         const newMember = {
-            username,
+            email,
             fname,
             lname,
             user_flags: 0
@@ -57,9 +55,9 @@ export default function AddMember() {
                     autoComplete="off"
                 >
                     <Typography>Add Member</Typography>
-                    <TextField id="username" label="Username" variant="filled" required />
                     <TextField id="fname" label="First Name" variant="filled" required />
                     <TextField id="lname" label="Last Name" variant="filled" required />
+                    <TextField id="email" label="Email" variant="filled" required />
                     
                     <DialogActions>
                         <Button onClick={handleClose}>Cancel</Button>

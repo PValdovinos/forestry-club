@@ -33,13 +33,13 @@ function translateData(data) {
 function AdminMemberView() {
     const params = useParams();
     const [memberData, setMemberData] = useState([]);
-    const memberName = params.member;
+    const email = params.email;
     const [displayName, setDisplayName] = useState("");
-    const [username, setUsername] = useState("");
+    const [memberEmail, setMemberEmail] = useState("");
     const [isActive, setIsActive] = useState(true); 
 
     useEffect(() => {
-        fetch(`${BASE_URL}/api/hours.php?username=${memberName}`, {
+        fetch(`${BASE_URL}/api/hours.php?email=${email}`, {
             method: "get",
             mode: "cors",
             headers: {
@@ -52,11 +52,11 @@ function AdminMemberView() {
             if (content.length > 0) {
                 const first = content[0];
                 setDisplayName(`${first.fname} ${first.lname}`);
-                setUsername(first.username);
+                setMemberEmail(first.email);
                 setIsActive(first.active === 1);
             }
         });
-    }, [memberName]);
+    }, [email]);
 
     function handleToggleStatus() {
         const newStatus = !isActive;
@@ -67,7 +67,7 @@ function AdminMemberView() {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                username: username,
+                email: memberEmail,
                 active: newStatus ? 1 : 0
             })
         })
@@ -108,7 +108,7 @@ function AdminMemberView() {
 
     function EditButton(params) {
         return (
-            <EditHours entryId={params.row.id} memberName={memberName} memberData={memberData} setMemberData={setMemberData}/>
+            <EditHours entryId={params.row.id} email={email} memberData={memberData} setMemberData={setMemberData}/>
         );
     }
 
@@ -120,7 +120,7 @@ function AdminMemberView() {
                     justifyContent: 'space-between',
                 }}
             >
-                <Typography variant="h4" component="h1">{displayName} <span className="text-secondary">({username})</span></Typography>
+                <Typography variant="h4" component="h1">{displayName} <span className="text-secondary">({memberEmail})</span></Typography>
                 <MemberStatusControls isActive={isActive} onToggle={handleToggleStatus} />
             </Box>   
             <ContainerNav 

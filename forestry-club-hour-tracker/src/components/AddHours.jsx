@@ -51,7 +51,7 @@ export const AddHours = () => {
 
     function translateData(data) {
         if(data){
-            return data.map(element => element.fname + " " + element.lname + " (" + element.username + ")");
+            return data.map(element => element.fname + " " + element.lname + " (" + element.email + ")");
         }
         else {
             return []
@@ -59,12 +59,12 @@ export const AddHours = () => {
     }
     
     async function sendData() {
-        const username = document.getElementById("name-select")?document.getElementById("name-select").innerText:"";
+        const email = document.getElementById("name-select")?document.getElementById("name-select").innerText:"";
         const newMemberHours = {
             time_in: dayjs(startValue.$d).format("HH:mm"),
             time_out: dayjs(endValue.$d).format("HH:mm"),
             date: dayjs(dateValue.$d).format("YYYY-MM-DD"),
-            user_id: memberData.filter(member => member.username === username.substring(username.indexOf('(')+1, username.indexOf(')')))[0].user_id,
+            user_id: memberData.filter(member => member.email === email.substring(email.indexOf('(')+1, email.indexOf(')')))[0].user_id,
             under_review: true,
             accepted: false
         }
@@ -102,7 +102,7 @@ export const AddHours = () => {
                     <DialogContentText>
                         Please enter the date and hours worked.
                     </DialogContentText>
-                    <Dropdown id="name-select" data={translateData(memberData.filter(member => member.username !== null))} />
+                    <Dropdown id="name-select" data={translateData(memberData.filter(member => member.email !== null))} />
                     <DateTimePicker 
                         defaultDateValue={dateValue} 
                         defaultStartTimeValue={startValue} 

@@ -13,7 +13,7 @@ function translateData(data) {
     if(data) {
         return data.map(element => ({
             "id": element.user_id,
-            "username": element.username,
+            "email": element.email,
             "name": element.fname + " " + element.lname,
             "hours": element.hours ? element.hours : 0,
             "points": element.hours * 100
@@ -39,7 +39,7 @@ const AdminClubView = () => {
 
     const rowData = memberData
     const columns= [
-        {field: 'name', headerName: 'Name', renderCell: spanUsername, minWidth: 250, flex: 2},
+        {field: 'name', headerName: 'Name', renderCell: spanEmail, minWidth: 250, flex: 2},
         {field: 'hours', headerName: 'Total Hours', minWidth: 175,  flex: 1},
         {field: 'points', headerName: 'Points', minWidth: 175,  flex: 1},
         {
@@ -57,10 +57,10 @@ const AdminClubView = () => {
         }
     ]
 
-    function spanUsername(params) {
+    function spanEmail(params) {
         return (
             <p>
-                {params.row.name}  <span className="text-secondary">({params.row.username})</span>
+                {params.row.name}  <span className="text-secondary">({params.row.email})</span>
             </p>
         )
     }
@@ -69,7 +69,7 @@ const AdminClubView = () => {
         return (
             <div>
                 <Tooltip title="View Hours">
-                    <NavLink to={"/adminClub/" + params.row.username}>
+                    <NavLink to={"/adminClub/" + params.row.email}>
                         <VisibilityIcon
                             sx={{
                                 color: 'black',

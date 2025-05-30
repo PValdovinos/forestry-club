@@ -7,7 +7,6 @@ import Navigation from '../Navigation';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
 import AddMember from '../components/AddMember';
-import MemberView from '../pages/MemberView';
 import MemberHoursView from '../pages/MemberHoursView';
 
 const AppRouter = () => {
@@ -18,10 +17,9 @@ const AppRouter = () => {
                 {/* <Route index element={<Login />} /> */}
                 <Route index element={<Home />} />
                 <Route path='/adminReview' element={<AdminReview />} />
-                <Route path='/adminClub/:member' element={<AdminMemberView />} />
+                <Route path='/adminClub/:email' element={<AdminMemberView />} />
                 <Route path='/adminClub' element={<AdminClubView />} />
-                <Route path='/member' element={<MemberView />} />
-                <Route path='/member/:username' element={<MemberHoursView />}/>
+                <Route path='/member/:email' element={<MemberHoursView />}/>
                 <Route path='/member/:member' element={<MemberHoursView />}/>
             </Route>
         </Routes>

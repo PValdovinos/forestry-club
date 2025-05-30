@@ -20,10 +20,10 @@ function translateData(data) {
 }
 
 const MemberHoursView = () => {
-    const { username } = useParams();
+    const { email } = useParams();
     const [memberData, setMemberData] = useState(null);
     const [memberHours, setMemberHours] = useState(null);
-    const [userName, setUserName] = useState('');
+    const [memberName, setMemberName] = useState('');
 
     useEffect(() => {
         fetch(`${BASE_URL}/api/users.php`, {
@@ -35,24 +35,24 @@ const MemberHoursView = () => {
         .then(res => res.json())
         .then(data => {
             console.log('Fetched users:', data);
-            console.log('Username from URL:', username);
+            console.log('Email from URL:', email);
 
-            const currentUser = data.find(user => user.username === username);
+            const currentUser = data.find(user => user.email === email);
 
             if (currentUser) {
-                setUserName(`${currentUser.fname} ${currentUser.lname}`);
+                setMemberName(`${currentUser.fname} ${currentUser.lname}`);
                 setMemberData(currentUser);
             } else {
-                console.error('User not found for username:', username);
-                setUserName('Member');
+                console.error('User not found for email:', email);
+                setMemberName('Member');
                 setMemberData(null);
             }
         })
         .catch(err => console.error("Failed to load member hours:", err));
-    }, [username]);
+    }, [email]);
 
     useEffect(() => {
-        fetch(`${BASE_URL}/api/hours.php?username=${username}`, {
+        fetch(`${BASE_URL}/api/hours.php?email=${email}`, {
             method: "get",
             mode: "cors",
             headers: {
@@ -64,7 +64,7 @@ const MemberHoursView = () => {
             console.log(result)
             return setMemberHours(result)
         })
-    }, [username]);
+    }, [email]);
 
     const columns = [
         { field: 'date', headerName: 'Date', flex: 1, minWidth: 200 },
@@ -81,7 +81,7 @@ const MemberHoursView = () => {
                     gap: 2,
                 }}
             >
-                <Typography variant="h4" component="h1">Welcome, {userName}</Typography>
+                <Typography variant="h4" component="h1">Welcome, {memberName}</Typography>
                 <Typography variant="h6" component="h4" className="text-secondary">Your Volunteer Hours and Points</Typography>
             </Box>
             <ContainerNav 
