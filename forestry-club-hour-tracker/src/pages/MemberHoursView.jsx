@@ -26,7 +26,7 @@ const MemberHoursView = () => {
     const [memberName, setMemberName] = useState('');
 
     useEffect(() => {
-        fetch(`${BASE_URL}/api/users.php`, {
+        fetch(`${BASE_URL}/api/users.php?email=${email}`, {
             method: "GET",
             headers: {
                 "content-type": "application/json"
@@ -34,14 +34,10 @@ const MemberHoursView = () => {
         })
         .then(res => res.json())
         .then(data => {
-            console.log('Fetched users:', data);
-            console.log('Email from URL:', email);
-
-            const currentUser = data.find(user => user.email === email);
-
-            if (currentUser) {
-                setMemberName(`${currentUser.fname} ${currentUser.lname}`);
-                setMemberData(currentUser);
+            const user = data[0]
+            if (user) {
+                setMemberName(`${user.fname} ${user.lname}`);
+                setMemberData(user);
             } else {
                 console.error('User not found for email:', email);
                 setMemberName('Member');

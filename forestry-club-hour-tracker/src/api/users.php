@@ -27,6 +27,24 @@ switch ($method) {
                 }
                 echo json_encode($data);
             }
+        } else if (isset($_GET['email'])) {
+            $email = $_GET['email'];
+            $stmt = $conn->prepare("SELECT users.user_id, users.user_flags, users.fname, users.lname
+            FROM users
+            WHERE users.email = ?");
+            $stmt->bind_param("s", $email);
+            $data = [];
+
+            if (!$stmt->execute()) {
+                $message = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+                echo json_encode(["message" => $message]);
+            } else {
+                $result = $stmt->get_result();
+                while ($row = $result->fetch_assoc()) {
+                    $data[] = $row;
+                }
+                echo json_encode($data);
+            }
         } else {
             $result = $conn->query("SELECT users.user_id, users.user_flags, users.email, users.fname, users.lname,
                 SUM(TIMESTAMPDIFF(MINUTE, workhours.time_in, workhours.time_out) / 60) AS hours 
