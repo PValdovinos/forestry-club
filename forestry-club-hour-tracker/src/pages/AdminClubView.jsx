@@ -97,7 +97,7 @@ const AdminClubView = () => {
             <ContainerNav 
                 items={[
                     { label: "Hours Pending", to: "/adminReview" },
-                    { label: "Logout", to: "/" }
+                    { label: "Back", to: "/" }
                 ]}
             />
             <DataGrid rows={translateData(rowData)} columns={columns}/>

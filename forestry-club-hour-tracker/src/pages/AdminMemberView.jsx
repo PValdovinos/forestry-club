@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { DataGrid } from "@mui/x-data-grid";
 import { EditHours } from "../components/EditHours";
-import { BASE_URL } from "../projectVariables.js";
+import { BASE_URL, USER_ACTIVATED } from "../projectVariables.js";
 import ContainerNav from "../components/ContainerNav";
 import MemberStatusControls from './../components/MemberStatusControls';
 
@@ -39,23 +39,37 @@ function AdminMemberView() {
     const [isActive, setIsActive] = useState(true); 
 
     useEffect(() => {
-        fetch(`${BASE_URL}/api/hours.php?email=${email}`, {
-            method: "get",
-            mode: "cors",
-            headers: {
-                "content-type": "application/json"
+        const fetchMemberData = async () => {
+            try {
+                const response = await fetch(`${BASE_URL}/api/hours.php?email=${email}`, {
+                    method: "GET",
+                    mode: "cors",
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                });
+
+                const content = await response.json();
+
+                if (content.length > 0) {
+                    const first = content[0];
+                    setDisplayName(`${first.fname} ${first.lname}`);
+                    setMemberEmail(first.email);
+                    setIsActive(first.active === 1);
+
+                    const hasHours = first.submission_id !== null
+                    setMemberData(hasHours ? content : []);
+                } else {
+                    setDisplayName("Member");
+                    setMemberEmail(email);
+                    setMemberData([]);
+                }
+            } catch (error) {
+                console.error("Failed to fetch member data:", error);
             }
-        })
-        .then(response => response.json())
-        .then(content => {
-            setMemberData(content);
-            if (content.length > 0) {
-                const first = content[0];
-                setDisplayName(`${first.fname} ${first.lname}`);
-                setMemberEmail(first.email);
-                setIsActive(first.active === 1);
-            }
-        });
+        };
+
+        fetchMemberData();
     }, [email]);
 
     function handleToggleStatus() {
@@ -92,7 +106,7 @@ function AdminMemberView() {
         { field: 'hours', headerName: 'Hours', minWidth: 250, flex: 1 },
         { field: 'status', headerName: 'Status', minWidth: 250, flex: 1 },
         { 
-            field: 'none',
+            field: 'edit',
             headerName: 'Edit',
             renderCell: EditButton,
             sortable: false,
@@ -127,10 +141,10 @@ function AdminMemberView() {
                 items={[
                     { label: "Back", to: "/adminClub" },
                     { label: "Hours Pending", to: "/adminReview" },
-                    { label: "Logout", to: "/" }
+                    { label: "Home", to: "/" }
                 ]}
             />
-            <DataGrid rows={translateData(rowData)} columns={columns}/>
+            <DataGrid rows={translateData(rowData) ?? []} columns={columns}/>
         </Box>
     );
 }

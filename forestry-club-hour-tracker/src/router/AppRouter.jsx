@@ -34,7 +34,7 @@ const AppRouter = () => {
                         <Route path='/' element={<Navigation />}>
                             <Route index element={<MemberHome />} />
                             <Route path='/member/:email' element={<MemberHoursView />}/>
-                            <Route path='/member/:member' element={<MemberHoursView />}/>
+                            <Route path='/hours' element={<MemberHoursView />}/>
                         </Route>
                     </Routes>
                 </BrowserRouter>

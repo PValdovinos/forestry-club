@@ -1,11 +1,16 @@
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { AddHours } from "../components/AddHours"
-import MemberSelect from "../components/MemberSelect"
 import Container from "./../components/Container"
 import Logout from './../components/Logout'
+import { useNavigate } from 'react-router'
+import FlatSolidButton from '../components/FlatSolidButton'
 
 function MemberHome() { 
+    const navigate = useNavigate()
+
+    const handleClick = () => navigate('/hours')
+
     return (
         <Box
             sx={{
@@ -18,10 +23,16 @@ function MemberHome() {
                 margin: 'auto',
             }}
         >
-            <Typography variant="h4" component="h1">Forestry Club Hour Tracker</Typography>
-            <Logout />
+            <Box 
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between'
+                }}
+            >
+                <Typography variant="h4" component="h1">Forestry Club Hour Tracker</Typography>
+                <Logout />
+            </Box>
 
-            {/* Member Section */}
             <Container
                 sx={{
                     mt: 3,
@@ -29,7 +40,7 @@ function MemberHome() {
             >
                 <Typography variant="h5" component="h4">Member Access</Typography>
                 <AddHours />
-                <MemberSelect />
+                <FlatSolidButton onClick={handleClick}>View Hours</FlatSolidButton>
             </Container>
         </Box>
     );

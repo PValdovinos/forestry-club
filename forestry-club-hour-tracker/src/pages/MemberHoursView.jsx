@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { DataGrid } from "@mui/x-data-grid";
-import ContainerNav from "../components/ContainerNav";
-import { BASE_URL } from "../projectVariables.js"; 
+import { BASE_URL } from "../projectVariables.js";
+import { useAuth } from "../AuthContext.jsx";
+import ContainerNav from './../components/ContainerNav'
 
 function translateData(data) {
     if (data) {
@@ -20,47 +20,22 @@ function translateData(data) {
 }
 
 const MemberHoursView = () => {
-    const { email } = useParams();
-    const [memberData, setMemberData] = useState(null);
+    const { user } = useAuth()
     const [memberHours, setMemberHours] = useState(null);
-    const [memberName, setMemberName] = useState('');
 
     useEffect(() => {
-        fetch(`${BASE_URL}/api/users.php?email=${email}`, {
+        if (!user) return;
+
+        fetch(`${BASE_URL}/api/hours.php?email=${user.email}`, {
             method: "GET",
             headers: {
                 "content-type": "application/json"
             }
         })
-        .then(res => res.json())
-        .then(data => {
-            const user = data[0]
-            if (user) {
-                setMemberName(`${user.fname} ${user.lname}`);
-                setMemberData(user);
-            } else {
-                console.error('User not found for email:', email);
-                setMemberName('Member');
-                setMemberData(null);
-            }
-        })
-        .catch(err => console.error("Failed to load member hours:", err));
-    }, [email]);
-
-    useEffect(() => {
-        fetch(`${BASE_URL}/api/hours.php?email=${email}`, {
-            method: "get",
-            mode: "cors",
-            headers: {
-                "content-type": "application/json"
-            }
-        })
-        .then(response => response.json())
-        .then(result => {
-            console.log(result)
-            return setMemberHours(result)
-        })
-    }, [email]);
+            .then(res => res.json())
+            .then(setMemberHours)
+            .catch(err => console.error("Failed to load member hours:", err));
+    }, [user]);
 
     const columns = [
         { field: 'date', headerName: 'Date', flex: 1, minWidth: 200 },
@@ -68,21 +43,25 @@ const MemberHoursView = () => {
         { field: 'points', headerName: 'Points', flex: 1, minWidth: 200 }
     ];
 
+    if (!user) {
+        return (
+            <Typography>Loading user data...</Typography>
+        )
+    }
+
     return (
         <Box>
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: 2,
-                }}
-            >
-                <Typography variant="h4" component="h1">Welcome, {memberName}</Typography>
-                <Typography variant="h6" component="h4" className="text-secondary">Your Volunteer Hours and Points</Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                <Typography variant="h4" component="h1">
+                    Welcome, {user.fname} {user.lname}
+                </Typography>
+                <Typography variant="h6" component="h4" className="text-secondary">
+                    Your Volunteer Hours and Points
+                </Typography>
             </Box>
             <ContainerNav 
                 items={[
-                    { label: "Logout", to: "/" }
+                    { label: "Back", to: "/" }
                 ]}
             />
             <DataGrid rows={translateData(memberHours)} columns={columns} />
