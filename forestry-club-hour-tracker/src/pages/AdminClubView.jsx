@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react" 
 import { NavLink } from "react-router-dom"
-import { BASE_URL } from "../base_url.js"
+import { BASE_URL } from "../projectVariables.js"
 import ContainerNav from "./../components/ContainerNav"
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove'

@@ -7,7 +7,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { BASE_URL } from '../base_url.js';
+import { BASE_URL } from '../projectVariables.js';
 import dayjs from "dayjs";
 import { DateTimePicker } from './DateTimePicker.jsx';
 import FlatSolidButton from "./FlatSolidButton";

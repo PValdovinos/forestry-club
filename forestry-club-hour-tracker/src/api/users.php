@@ -62,12 +62,14 @@ switch ($method) {
 
     case 'POST':
         $email = $input['email'];
+        $password = password_hash($input['password'], PASSWORD_DEFAULT);
         $user_flags = $input['user_flags'];
         $fname = $input['fname'];
         $lname = $input['lname'];
-        $stmt = $conn->prepare("INSERT INTO users (email, user_flags, fname, lname) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("siss", $email, $user_flags, $fname, $lname);
+        $stmt = $conn->prepare("INSERT INTO users (email, user_flags, fname, lname, password) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("sisss", $email, $user_flags, $fname, $lname, $password);
         $message = "";
+
         if (!$stmt->execute()) {
             $message = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
         } else {

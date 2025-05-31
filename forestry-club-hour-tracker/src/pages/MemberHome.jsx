@@ -1,12 +1,11 @@
-import { NavLink } from "react-router-dom"
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { AddHours } from "../components/AddHours"
 import MemberSelect from "../components/MemberSelect"
 import Container from "./../components/Container"
-import Button from '@mui/material/Button'
+import Logout from './../components/Logout'
 
-function Home() { 
+function MemberHome() { 
     return (
         <Box
             sx={{
@@ -20,27 +19,20 @@ function Home() {
             }}
         >
             <Typography variant="h4" component="h1">Forestry Club Hour Tracker</Typography>
+            <Logout />
 
-            {/* Admin Section */}
+            {/* Member Section */}
             <Container
                 sx={{
                     mt: 3,
                 }}
             >
-                <Typography variant="h5" component="h4">Admin Access</Typography>
-                <Box display="flex" gap={2}>
-                    <Button
-                        variant="contained"
-                        component={NavLink}
-                        to='adminClub'
-                        sx={{ flex: 1 }}
-                    >
-                        View Members
-                    </Button>
-                </Box>
+                <Typography variant="h5" component="h4">Member Access</Typography>
+                <AddHours />
+                <MemberSelect />
             </Container>
         </Box>
     );
 }
 
-export default Home;
+export default MemberHome

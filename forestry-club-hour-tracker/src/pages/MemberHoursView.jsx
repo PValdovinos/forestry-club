@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { DataGrid } from "@mui/x-data-grid";
 import ContainerNav from "../components/ContainerNav";
-import { BASE_URL } from "../base_url.js"; 
+import { BASE_URL } from "../projectVariables.js"; 
 
 function translateData(data) {
     if (data) {

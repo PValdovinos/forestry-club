@@ -2,7 +2,7 @@ import {useState, useEffect} from "react";
 import { useNavigate } from 'react-router-dom';
 import Dropdown from './Dropdown';
 import Box from '@mui/material/Box'
-import { BASE_URL } from "../base_url.js";
+import { BASE_URL } from "../projectVariables.js";
 import FlatSolidButton from "./FlatSolidButton";
 
 export default function MemberSelect() {
