@@ -1,11 +1,9 @@
 import { NavLink } from "react-router-dom"
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import { AddHours } from "../components/AddHours"
-import MemberSelect from "../components/MemberSelect"
-import Container from "./../components/Container"
+import StyledContainer from "./../components/StyledContainer"
 import Button from '@mui/material/Button'
-import AddMember from "../components/AddMember"
+import Logout from './../components/Logout'
 
 function Home() { 
     return (
@@ -20,21 +18,17 @@ function Home() {
                 margin: 'auto',
             }}
         >
-            <Typography variant="h4" component="h1">Forestry Club Hour Tracker</Typography>
-
-            {/* Member Section */}
-            <Container
+            <Box 
                 sx={{
-                    mt: 3,
+                    display: 'flex',
+                    justifyContent: 'space-between'
                 }}
             >
-                <Typography variant="h5" component="h4">Member Access</Typography>
-                <AddHours />
-                <MemberSelect />
-            </Container>
+                <Typography variant="h4" component="h1">Forestry Club Hour Tracker</Typography>
+                <Logout />
+            </Box>
 
-            {/* Admin Section */}
-            <Container
+            <StyledContainer
                 sx={{
                     mt: 3,
                 }}
@@ -49,9 +43,8 @@ function Home() {
                     >
                         View Members
                     </Button>
-                    <AddMember />
                 </Box>
-            </Container>
+            </StyledContainer>
         </Box>
     );
 }

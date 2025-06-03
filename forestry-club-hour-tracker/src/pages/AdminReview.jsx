@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { userToFirstLast } from "../helpers/api_helper";
 import AdminNotify from "../components/AdminNotify";
 import { NavLink } from "react-router-dom";
-import { BASE_URL } from "../base_url.js";
+import { BASE_URL } from "../projectVariables.js";
 
 function AdminReview() {
 

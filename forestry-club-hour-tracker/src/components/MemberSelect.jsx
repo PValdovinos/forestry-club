@@ -2,7 +2,7 @@ import {useState, useEffect} from "react";
 import { useNavigate } from 'react-router-dom';
 import Dropdown from './Dropdown';
 import Box from '@mui/material/Box'
-import { BASE_URL } from "../base_url.js";
+import { BASE_URL } from "../projectVariables.js";
 import FlatSolidButton from "./FlatSolidButton";
 
 export default function MemberSelect() {
@@ -22,7 +22,7 @@ export default function MemberSelect() {
 
     function translateData(data) {
         if(data){
-            return data.map(element => element.fname + " " + element.lname + " (" + element.username + ")");
+            return data.map(element => element.fname + " " + element.lname + " (" + element.email + ")");
         }
         else {
             return []
@@ -30,10 +30,10 @@ export default function MemberSelect() {
     }
 
     function handleButtonClick() {
-        let username = document.getElementById('name-select-nav') ? document.getElementById('name-select-nav').innerText:'';
-        if(typeof(username) === 'string' && username.length > 1) {
-            username = username.substring(username.indexOf('(') + 1, username.indexOf(')'));
-            navigate(`/member/${username}`);
+        let email = document.getElementById('name-select-nav') ? document.getElementById('name-select-nav').innerText:'';
+        if(typeof(email) === 'string' && email.length > 1) {
+            email = email.substring(email.indexOf('(') + 1, email.indexOf(')'));
+            navigate(`/member/${email}`);
         }
     }
 
@@ -41,7 +41,7 @@ export default function MemberSelect() {
         <Box display="flex" gap={2}>
             <Dropdown 
                 id='name-select-nav' 
-                data={translateData(memberData ? memberData.filter(member => member.username !== null) : [])}
+                data={translateData(memberData ? memberData.filter(member => member.email !== null) : [])}
                 sx={{ flex: 4 }}
             />
             <FlatSolidButton 

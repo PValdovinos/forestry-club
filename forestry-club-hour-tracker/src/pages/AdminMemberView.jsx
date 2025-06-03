@@ -1,12 +1,12 @@
-import { useState, useEffect } from "react"; 
 import { useParams } from "react-router";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { DataGrid } from "@mui/x-data-grid";
 import { EditHours } from "../components/EditHours";
-import { BASE_URL } from "../base_url.js";
+import { BASE_URL } from "../projectVariables.js";
 import ContainerNav from "../components/ContainerNav";
 import MemberStatusControls from './../components/MemberStatusControls';
+import useMemberData from "../hooks/useMemberData.js";
 
 function translateData(data) {
     if (data) {
@@ -31,32 +31,15 @@ function translateData(data) {
 }
 
 function AdminMemberView() {
-    const params = useParams();
-    const [memberData, setMemberData] = useState([]);
-    const memberName = params.member;
-    const [displayName, setDisplayName] = useState("");
-    const [username, setUsername] = useState("");
-    const [isActive, setIsActive] = useState(true); 
-
-    useEffect(() => {
-        fetch(`${BASE_URL}/api/hours.php?username=${memberName}`, {
-            method: "get",
-            mode: "cors",
-            headers: {
-                "content-type": "application/json"
-            }
-        })
-        .then(response => response.json())
-        .then(content => {
-            setMemberData(content);
-            if (content.length > 0) {
-                const first = content[0];
-                setDisplayName(`${first.fname} ${first.lname}`);
-                setUsername(first.username);
-                setIsActive(first.active === 1);
-            }
-        });
-    }, [memberName]);
+    const { email } = useParams();
+    const {
+        memberData,
+        displayName,
+        memberEmail,
+        isActive,
+        setMemberData,
+        setIsActive
+    } = useMemberData(email);
 
     function handleToggleStatus() {
         const newStatus = !isActive;
@@ -67,7 +50,7 @@ function AdminMemberView() {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                username: username,
+                email: memberEmail,
                 active: newStatus ? 1 : 0
             })
         })
@@ -92,7 +75,7 @@ function AdminMemberView() {
         { field: 'hours', headerName: 'Hours', minWidth: 250, flex: 1 },
         { field: 'status', headerName: 'Status', minWidth: 250, flex: 1 },
         { 
-            field: 'none',
+            field: 'edit',
             headerName: 'Edit',
             renderCell: EditButton,
             sortable: false,
@@ -108,7 +91,7 @@ function AdminMemberView() {
 
     function EditButton(params) {
         return (
-            <EditHours entryId={params.row.id} memberName={memberName} memberData={memberData} setMemberData={setMemberData}/>
+            <EditHours entryId={params.row.id} email={email} memberData={memberData} setMemberData={setMemberData}/>
         );
     }
 
@@ -120,17 +103,17 @@ function AdminMemberView() {
                     justifyContent: 'space-between',
                 }}
             >
-                <Typography variant="h4" component="h1">{displayName} <span className="text-secondary">({username})</span></Typography>
+                <Typography variant="h4" component="h1">{displayName} <span className="text-secondary">({memberEmail})</span></Typography>
                 <MemberStatusControls isActive={isActive} onToggle={handleToggleStatus} />
             </Box>   
             <ContainerNav 
                 items={[
                     { label: "Back", to: "/adminClub" },
                     { label: "Hours Pending", to: "/adminReview" },
-                    { label: "Logout", to: "/" }
+                    { label: "Home", to: "/" }
                 ]}
             />
-            <DataGrid rows={translateData(rowData)} columns={columns}/>
+            <DataGrid rows={translateData(rowData) ?? []} columns={columns}/>
         </Box>
     );
 }

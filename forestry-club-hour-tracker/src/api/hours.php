@@ -23,17 +23,17 @@ switch ($method) {
                 }
                 echo json_encode($data);
             } 
-        } else if (isset($_GET['username'])) {
-            $username = $_GET['username'];
-            $stmt = $conn->prepare("SELECT users.user_id, users.user_flags, users.username, users.fname, users.lname, 
+        } else if (isset($_GET['email'])) {
+            $email = $_GET['email'];
+            $stmt = $conn->prepare("SELECT users.user_id, users.user_flags, users.email, users.fname, users.lname, 
                 workhours.time_in, workhours.time_out, workhours.under_review, workhours.accepted,
                 DATE(workhours.time_out) AS date_worked, workhours.submission_id,
                 TIMESTAMPDIFF(MINUTE, workhours.time_in, workhours.time_out) / 60 AS hours
                 FROM users 
                 LEFT JOIN workhours
                 ON users.user_id = workhours.user_id
-                Where users.username=?");
-            $stmt->bind_param("s", $username);
+                Where users.email=?");
+            $stmt->bind_param("s", $email);
             $data = [];
             if (!$stmt->execute()) {
                 $message = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;

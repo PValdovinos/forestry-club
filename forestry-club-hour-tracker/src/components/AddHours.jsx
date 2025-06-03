@@ -1,83 +1,63 @@
 import './hours-box.css';
-import Dropdown from "./Dropdown.jsx";
-import {useState, useEffect, Fragment} from "react";
+import { useState, useEffect, Fragment } from "react";
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { BASE_URL } from '../base_url.js';
+import { BASE_URL } from '../projectVariables.js';
 import dayjs from "dayjs";
 import { DateTimePicker } from './DateTimePicker.jsx';
 import FlatSolidButton from "./FlatSolidButton";
+import { useAuth } from '../AuthContext.jsx';
 
-/**
- * Modal component for logging hours volunteered and date for event
- * @param isAdmin
- *      is user triggering this component an admin account who needs to view the hour request, or is it a student
- *      creating a new one
- */
 export const AddHours = () => {
-    // dialog handlers
-    const [open, setOpen] = useState(false);
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-    const handleClose = () => {
-        setOpen(false);
-    };
+    const { user } = useAuth()
 
-    //date state and default values
+    const [open, setOpen] = useState(false);
+    const handleClickOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
+    // Date state
     let now = dayjs().subtract(7, 'hour');
     const minutes = now.minute();
-    const roundedMinutes = Math.round(minutes /5) * 5;
+    const roundedMinutes = Math.round(minutes / 5) * 5;
     now = now.minute(roundedMinutes).second(0);
-    
+
     const [dateValue, setDateValue] = useState(now);
-    const [startValue, setStartValue] = useState(now.subtract(1,'hour'));
+    const [startValue, setStartValue] = useState(now.subtract(1, 'hour'));
     const [endValue, setEndValue] = useState(now);
-    const [memberData, setMemberData] = useState([]);
 
-    useEffect(() => {fetch(`${BASE_URL}/api/users.php`, {
-        method: "get",
-        mode: "cors",
-        headers: {
-            "content-type": "application/json"
-        }
-    })
-    .then( response => response.json())
-    .then( result => setMemberData(result))}, []);
-
-    function translateData(data) {
-        if(data){
-            return data.map(element => element.fname + " " + element.lname + " (" + element.username + ")");
-        }
-        else {
-            return []
-        }
-    }
-    
     async function sendData() {
-        const username = document.getElementById("name-select")?document.getElementById("name-select").innerText:"";
+        if (!user) {
+            alert("You must be logged in to submit hours.");
+            return;
+        }
+
         const newMemberHours = {
             time_in: dayjs(startValue.$d).format("HH:mm"),
             time_out: dayjs(endValue.$d).format("HH:mm"),
             date: dayjs(dateValue.$d).format("YYYY-MM-DD"),
-            user_id: memberData.filter(member => member.username === username.substring(username.indexOf('(')+1, username.indexOf(')')))[0].user_id,
+            user_id: user.user_id,
             under_review: true,
             accepted: false
+        };
+
+        try {
+            await fetch(`${BASE_URL}/api/hours.php`, {
+                method: "POST",
+                mode: "cors",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(newMemberHours)
+            });
+
+            handleClose();
+        } catch (error) {
+            console.error("Failed to submit hours:", error);
         }
-        const results = await fetch(`${BASE_URL}/api/hours.php`, {
-            method: "post",
-            mode: "cors",
-            headers: {
-                "content-type": "application/json"
-            },
-            body: JSON.stringify(newMemberHours)
-        })
-        .then(handleClose())
-        return results;
     }
 
     return (
@@ -91,9 +71,10 @@ export const AddHours = () => {
                 slotProps={{
                     paper: {
                         component: 'form',
-                        onSubmit: () => {
-                            handleClose();
-                        },
+                        onSubmit: (e) => {
+                            e.preventDefault();
+                            sendData();
+                        }
                     },
                 }}
             >
@@ -102,7 +83,6 @@ export const AddHours = () => {
                     <DialogContentText>
                         Please enter the date and hours worked.
                     </DialogContentText>
-                    <Dropdown id="name-select" data={translateData(memberData.filter(member => member.username !== null))} />
                     <DateTimePicker 
                         defaultDateValue={dateValue} 
                         defaultStartTimeValue={startValue} 
@@ -117,5 +97,5 @@ export const AddHours = () => {
                 </DialogActions>
             </Dialog>
         </Fragment>
-    )
-}
+    );
+};

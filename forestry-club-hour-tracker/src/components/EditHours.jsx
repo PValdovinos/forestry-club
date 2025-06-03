@@ -9,7 +9,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import dayjs from "dayjs";
 import PropTypes from 'prop-types';
-import { BASE_URL } from '../base_url.js';
+import { BASE_URL } from '../projectVariables.js';
 import CreateIcon from '@mui/icons-material/Create';
 import { NativeSelect, Tooltip } from '@mui/material';
 
