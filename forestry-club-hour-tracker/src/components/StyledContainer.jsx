@@ -1,7 +1,7 @@
-import Box from '@mui/material/Box'
+import Container from '@mui/material/Container'
 import { styled } from '@mui/system'
 
-const Container = styled(Box)(({ theme }) => ({
+const StyledContainer = styled(Container)(({ theme }) => ({
     padding: theme.spacing(4),
     boxShadow: theme.shadows[1],
     borderRadius: theme.shape.borderRadius * 2,
@@ -14,4 +14,4 @@ const Container = styled(Box)(({ theme }) => ({
     marginRight: 'auto',
 }))
 
-export default Container
+export default StyledContainer

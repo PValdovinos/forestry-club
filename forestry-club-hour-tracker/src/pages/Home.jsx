@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom"
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import Container from "./../components/Container"
+import StyledContainer from "./../components/StyledContainer"
 import Button from '@mui/material/Button'
 import Logout from './../components/Logout'
 
@@ -28,7 +28,7 @@ function Home() {
                 <Logout />
             </Box>
 
-            <Container
+            <StyledContainer
                 sx={{
                     mt: 3,
                 }}
@@ -44,7 +44,7 @@ function Home() {
                         View Members
                     </Button>
                 </Box>
-            </Container>
+            </StyledContainer>
         </Box>
     );
 }

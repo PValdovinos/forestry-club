@@ -1,12 +1,12 @@
-import { useState, useEffect } from "react"; 
 import { useParams } from "react-router";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { DataGrid } from "@mui/x-data-grid";
 import { EditHours } from "../components/EditHours";
-import { BASE_URL, USER_ACTIVATED } from "../projectVariables.js";
+import { BASE_URL } from "../projectVariables.js";
 import ContainerNav from "../components/ContainerNav";
 import MemberStatusControls from './../components/MemberStatusControls';
+import useMemberData from "../hooks/useMemberData.js";
 
 function translateData(data) {
     if (data) {
@@ -31,46 +31,15 @@ function translateData(data) {
 }
 
 function AdminMemberView() {
-    const params = useParams();
-    const [memberData, setMemberData] = useState([]);
-    const email = params.email;
-    const [displayName, setDisplayName] = useState("");
-    const [memberEmail, setMemberEmail] = useState("");
-    const [isActive, setIsActive] = useState(true); 
-
-    useEffect(() => {
-        const fetchMemberData = async () => {
-            try {
-                const response = await fetch(`${BASE_URL}/api/hours.php?email=${email}`, {
-                    method: "GET",
-                    mode: "cors",
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
-                });
-
-                const content = await response.json();
-
-                if (content.length > 0) {
-                    const first = content[0];
-                    setDisplayName(`${first.fname} ${first.lname}`);
-                    setMemberEmail(first.email);
-                    setIsActive(first.active === 1);
-
-                    const hasHours = first.submission_id !== null
-                    setMemberData(hasHours ? content : []);
-                } else {
-                    setDisplayName("Member");
-                    setMemberEmail(email);
-                    setMemberData([]);
-                }
-            } catch (error) {
-                console.error("Failed to fetch member data:", error);
-            }
-        };
-
-        fetchMemberData();
-    }, [email]);
+    const { email } = useParams();
+    const {
+        memberData,
+        displayName,
+        memberEmail,
+        isActive,
+        setMemberData,
+        setIsActive
+    } = useMemberData(email);
 
     function handleToggleStatus() {
         const newStatus = !isActive;

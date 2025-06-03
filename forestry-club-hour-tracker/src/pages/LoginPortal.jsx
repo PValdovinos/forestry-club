@@ -1,10 +1,12 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { Link } from "react-router"
 import Button from '@mui/material/Button'
+import Container from '@mui/material/Container'
 import TextField from "@mui/material/TextField"
 import Typography from '@mui/material/Typography'
 import { BASE_URL } from "../projectVariables.js"
-import Container from "./../components/Container"
+import StyledContainer from "../components/StyledContainer.jsx"
 import { useAuth } from "../AuthContext"
 
 function LoginPortal() { 
@@ -39,38 +41,47 @@ function LoginPortal() {
         }
     }
 
-    const handleClick = () => navigate('signup')
-
     return (
-        <Container component="form" noValidate autoComplete="off">
-            <Typography variant="h6">Log In</Typography>
+        <Container maxWidth='sm'>
+            <Typography variant="h4" component="h1">Log-in</Typography>
+            <StyledContainer 
+                component="form" 
+                noValidate 
+                autoComplete="off"
+                sx={{
+                    mt: 2,
+                    mb: 1
+                }}
+            >
+                <TextField
+                    id="email"
+                    label="Email"
+                    variant="filled"
+                    required
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                    fullWidth
+                    margin="normal"
+                />
+                <TextField
+                    id="password"
+                    label="Password"
+                    variant="filled"
+                    required
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
+                    fullWidth
+                    margin="normal"
+                    type="password"
+                />
 
-            <TextField
-                id="email"
-                label="Email"
-                variant="filled"
-                required
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                fullWidth
-                margin="normal"
-            />
-            <TextField
-                id="password"
-                label="Password"
-                variant="filled"
-                required
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                fullWidth
-                margin="normal"
-                type="password"
-            />
+                {error && <Typography color="error">{error}</Typography>}
 
-            {error && <Typography color="error">{error}</Typography>}
-
-            <Button onClick={sendData}>Submit</Button>
-            <Button onClick={handleClick}>Sign-up</Button>
+                <Button onClick={sendData} variant='contained'>Submit</Button>
+            </StyledContainer>
+            <Typography sx={{ textAlign: 'center' }} variant="body1">
+                Don't have an account? <Link to='/signup'>Sign up</Link>
+            </Typography>
         </Container>
     )
 }

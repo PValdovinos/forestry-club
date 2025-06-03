@@ -12,23 +12,24 @@ export function AuthProvider({ children }) {
             try {
                 const response = await fetch(`${BASE_URL}/api/userStatus.php`, {
                     credentials: "include",
-                })
-                const data = await response.json()
-                if (data.success) {
-                    setUser(data.user)
+                });
+                const data = await response.json();
+
+                if (data.authenticated) {
+                    setUser(data.user);
                 } else {
-                    setUser(null)
+                    setUser(null);
                 }
             } catch (err) {
-                console.error("Session check failed", err)
-                setUser(null)
+                console.error("Session check failed", err);
+                setUser(null);
             } finally {
-                setLoading(false)
+                setLoading(false);
             }
-        }
+        };
 
-        checkSession()
-    }, [])
+        checkSession();
+    }, []);
 
     const login = (userData) => {
         setUser(userData)

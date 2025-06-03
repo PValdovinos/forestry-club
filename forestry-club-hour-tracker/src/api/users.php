@@ -6,6 +6,13 @@ header("Content-Type: application/json");
 $method = $_SERVER['REQUEST_METHOD'];
 $input = json_decode(file_get_contents('php://input'), true);
 
+function clean_input($data) {
+  $data = trim($data);
+  $data = stripslashes($data);
+  $data = htmlspecialchars($data);
+  return $data;
+}
+
 switch ($method) {
     case 'GET':
         if (isset($_GET['id'])) {
@@ -61,23 +68,44 @@ switch ($method) {
         break;
 
     case 'POST':
-        $email = $input['email'];
-        $password = password_hash($input['password'], PASSWORD_DEFAULT);
-        $user_flags = $input['user_flags'];
-        $fname = $input['fname'];
-        $lname = $input['lname'];
+        $success = false;
+        $message = "Account creation failed. Please try again.";
+
+        foreach ($input as $key => $value) {
+            if (!isset($value) || empty($value)) {
+                http_response_code(400);
+                echo json_encode([
+                    "success" => false,
+                    "message" => "Missing required field: $key"
+                ]);
+                exit();
+            }
+        }
+
+        $email = clean_input($input['email']);
+        $password = clean_input($input['password']);
+        $user_flags = clean_input($input['user_flags']);
+        $fname = clean_input($input['fname']);
+        $lname = clean_input($input['lname']);
+
+        $password = password_hash($password, PASSWORD_DEFAULT);
         $stmt = $conn->prepare("INSERT INTO users (email, user_flags, fname, lname, password) VALUES (?, ?, ?, ?, ?)");
         $stmt->bind_param("sisss", $email, $user_flags, $fname, $lname, $password);
-        $message = "";
 
         if (!$stmt->execute()) {
-            $message = "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+            http_response_code(500);
+            $success = false;
         } else {
-            $message = "Insert successful!";
+            http_response_code(201);
+            $message = "Account created successfully!";
+            $success = true;
         }
-        echo json_encode(["message" => "$message, $email, $user_flags, $fname, $lname"]);
-        break;
 
+        echo json_encode([
+            "success" => $success,
+            "message" => $message
+        ]);
+        break;
     // case 'PUT':
     //     $id = $_GET['id'];
     //     $time_in = $input['time_in'];
