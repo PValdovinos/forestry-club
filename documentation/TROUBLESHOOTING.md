@@ -11,3 +11,8 @@
 
 ## Interserver Contact information
 
+[https://www.interserver.net/contact-information.html](https://www.interserver.net/contact-information.html)
+
+or
+
+phone: +1-877-NJCOLO-1
