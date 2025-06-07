@@ -1,18 +1,13 @@
 # forestry-club
-Sign in sheet for Green River College's Forestry Club
+Hour tracking for Green River College's Forestry Club
 
-## Instructions for Docker self hosting
-Run these commands to start the Docker container
-- `docker-compose pull`
-- `docker-compose up -d`
+## Specific documents
 
-Change the database password in `docker-compose.yml`
+[Troubleshooting](documentation/TROUBLESHOOTING.md)
+
+[Developer Information](documentation/DEVELOPER.md)
 
 ## Prerequisites
-Docker
-- Linux - [docs.docker.com/desktop/setup/install/linux/](docs.docker.com/desktop/setup/install/linux/)
-- Mac - [docs.docker.com/desktop/setup/install/mac-install/](docs.docker.com/desktop/setup/install/mac-install/)
-- Window - [docs.docker.com/desktop/setup/install/windows-install/](docs.docker.com/desktop/setup/install/window-install/)
 
 node - [nodejs.org/en/download](nodejs.org/en/download)
 
