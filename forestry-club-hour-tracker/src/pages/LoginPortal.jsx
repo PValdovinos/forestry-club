@@ -14,7 +14,8 @@ function LoginPortal() {
     const { login } = useAuth()
     const [ email, setEmail ] = useState("")
     const [ password, setPassword ] = useState("")
-    const [ error, setError ] = useState("")
+    const [ error, setError ] = useState(" ")
+    const [ isValid,  setIsValid ] = useState(true)
 
     async function sendData () {
         try {
@@ -32,9 +33,12 @@ function LoginPortal() {
 
             if (data.success) {
                 login(data.user)
+                setEmail("")
+                setPassword("")
                 navigate('/')
             } else {
                 setError('Email and/or password is incorrect. Please try again.')
+                setIsValid(false)
             }
         } catch (err) {
             setError("An error occurred. Please try again.")
@@ -60,6 +64,7 @@ function LoginPortal() {
                     required
                     value={email}
                     onChange={e => setEmail(e.target.value)}
+                    error={!isValid}
                     fullWidth
                     margin="normal"
                 />
@@ -70,6 +75,7 @@ function LoginPortal() {
                     required
                     value={password}
                     onChange={e => setPassword(e.target.value)}
+                    error={!isValid}
                     fullWidth
                     margin="normal"
                     type="password"

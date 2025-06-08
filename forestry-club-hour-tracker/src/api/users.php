@@ -72,7 +72,7 @@ switch ($method) {
         $message = "Account creation failed. Please try again.";
 
         foreach ($input as $key => $value) {
-            if (!isset($value) || empty($value)) {
+            if (!isset($value) || trim($value) === '') {
                 http_response_code(400);
                 echo json_encode([
                     "success" => false,
@@ -88,13 +88,63 @@ switch ($method) {
         $fname = clean_input($input['fname']);
         $lname = clean_input($input['lname']);
 
+        // Constants
+        $MAX_NAME_LENGTH = 50;
+        $MAX_EMAIL_LENGTH = 100;
+        $MIN_PASSWORD_LENGTH = 8;
+        $MAX_PASSWORD_LENGTH = 16;
+
+        // Validate email
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            http_response_code(400);
+            echo json_encode(["success" => false, "message" => "Invalid email format."]);
+            exit();
+        }
+        if (strlen($email) > $MAX_EMAIL_LENGTH) {
+            http_response_code(400);
+            echo json_encode(["success" => false, "message" => "Email must be less than $MAX_EMAIL_LENGTH characters."]);
+            exit();
+        }
+
+        // Check if email already exists
+        $checkStmt = $conn->prepare("SELECT user_id FROM users WHERE email = ?");
+        $checkStmt->bind_param("s", $email);
+        $checkStmt->execute();
+        $checkStmt->store_result();
+
+        if ($checkStmt->num_rows > 0) {
+            http_response_code(409);
+            echo json_encode([
+                "success" => false,
+                "message" => "An account with this email already exists."
+            ]);
+            exit();
+        }
+        $checkStmt->close();
+
+        // Validate password
+        $passLength = strlen($password);
+        if ($passLength < $MIN_PASSWORD_LENGTH || $passLength > $MAX_PASSWORD_LENGTH) {
+            http_response_code(400);
+            echo json_encode(["success" => false, "message" => "Password must be between $MIN_PASSWORD_LENGTH and $MAX_PASSWORD_LENGTH characters."]);
+            exit();
+        }
+
+        // Validate names
+        if (strlen($fname) > $MAX_NAME_LENGTH || strlen($lname) > $MAX_NAME_LENGTH) {
+            http_response_code(400);
+            echo json_encode(["success" => false, "message" => "First and last names must be less than $MAX_NAME_LENGTH characters."]);
+            exit();
+        }
+
+        // Hash password and insert
         $password = password_hash($password, PASSWORD_DEFAULT);
         $stmt = $conn->prepare("INSERT INTO users (email, user_flags, fname, lname, password) VALUES (?, ?, ?, ?, ?)");
         $stmt->bind_param("sisss", $email, $user_flags, $fname, $lname, $password);
 
         if (!$stmt->execute()) {
             http_response_code(500);
-            $success = false;
+            $message = "Database error: " . $stmt->error;
         } else {
             http_response_code(201);
             $message = "Account created successfully!";
