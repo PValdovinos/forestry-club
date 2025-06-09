@@ -11,3 +11,6 @@ export const MAX_NAME_LENGTH = 255
 export const MAX_EMAIL_LENGTH = 255
 export const MAX_PASSWORD_LENGTH = 16
 export const MIN_PASSWORD_LENGTH = 8
+
+// Point factor
+export const POINTS_FACTOR = 100
