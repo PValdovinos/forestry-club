@@ -8,8 +8,6 @@ function useMemberHours(user) {
 
     useEffect(() => {
         const fetchData = async () => {
-            if (!user) return;
-
             try {
                 const response = await fetch(`${BASE_URL}/api/hours.php?id=${user.id}`, {
                     method: "GET",
@@ -28,9 +26,9 @@ function useMemberHours(user) {
         };
 
         fetchData();
-    }, [user]);
+    }, [user.id]);
 
     return { memberHours, loading, error };
 }
 
-export default useMemberHours
+export default useMemberHours;

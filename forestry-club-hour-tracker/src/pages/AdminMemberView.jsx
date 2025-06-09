@@ -7,28 +7,7 @@ import { BASE_URL } from "../projectVariables.js";
 import ContainerNav from "../components/ContainerNav";
 import MemberStatusControls from './../components/MemberStatusControls';
 import useMemberData from "../hooks/useMemberData.js";
-
-function translateData(data) {
-    if (data) {
-        return data.map(element => {
-            let userStatus = "Accepted";
-            if (!element.accepted) {
-                userStatus = "Rejected";
-            }
-            if (element.under_review) {
-                userStatus = "Pending";
-            }
-            return {
-                id: element.submission_id,
-                date: element.date_worked,
-                hours: element.hours ? element.hours : 0,
-                status: userStatus
-            };
-        });
-    } else {
-        return [];
-    }
-}
+import { translateMemberData } from "../helpers/translateData.js";
 
 function AdminMemberView() {
     const { email } = useParams();
@@ -113,7 +92,7 @@ function AdminMemberView() {
                     { label: "Home", to: "/" }
                 ]}
             />
-            <DataGrid rows={translateData(rowData) ?? []} columns={columns}/>
+            <DataGrid rows={translateMemberData(rowData) ?? []} columns={columns}/>
         </Box>
     );
 }

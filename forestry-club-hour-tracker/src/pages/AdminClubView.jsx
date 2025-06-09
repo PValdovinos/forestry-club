@@ -8,21 +8,7 @@ import Tooltip from "@mui/material/Tooltip"
 import Box from "@mui/material/Box"
 import { DataGrid } from "@mui/x-data-grid"
 import Typography from "@mui/material/Typography"
-
-function translateData(data) {
-    if(data) {
-        return data.map(element => ({
-            "id": element.user_id,
-            "email": element.email,
-            "name": element.fname + " " + element.lname,
-            "hours": element.hours ? element.hours : 0,
-            "points": element.hours * 100
-        }))
-    }
-    else {
-        return []
-    }
-}
+import { translateClubMembers } from "../helpers/translateData.js"
 
 const AdminClubView = () => {
     const [memberData, setMemberData] = useState(null)
@@ -96,11 +82,11 @@ const AdminClubView = () => {
             <Typography variant="h4" component="h1">Members</Typography>
             <ContainerNav 
                 items={[
-                    { label: "Hours Pending", to: "/adminReview" },
-                    { label: "Back", to: "/" }
+                    { label: "Back", to: "/" },
+                    { label: "Hours Pending", to: "/adminReview" }
                 ]}
             />
-            <DataGrid rows={translateData(rowData)} columns={columns}/>
+            <DataGrid rows={translateClubMembers(rowData)} columns={columns}/>
         </Box>
     )
 }
