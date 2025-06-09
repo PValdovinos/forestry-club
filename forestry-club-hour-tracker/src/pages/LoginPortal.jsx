@@ -8,13 +8,22 @@ import Typography from '@mui/material/Typography'
 import { BASE_URL } from "../projectVariables.js"
 import StyledContainer from "../components/StyledContainer.jsx"
 import { useAuth } from "../AuthContext"
+import Toast from './../components/Toast'
 
 function LoginPortal() { 
     const navigate = useNavigate();
     const { login } = useAuth()
     const [ email, setEmail ] = useState("")
     const [ password, setPassword ] = useState("")
-    const [ error, setError ] = useState("")
+    const [ error, setError ] = useState(" ")
+    const [ isValid,  setIsValid ] = useState(true)
+        const [toast, setToast] = useState({
+        open: false,
+        message: "",
+        severity: "success"
+    })
+
+    const resetToast = () => setToast(prev => ({ ...prev, open: false }))
 
     async function sendData () {
         try {
@@ -32,12 +41,17 @@ function LoginPortal() {
 
             if (data.success) {
                 login(data.user)
+                setToast({ open: true, message: 'Login successful!', severity: "success" })
+                setEmail("")
+                setPassword("")
                 navigate('/')
             } else {
                 setError('Email and/or password is incorrect. Please try again.')
+                setIsValid(false)
+                setToast({ open: true, message: "Login failed. Please try again.", severity: "error" })
             }
         } catch (err) {
-            setError("An error occurred. Please try again.")
+            setToast({ open: true, message: "An error occurred. Please try again.", severity: "error" })
         }
     }
 
@@ -60,6 +74,7 @@ function LoginPortal() {
                     required
                     value={email}
                     onChange={e => setEmail(e.target.value)}
+                    error={!isValid}
                     fullWidth
                     margin="normal"
                 />
@@ -70,6 +85,7 @@ function LoginPortal() {
                     required
                     value={password}
                     onChange={e => setPassword(e.target.value)}
+                    error={!isValid}
                     fullWidth
                     margin="normal"
                     type="password"
@@ -82,6 +98,12 @@ function LoginPortal() {
             <Typography sx={{ textAlign: 'center' }} variant="body1">
                 Don't have an account? <Link to='/signup'>Sign up</Link>
             </Typography>
+            <Toast 
+                open={toast.open}
+                onClose={resetToast}
+                message={toast.message}
+                severity={toast.severity}
+            />
         </Container>
     )
 }
