@@ -1,8 +1,11 @@
 # Developer Documentation
+Welcome to the Developer Docs for the Green River College 
+    - Forestry Club Volunteer hour Tracker! - 
 
 ## Technology Overview
 
 ### TODO - Add diagram here
+?
 
 ### Technology list
 
@@ -20,12 +23,26 @@
 
 [PHP](https://www.php.net/) -  Fast, flexible Back-end scripting language chosen for it's compatibility with low cost hosting platforms.
 
+[MySQL](https://www.mysql.com/) -  An open-source relational database management system, used for storing all application data, including user information and hour logs.
+
+[npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm/) - The Node Package Manager for installing and managing JavaScript dependencies for both frontend and backend development.
+
 [day.js](https://day.js.org/) - Light weight javascript library used to make date calculations easier.
 
-## Site setup guide
+[Vite](https://vite.dev/) - A modern frontend build tool that provides a lightning-fast development 
 
+## Site setup guide
+is this the same is installation in README?
 Should you...
+
 ### Site file setup
+forestry-club
+    -documentation
+    -forestry-club-hour-tracker
+        -public
+        -src
+    -img
+    -scripts
 
 ### Database setup
 >> #### Give permissions to forestry_user
