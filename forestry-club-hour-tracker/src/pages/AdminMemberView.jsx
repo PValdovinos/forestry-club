@@ -5,7 +5,6 @@ import { DataGrid } from "@mui/x-data-grid";
 import { EditHours } from "../components/EditHours";
 import { BASE_URL } from "../projectVariables.js";
 import ContainerNav from "../components/ContainerNav";
-import MemberStatusControls from './../components/MemberStatusControls';
 import useMemberData from "../hooks/useMemberData.js";
 import { translateMemberData } from "../helpers/translateData.js";
 
@@ -15,38 +14,9 @@ function AdminMemberView() {
         memberData,
         displayName,
         memberEmail,
-        isActive,
-        setMemberData,
-        setIsActive
+        setMemberData
     } = useMemberData(email);
-
-    function handleToggleStatus() {
-        const newStatus = !isActive;
-
-        fetch(`${BASE_URL}/api/update_status.php`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                email: memberEmail,
-                active: newStatus ? 1 : 0
-            })
-        })
-        .then(res => res.json())
-        .then(data => {
-            if (data.success) {
-                setIsActive(newStatus);
-            } else {
-                alert("Failed to update member status.");
-            }
-        })
-        .catch(err => {
-            console.error("Status update error:", err);
-            alert("Error updating status.");
-        });
-    }
-
+    
     const rowData = memberData;
 
     const columns = [
@@ -70,7 +40,12 @@ function AdminMemberView() {
 
     function EditButton(params) {
         return (
-            <EditHours entryId={params.row.id} email={email} memberData={memberData} setMemberData={setMemberData}/>
+            <EditHours
+                entryId={params.row.id}
+                email={email}
+                memberData={memberData}
+                setMemberData={setMemberData}
+            />
         );
     }
 
@@ -82,8 +57,9 @@ function AdminMemberView() {
                     justifyContent: 'space-between',
                 }}
             >
-                <Typography variant="h4" component="h1">{displayName} <span className="text-secondary">({memberEmail})</span></Typography>
-                <MemberStatusControls isActive={isActive} onToggle={handleToggleStatus} />
+                <Typography variant="h4" component="h1">
+                    {displayName} <span className="text-secondary">({memberEmail})</span>
+                </Typography>
             </Box>   
             <ContainerNav 
                 items={[
@@ -92,7 +68,7 @@ function AdminMemberView() {
                     { label: "Home", to: "/" }
                 ]}
             />
-            <DataGrid rows={translateMemberData(rowData) ?? []} columns={columns}/>
+            <DataGrid rows={translateMemberData(rowData) ?? []} columns={columns} />
         </Box>
     );
 }

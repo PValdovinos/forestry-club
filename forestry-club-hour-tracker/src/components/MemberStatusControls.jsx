@@ -1,37 +1,27 @@
-import { Button, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import Switch from "@mui/material/Switch";
+import Tooltip from "@mui/material/Tooltip";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 
-const StatusContainer = styled('div')(({ theme }) => ({
-    display: 'flex',
-    alignItems: 'center',
-    gap: theme.spacing(2),
-    marginBottom: theme.spacing(2),
-}))
-
-const StatusText = styled('span')(({ theme, isActive }) => ({
-    fontWeight: 'bold',
-    color: isActive ? theme.palette.success.main : theme.palette.error.main,
-    marginLeft: theme.spacing(1),
-}))
-
-function MemberStatusControls({ isActive, onToggle }) {
+const MemberStatusControls = ({ isActive, onToggle }) => {
     return (
-        <StatusContainer>
-            <Typography variant='h6'>
-                Status:
-                <StatusText isActive={isActive}>
-                    {isActive ? 'Active' : 'Inactive'}
-                </StatusText>
-            </Typography>
-            <Button 
-                variant="contained" 
-                color={isActive ? 'warning' : 'success'}
-                onClick={onToggle}
-            >
-                Set as {isActive ? 'Inactive' : 'Active'}
-            </Button>
-        </StatusContainer>
+        <Tooltip title={isActive ? "Set as Inactive" : "Set as Active"}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <Typography variant="body2">
+                    {isActive ? "Active" : "Inactive"}
+                </Typography>
+                <Switch
+                    checked={isActive}
+                    onChange={onToggle}
+                    color="success"
+                    sx={{
+                        transform: "scale(0.8)",
+                        transformOrigin: "left center"
+                    }}
+                />
+            </Box>
+        </Tooltip>
     );
-}
+};
 
-export default MemberStatusControls
+export default MemberStatusControls;
