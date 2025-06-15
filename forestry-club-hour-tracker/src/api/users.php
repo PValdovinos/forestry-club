@@ -156,19 +156,29 @@ switch ($method) {
             "message" => $message
         ]);
         break;
-    // case 'PUT':
-    //     $id = $_GET['id'];
-    //     $time_in = $input['time_in'];
-    //     $time_out = $input['time_out'];
-    //     $update_id = $input['update_id'];
-    //     $under_review = $input['under_review'];
-    //     $accepted = $input['accepted'];
-    //     $conn->query("UPDATE workhours
-    //         SET time_in = $time_in, time_out = $time_out 
-    //         WHERE submission_id = $update_id");
-    //     echo json_encode(["message" => "User updated successfully"]);
-    //     break;
+    case 'PUT':
+        $rawInput = file_get_contents("php://input");
+        $data = json_decode($rawInput, true);
 
+        if (isset($data['id']) AND isset($data['user_flags'])) { 
+            $user_id = $data['id'];
+            $user_flags = $data['user_flags'];
+            $stmt = $conn->prepare("UPDATE `users` SET `user_flags` = ? WHERE `users`.`user_id` = ?");
+            $stmt->bind_param("ii", $user_flags, $user_id);
+            if (!$stmt->execute()) {
+                http_response_code(500);
+                $message = "Database error: " . $stmt->error;
+            } else {
+                http_response_code(201);
+                $message = "Account updated successfully!";
+                $success = true;
+            }
+            echo json_encode(["success" => $success,"message" => $message]);
+        }
+        else{
+            echo json_encode(["message" => "Invalid PUT request".json_encode($data)."."]);
+        }
+        break;
     case 'DELETE':
         $id = $_GET['id'];
         $conn->query("DELETE FROM users WHERE user_id=$id");
