@@ -18,6 +18,7 @@ export default function MemberSelect() {
         }
     })
     .then( response => response.json())
+    .then( results => results.filter(member => Number.parseInt(member.user_flags)%2 === 1))
     .then( result => setMemberData(result))}, []);
 
     function translateData(data) {
