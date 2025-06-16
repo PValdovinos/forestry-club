@@ -4,8 +4,15 @@ Welcome to the Developer Docs for the Green River College
 
 ## Technology Overview
 
+Frontend: We used JSX and JavaScript to build the user interface, 
+creating intuitive views for both volunteers and administrators.
+
+Backend: The backend of the application is powered by PHP, 
+which processes form submissions, managed sessions, 
+and handles data exchange between the frontend and the database. 
+
 ### TODO - Add diagram here
-?
+![View the backend diagram](../img/Backend_Diagram.png)\
 
 ### Technology list
 
@@ -13,7 +20,7 @@ Welcome to the Developer Docs for the Green River College
 | --------- | -------- | -------- | ------ |
 | React     | PHP      | MySQL    | npm    |
 | MUI       |          |          | day.js |
-|           |          |          | Vite   |
+| JSX       |          |          | Vite   |
 
 ### Technology quick-reference
 
@@ -32,8 +39,11 @@ Welcome to the Developer Docs for the Green River College
 [Vite](https://vite.dev/) - A modern frontend build tool that provides a lightning-fast development 
 
 ## Site setup guide
-is this the same is installation in README?
-Should you...
+On the rare chance that developers are testing and devloping locally, please refer to [The README file](../README.md)\
+
+Otherwise, developers will need to procure the log-in information to the Interserver account that hosts the GRC Forestry Club website,
+which will be given to club leadership so they may distribute the username and password as they see fit.
+
 
 ### Site file setup
 forestry-club
@@ -46,7 +56,7 @@ forestry-club
 
 ### Database setup
 >> #### Give permissions to forestry_user
->> ![Navigate to sser settings](../img/Navigate_To_User_Settings.png)\
+>> ![Navigate to user settings](../img/Navigate_To_User_Settings.png)\
 >> ![Navigate to forestry_user](../img/Navigate_To_Forestry_User.png)\
 >> ![Set privileges](../img/Set_Privileges.png)
 > 

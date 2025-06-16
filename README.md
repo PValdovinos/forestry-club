@@ -13,6 +13,10 @@ node - [nodejs.org/en/download](nodejs.org/en/download)
 
 npm - [docs.npmjs.com/downloading-and-installing-node-js-and-npm](docs.npmjs.com/downloading-and-installing-nodejs-and-npm)
 
+
+# Developers should not be doing more than cloning the repository
+# as long as the project is still being hosted on Interserver!!!
+
 ## Installation
 > Setup Files
 > - Run commands in the directory that the project will live in (in order)
